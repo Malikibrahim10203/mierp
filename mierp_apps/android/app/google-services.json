@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "868649407040",
+    "project_id": "mierp-apps",
+    "storage_bucket": "mierp-apps.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868649407040:android:87aff0d3baa5b54b9b05a5",
+        "android_client_info": {
+          "package_name": "com.example.mierp_apps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZp1K6dGvQ7GsjNtU-S-8Rt_kMbt5Ez-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
