@@ -18,13 +18,4 @@ class LoginViewModel extends GetxController {
   }
 
   bool get isLoggedIn => repo.currentUser != null;
-  
-  Future<void> checkLogin() async {
-    await Future.delayed(Duration(seconds: 2));
-    if (!isLoggedIn) {
-      Get.offAllNamed("/login");
-    } else {
-      Get.offAllNamed("/dashboard");
-    }
-  }
 }
