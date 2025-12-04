@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +7,17 @@ class OnboardingViewModel extends GetxController {
   final isFirst = true.obs;
 
   final loginC = Get.find<LoginViewModel>();
+
+  @override
+  void onInit() {
+    // TODO: implement
+    super.onInit();
+    _initFirstLaunch();
+  }
+
+  Future<void> _initFirstLaunch() async {
+    await isFirstLaunch();
+  }
 
   Future<bool> isFirstLaunch() async {
     final prefs = await SharedPreferences.getInstance();

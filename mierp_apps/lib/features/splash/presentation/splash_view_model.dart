@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashViewModel extends GetxController {
 

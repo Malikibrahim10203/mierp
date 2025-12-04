@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mierp_apps/core/routing/auth_routes.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
@@ -19,15 +20,25 @@ void main() async {
   Get.put(LoginViewModel(), permanent: true);
   Get.lazyPut(()=>SplashViewModel());
   // Get.put(OnboardingViewModel());
-  await Get.putAsync<OnboardingViewModel>(() async {
-    final onBoardC = OnboardingViewModel();
-    await onBoardC.isFirstLaunch();
-    return onBoardC;
-  });
-  runApp(
-    GetMaterialApp(
-      initialRoute: "/splash",
-      getPages: AuthRoutes.pages,
-    )
-  );
+  await Get.putAsync(() async => OnboardingViewModel());
+  runApp(MierpApps());
+}
+
+class MierpApps extends StatelessWidget {
+  MierpApps({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(393, 852),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return GetMaterialApp(
+          initialRoute: '/splash',
+          getPages: AuthRoutes.pages,
+        );
+      },
+    );
+  }
 }
