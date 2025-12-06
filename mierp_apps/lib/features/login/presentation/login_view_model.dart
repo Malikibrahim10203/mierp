@@ -1,20 +1,63 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../../../core/models/user_model.dart';
 import '../data/login_repository.dart';
 
 class LoginViewModel extends GetxController {
-  final LoginRepository repo = LoginRepository();
+  final repo = Get.put(LoginRepository());
   Rx<UserModel?> user = Rx<UserModel?>(null);
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passwordC = TextEditingController();
 
   Future<void> login (String email, String password) async {
     try {
-      final result = await repo.login(email, password);
-      user.value = UserModel(uid: result!.uid, email: result.email!);
-      Get.offAllNamed("/dashboard");
+      UserModel? result = await repo.login(email, password);
+      if(result!=null){
+        user.value = result;
+        print(user.value!.role);
+        Get.offAllNamed("/dashboard");
+      } else {
+        switch (repo.eCode.value) {
+          case 'user-not-found':
+            Get.snackbar("Login Gagal", "Email tidak terdaftar");
+            break;
+          case 'wrong-password':
+            Get.snackbar("Login Gagal", "Password salah");
+            break;
+          case 'invalid-email':
+            Get.snackbar("Login Gagal", "Format email salah");
+            break;
+          case 'auth-error':
+          default:
+            Get.snackbar("Login Gagal", "Email tidak terdaftar");
+            break;
+        }
+      }
     } catch (e) {
       Get.snackbar("Login Gagal", e.toString());
     }
   }
 
+  Future<void> loginWithGoogle() async {
+    try {
+      UserModel? result = await repo.loginWithGoogle();
+      if(result==null) return null;
+      user.value = result;
+      Get.offAllNamed("/dashboard");
+    }catch(e) {
+      print("object");
+    }
+  }
+
   bool get isLoggedIn => repo.currentUser != null;
+
+  Future<void> logout() async {
+    try {
+      await repo.authFirebase.signOut();
+      Get.offAllNamed("/login");
+      print('User signed out successfully.');
+    } catch(e) {
+      print('Error signing out: $e');
+    }
+  }
 }

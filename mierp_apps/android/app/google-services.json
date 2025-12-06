@@ -12,7 +12,12 @@
           "package_name": "com.example.mierp_apps"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "868649407040-ad880bbhs9dv7d2k6sothd28735fq446.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCZp1K6dGvQ7GsjNtU-S-8Rt_kMbt5Ez-4"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868649407040-ad880bbhs9dv7d2k6sothd28735fq446.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "868649407040-ul04ocjpdvp0kjamm9njlh8eb74tgs4m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mierpApps"
+              }
+            }
+          ]
         }
       }
     }

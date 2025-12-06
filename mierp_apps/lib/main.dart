@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mierp_apps/core/routing/auth_routes.dart';
+import 'package:mierp_apps/core/widgets/controller/input_widget_controller.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
 import 'package:mierp_apps/features/splash/presentation/splash_view_model.dart';
@@ -19,7 +20,6 @@ void main() async {
 
   Get.put(LoginViewModel(), permanent: true);
   Get.lazyPut(()=>SplashViewModel());
-  // Get.put(OnboardingViewModel());
   await Get.putAsync(() async => OnboardingViewModel());
   runApp(MierpApps());
 }
