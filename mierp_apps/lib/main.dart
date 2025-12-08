@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/routing/auth_routes.dart';
 import 'package:mierp_apps/core/widgets/controller/input_widget_controller.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
@@ -17,10 +18,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  Get.put(LoadingController(), permanent: true);
   Get.put(LoginViewModel(), permanent: true);
   Get.lazyPut(()=>SplashViewModel());
   await Get.putAsync(() async => OnboardingViewModel());
+
   runApp(MierpApps());
 }
 

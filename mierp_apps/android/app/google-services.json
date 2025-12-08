@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "868649407040-t2ks4j61pgnbkp0fl2t5t743o2l0ncs3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mierp_apps",
+            "certificate_hash": "1a42d3f901224f251093d6ef13a4410dfd8e483f"
+          }
+        },
+        {
           "client_id": "868649407040-ad880bbhs9dv7d2k6sothd28735fq446.apps.googleusercontent.com",
           "client_type": 3
         }

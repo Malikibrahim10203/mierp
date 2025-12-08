@@ -7,10 +7,9 @@ import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/controller/input_widget_controller.dart';
 
 class InputWidget extends StatelessWidget {
-  InputWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.isPassword});
+  InputWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.isPassword, required this.formKey});
 
-  final head,controller,placeholder,necessary, isPassword;
-
+  final head,controller,placeholder,necessary,isPassword,formKey;
   final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
 
   @override
@@ -46,7 +45,8 @@ class InputWidget extends StatelessWidget {
           Obx(
               () => Container(
                 width: 322.w,
-                height: 45.w,
+                // height: 45.w,
+                height:  45.w,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(6.w),
@@ -64,12 +64,19 @@ class InputWidget extends StatelessWidget {
                   controller: controller,
                   obscureText: inputWidgetC.isNotVisible.value,
                   focusNode: inputWidgetC.focusNode,
+                  validator: (value) {
+                    if(value==null||value.isEmpty){
+                      return null;
+                    }
+                    if(value.length <= 8) return "Password harus lebih dari 8";
+                  },
                   style: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
                     height: 1.0,
                   ),
                   decoration: InputDecoration(
+                    errorMaxLines: 20,
                     hintText: "Enter your password",
                     hintStyle: GoogleFonts.inter(
                       fontSize: 13.sp,
@@ -97,12 +104,20 @@ class InputWidget extends StatelessWidget {
                 TextFormField(
                   controller: controller,
                   focusNode: inputWidgetC.focusNode,
+                  validator: (value) {
+                    if(value==null||value.isEmpty){
+                      return "Email wajib diisi";
+                    }
+                    if(!value.contains('@')) return "Format email salah";
+                  },
                   style: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
                     height: 1.0,
                   ),
                   decoration: InputDecoration(
+                    errorMaxLines: 3,
+                    errorBorder: OutlineInputBorder(),
                     hintText: "Enter your email",
                     hintStyle: GoogleFonts.inter(
                       fontSize: 13.sp,

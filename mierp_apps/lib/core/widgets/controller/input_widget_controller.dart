@@ -5,6 +5,7 @@ class InputWidgetController extends GetxController {
   FocusNode focusNode = FocusNode();
   RxBool isFocus = false.obs;
   RxBool isNotVisible = true.obs;
+  RxString eCode = "".obs;
 
   @override
   void onInit() {
