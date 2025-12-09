@@ -10,6 +10,7 @@ class LoginViewModel extends GetxController {
   Rx<UserModel?> user = Rx<UserModel?>(null);
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
+  RxBool isValid = true.obs;
 
   Future<void> login (String email, String password) async {
     try {

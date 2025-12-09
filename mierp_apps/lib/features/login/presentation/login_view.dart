@@ -117,7 +117,6 @@ class LoginView extends StatelessWidget {
                                   isPassword: false,
                                   formKey: formKey,
                                 ),
-                                SizedBox(height: 20.h,),
                                 InputWidget(
                                   head: "Password",
                                   controller: loginViewModel.passwordC,
@@ -233,7 +232,6 @@ class LoginView extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(height: 32.h,),
-                                ElevatedButton(onPressed: ()=>loginViewModel.logout(), child: Text("data")),
                                 Center(
                                   child: Container(
                                     width: 322.w,
