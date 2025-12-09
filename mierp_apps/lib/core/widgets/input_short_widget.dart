@@ -7,8 +7,9 @@ import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/controller/input_widget_controller.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
-class InputWidget extends StatelessWidget {
-  InputWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.isPassword, required this.formKey});
+
+class InputShortWidget extends StatelessWidget {
+  InputShortWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.isPassword, required this.formKey});
 
   final head, controller, placeholder, necessary, isPassword, formKey;
   final inputWidgetC = Get.put(
@@ -21,7 +22,7 @@ class InputWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-        width: 322.w,
+        width: 146.w,
         height: 93.w,
         child: Column(
           children: [
@@ -65,105 +66,13 @@ class InputWidget extends StatelessWidget {
                 )
                 ],
               ),
-              child: isPassword ?
-              TextFormField(
-                controller: controller,
-                obscureText: inputWidgetC.isNotVisible.value,
-                focusNode: inputWidgetC.focusNode,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    hasError.value = true;
-                    dataError.value = "Password wajib diisi";
-                    loginVieModel.isValid.value = false;
-                    return "";
-                  }
-                  if (value.length <= 8) {
-                    hasError.value = true;
-                    dataError.value = "Password harus lebih dari 8";
-                    loginVieModel.isValid.value = false;
-                    return "";
-                  }
-                },
-                style: GoogleFonts.inter(
-                  fontSize: 13.sp,
-                  fontWeight: AppFontWeight.regular,
-                  height: 1.0,
-                ),
-                decoration: !hasError.value?InputDecoration(
-                  hintText: "Enter your password",
-                  hintStyle: GoogleFonts.inter(
-                    fontSize: 13.sp,
-                    fontWeight: AppFontWeight.regular,
-                    height: 1.0,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.blueLine,
-                          width: 1.w)
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.coolGray,
-                          width: 1.w)
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6.w),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 8.w, vertical: 12.5.w),
-                  suffixIcon: IconButton(
-                    icon: inputWidgetC.isNotVisible.value ? Icon(
-                        Icons.visibility_off) : Icon(Icons.visibility),
-                    onPressed: () => inputWidgetC.changeIsNotVisible(),
-                  ),
-                ):InputDecoration(
-                  errorMaxLines: 1,
-                  errorText: '',
-                  errorStyle: TextStyle(
-                    color: Colors.transparent,
-                    fontSize: 0,
-                  ),
-                  hintText: "Enter your password",
-                  hintStyle: GoogleFonts.inter(
-                    fontSize: 13.sp,
-                    fontWeight: AppFontWeight.regular,
-                    height: 1.0,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.blueLine,
-                          width: 1.w)
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.coolGray,
-                          width: 1.w)
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6.w),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 8.w, vertical: 12.5.w),
-                  suffixIcon: IconButton(
-                    icon: inputWidgetC.isNotVisible.value ? Icon(
-                        Icons.visibility_off) : Icon(Icons.visibility),
-                    onPressed: () => inputWidgetC.changeIsNotVisible(),
-                  ),
-                ),
-              ) :
-              TextFormField(
+              child: TextFormField(
                 controller: controller,
                 focusNode: inputWidgetC.focusNode,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     hasError.value = true;
-                    dataError.value = "Email wajib diisi";
-                    loginVieModel.isValid.value = false;
-                    return null;
-                  }
-                  if (!value.contains('@')) {
-                    hasError.value = true;
-                    dataError.value = "Format email salah";
+                    dataError.value = "$head wajib diisi";
                     loginVieModel.isValid.value = false;
                     return null;
                   }
@@ -180,7 +89,7 @@ class InputWidget extends StatelessWidget {
                     color: Colors.transparent,
                     fontSize: 0,
                   ),
-                  hintText: "Enter your email",
+                  hintText: "Enter your $head",
                   hintStyle: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
@@ -202,7 +111,7 @@ class InputWidget extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(
                       horizontal: 8.w, vertical: 12.5.w),
                 ):InputDecoration(
-                  hintText: "Enter your email",
+                  hintText: "Enter your $head",
                   hintStyle: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
@@ -249,7 +158,6 @@ class InputWidget extends StatelessWidget {
           ],
         ),
       );
-    });
+    },);
   }
 }
-

@@ -6,17 +6,23 @@ import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/checkbox_widget.dart';
 import 'package:mierp_apps/core/widgets/controller/checkbox_widget_controller.dart';
+import 'package:mierp_apps/core/widgets/controller/input_select_widget.dart';
 import 'package:mierp_apps/core/widgets/input_widget.dart';
+import 'package:mierp_apps/core/widgets/input_short_widget.dart';
 import 'package:mierp_apps/features/login/data/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
+import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
 import '../../../core/theme/app_colors.dart';
 
-class LoginView extends StatelessWidget {
-  LoginView({super.key});
+
+class RegisterView extends StatelessWidget {
+  RegisterView({super.key});
 
   final loginViewModel = Get.find<LoginViewModel>();
   final loginR = Get.find<LoginRepository>();
   final loadingC = Get.find<LoadingController>();
+
+  final registerViewModel = Get.find<RegisterViewModel>();
 
   final formKey = GlobalKey<FormState>();
 
@@ -34,13 +40,13 @@ class LoginView extends StatelessWidget {
                 children: [
                   Container(
                     width: 1.sw,
-                    height: 671.h,
+                    height: 768.h,
                     child: Column(
                       mainAxisAlignment: .end,
                       children: [
                         Container(
                           width: 350.w,
-                          height: 671.h,
+                          height: 768.h,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.horizontal(
                                 left: Radius.circular(20.r),
@@ -54,13 +60,13 @@ class LoginView extends StatelessWidget {
                   ),
                   Container(
                     width: 1.sw,
-                    height: 671.h,
+                    height: 768.h,
                     child: Column(
                       mainAxisAlignment: .end,
                       children: [
                         Container(
                           width: 1.sw,
-                          height: 658.h,
+                          height: 751.95.h,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.horizontal(
                                 left: Radius.circular(20.r),
@@ -86,7 +92,7 @@ class LoginView extends StatelessWidget {
                                   mainAxisAlignment: .center,
                                   children: [
                                     Text(
-                                      "Log in to your account",
+                                      "Create your account",
                                       style: GoogleFonts.inter(
                                         fontSize: 16.sp,
                                         fontWeight: AppFontWeight.medium,
@@ -100,7 +106,7 @@ class LoginView extends StatelessWidget {
                                   mainAxisAlignment: .center,
                                   children: [
                                     Text(
-                                      "Welcome back! Please enter your details.",
+                                      "Welcome! Please enter your details.",
                                       style: GoogleFonts.inter(
                                         fontSize: 16.sp,
                                         fontWeight: AppFontWeight.regular,
@@ -111,52 +117,52 @@ class LoginView extends StatelessWidget {
                                 ),
                                 SizedBox(height: 32.h,),
                                 InputWidget(head: "Email",
-                                  controller: loginViewModel.emailC,
+                                  controller: registerViewModel.emailC,
                                   placeholder: "",
-                                  necessary: false,
+                                  necessary: true,
                                   isPassword: false,
                                   formKey: formKey,
                                 ),
                                 InputWidget(
                                   head: "Password",
-                                  controller: loginViewModel.passwordC,
+                                  controller: registerViewModel.passwordC,
                                   placeholder: "",
-                                  necessary: false,
+                                  necessary: true,
                                   isPassword: true,
                                   formKey: formKey,
                                 ),
-                                SizedBox(height: 20.h,),
                                 Center(
                                   child: Container(
                                     width: 322.w,
                                     child: Row(
                                       mainAxisAlignment: .spaceBetween,
                                       children: [
-                                        Row(
-                                          children: [
-                                            CheckboxWidget(),
-                                            SizedBox(width: 8.w,),
-                                            Text(
-                                              "Remember me",
-                                              style: GoogleFonts.inter(
-                                                  color: AppColors.charcoal,
-                                                  fontWeight: AppFontWeight.medium,
-                                                  fontSize: 13.sp
-                                              ),
-                                            )
-                                          ],
+                                        InputShortWidget(
+                                          head: "First Name",
+                                          controller: registerViewModel.firstNameC,
+                                          placeholder: "",
+                                          necessary: true,
+                                          isPassword: false,
+                                          formKey: formKey,
                                         ),
-                                        Text(
-                                          "Forgot Password",
-                                          style: GoogleFonts.inter(
-                                              color: AppColors.blueLine,
-                                              fontWeight: AppFontWeight.medium,
-                                              fontSize: 13.sp
-                                          ),
-                                        )
+                                        InputShortWidget(
+                                          head: "Last Name",
+                                          controller: registerViewModel.lastNameC,
+                                          placeholder: "",
+                                          necessary: true,
+                                          isPassword: false,
+                                          formKey: formKey,
+                                        ),
                                       ],
                                     ),
                                   ),
+                                ),
+                                InputSelectWidget(
+                                  head: "Role",
+                                  placeholder: "",
+                                  necessary: true,
+                                  isPassword: false,
+                                  formKey: formKey,
                                 ),
                                 SizedBox(height: 20.h,),
                                 Center(
@@ -181,52 +187,16 @@ class LoginView extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         if(formKey.currentState!.validate()){
-                                          loginViewModel.login(loginViewModel.emailC.text, loginViewModel.passwordC.text);
-                                          print("${loginViewModel.emailC.text} ${loginViewModel.passwordC.text}");
+                                          registerViewModel.RegisterWithEmailPassword();
                                         }
                                       },
                                       child: Text(
-                                        "Log In",
+                                        "Register",
                                         style: GoogleFonts.inter(
                                           fontSize: 14.sp,
                                           fontWeight: AppFontWeight.medium,
                                           color: Colors.white,
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 20.h,),
-                                Center(
-                                  child: Container(
-                                    width: 322.w,
-                                    height: 45.h,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(6.w),
-                                            side: BorderSide(
-                                                color: Colors.black12, width: 0.8.w)
-                                        ),
-                                      ),
-                                      onPressed: ()=>loginViewModel.loginWithGoogle(),
-                                      child: Row(
-                                        mainAxisAlignment: .center,
-                                        children: [
-                                          Image.asset(
-                                            "assets/images/google.png", width: 15.w,
-                                            height: 15.h,),
-                                          SizedBox(width: 6.w,),
-                                          Text(
-                                            "Log In With Google",
-                                            style: GoogleFonts.inter(
-                                              fontSize: 14.sp,
-                                              fontWeight: AppFontWeight.medium,
-                                              color: AppColors.charcoal,
-                                            ),
-                                          )
-                                        ],
                                       ),
                                     ),
                                   ),
@@ -240,7 +210,7 @@ class LoginView extends StatelessWidget {
                                       mainAxisAlignment: .center,
                                       children: [
                                         Text(
-                                          "Don't have an account?",
+                                          "Have an account?",
                                           style: GoogleFonts.inter(
                                             fontSize: 13.sp,
                                             fontWeight: AppFontWeight.medium,
@@ -250,10 +220,10 @@ class LoginView extends StatelessWidget {
                                         SizedBox(width: 4.w,),
                                         GestureDetector(
                                           onTap: () {
-                                            Get.offAllNamed("/register");
+                                            Get.offAllNamed("/login");
                                           },
                                           child: Text(
-                                            "Register.",
+                                            "Login.",
                                             style: GoogleFonts.inter(
                                                 color: AppColors.blueLine,
                                                 fontWeight: AppFontWeight.medium,
