@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashViewModel extends GetxController {
 
@@ -14,11 +18,20 @@ class SplashViewModel extends GetxController {
   }
 
   Future<void> checkLogin() async {
-    await Future.delayed(Duration(seconds: 2), (){
+    final prefs = await SharedPreferences.getInstance();
+    await Future.delayed(Duration(seconds: 2), () {
       if (!loginC.isLoggedIn) {
         Get.offAllNamed("/login");
-      } else {
-        Get.offAllNamed("/dashboard");
+        return;
+      }
+      print("Ini Prefs: ${prefs.getString("user")}");
+      final dataUserRaw = prefs.getString("user");
+      Map<String,dynamic> dataUserJson = jsonDecode(dataUserRaw!);
+      final dataUser = UserModel.fromJson(dataUserJson);
+      if(dataUser!.role == "warehouse"){
+        Get.offAllNamed("/dashboard_warehouse");
+      }else{
+        Get.offAllNamed("/dashboard_warehouse");
       }
     });
   }
