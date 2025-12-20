@@ -2,13 +2,16 @@ import 'package:get/get.dart';
 import 'package:mierp_apps/core/routing/middleware/login_middleware.dart';
 import 'package:mierp_apps/features/dashboard/presentation/dashboard_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_sales_order/add_sales_product_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/dashboard_warehouse_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';
 import 'package:mierp_apps/features/login/presentation/login_view.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view.dart';
 import 'package:mierp_apps/features/register/presentation/register_view.dart';
 import 'package:mierp_apps/features/splash/presentation/splash_view.dart';
 
-class AuthRoutes {
+class AppRoutes {
   static final pages = [
       GetPage(name: "/onboarding", page: () => OnboardingView()),
       GetPage(name: "/splash", page: () => SplashView()),
@@ -16,13 +19,18 @@ class AuthRoutes {
       GetPage(name: "/register", page: () => RegisterView()),
       GetPage(
         name: "/dashboard_warehouse",
-        page: ()=>DashboardWarehouseView(),
+        page: () => DashboardWarehouseView(),
         middlewares: [LoginMiddleware()]
       ),
       GetPage(
         name: "/dashboard_finance",
-        page: ()=>DashboardFinanceView(),
+        page: () => DashboardFinanceView(),
         middlewares: [LoginMiddleware()]
-      )
+      ),
+
+      // Warehouse
+      GetPage(name: "/summary", page: () => SummaryView()),
+      GetPage(name: "/add_unit", page: () => AddUnitView()),
+      GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
   ];
 }

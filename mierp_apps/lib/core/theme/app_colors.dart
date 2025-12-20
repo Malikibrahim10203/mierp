@@ -18,7 +18,7 @@ class AppColors {
   static const vibrantOrange = Color(0xFFFF6200);
   static const softCream = Color(0xFFFFFACF);
 
-  static const neonGreen = Color(0xFF15E80C);
+  static const neonGreen = Color(0xFF15BE0C);
   static const mintGreen = Color(0xFFCCFFCD);
   static const shadowElectricBlue = Color(0xFFD9D9D9);
   static const gray = Color(0xFF181D27);
@@ -32,4 +32,13 @@ class AppColors {
 
   static const shadowBox = Color(0xFFECE9E9);
   static const shadowBox2 = Color(0xFFE8E8E8);
+  static const purpleTransparent = Color(0xFFEEF1FF);
+  static const blueBold = Color(0xFF001EA5);
+
+  static const grayDashline = Color(0xFFEEEEEE);
+  static const purpleShadow = Color(0xffE3DBFF);
+  static const purpleShadow2 = Color(0xFFEBE6FF);
+  static const appBarShadow = Color(0xFFDEDEDE);
+  static const greyPlacholder = Color(0xFF8B8B8B);
+
 }

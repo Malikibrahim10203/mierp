@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/core/widgets/controller/input_widget_controller.dart';
+import 'package:mierp_apps/core/widgets/controller_widget/input_widget_controller.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
 
 class InputShortWidget extends StatelessWidget {
-  InputShortWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.isPassword, required this.formKey});
+  InputShortWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.iconAsset, required this.formKey});
 
-  final head, controller, placeholder, necessary, isPassword, formKey;
-  final inputWidgetC = Get.put(
-      InputWidgetController(), tag: UniqueKey().toString());
+  final head, controller, placeholder, necessary, iconAsset, formKey;
+  final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
   RxBool hasError = false.obs;
   RxString dataError = "".obs;
-  final loginVieModel = Get.find<LoginViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,24 +56,32 @@ class InputShortWidget extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(6.w),
                 boxShadow: inputWidgetC.isFocus.value ?
-                [BoxShadow(
-                    color: AppColors.blueLineShadow,
-                    spreadRadius: 4
-                )
-                ] : [BoxShadow(
-                    color: Colors.white,
-                    spreadRadius: 2
-                )
+                [
+                  BoxShadow(color: AppColors.blueLineShadow, spreadRadius: 4),
+                  BoxShadow(
+                    color: AppColors.shadowBox,
+                    spreadRadius: 0.w,
+                    blurRadius: 9.w,
+                  )
+                ] : [
+                  BoxShadow(color: Colors.white, spreadRadius: 2),
+                  BoxShadow(
+                    color: AppColors.shadowBox,
+                    spreadRadius: 0.w,
+                    blurRadius: 9.w,
+                  )
                 ],
               ),
               child: TextFormField(
                 controller: controller,
                 focusNode: inputWidgetC.focusNode,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly
+                ],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     hasError.value = true;
                     dataError.value = "$head wajib diisi";
-                    loginVieModel.isValid.value = false;
                     return null;
                   }
                 },
@@ -89,11 +97,24 @@ class InputShortWidget extends StatelessWidget {
                     color: Colors.transparent,
                     fontSize: 0,
                   ),
-                  hintText: "Enter your $head",
+                  hintText: "$head",
                   hintStyle: GoogleFonts.inter(
+                    color: AppColors.greyPlacholder,
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
                     height: 1.0,
+                  ),
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: SvgPicture.asset(
+                      "assets/icons/$iconAsset",
+                      width: 20.w,
+                      height: 20.w,
+                    ),
+                  ),
+                  suffixIconConstraints: BoxConstraints(
+                    maxWidth: 50.w,
+                    maxHeight: 50.w,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
@@ -102,7 +123,7 @@ class InputShortWidget extends StatelessWidget {
                   ),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.coolGray,
+                      borderSide: BorderSide(color: AppColors.softWhite,
                           width: 1.w)
                   ),
                   border: OutlineInputBorder(
@@ -111,11 +132,24 @@ class InputShortWidget extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(
                       horizontal: 8.w, vertical: 12.5.w),
                 ):InputDecoration(
-                  hintText: "Enter your $head",
+                  hintText: "$head",
                   hintStyle: GoogleFonts.inter(
+                    color: AppColors.greyPlacholder,
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
                     height: 1.0,
+                  ),
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: SvgPicture.asset(
+                      "assets/icons/$iconAsset",
+                      width: 20.w,
+                      height: 20.w,
+                    ),
+                  ),
+                  suffixIconConstraints: BoxConstraints(
+                    maxWidth: 50.w,
+                    maxHeight: 50.w,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
@@ -124,7 +158,7 @@ class InputShortWidget extends StatelessWidget {
                   ),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.coolGray,
+                      borderSide: BorderSide(color: AppColors.softWhite,
                           width: 1.w)
                   ),
                   border: OutlineInputBorder(
@@ -135,8 +169,7 @@ class InputShortWidget extends StatelessWidget {
                 ),
               ),
             ),
-            hasError.value ?
-            Column(
+            hasError.value ? Column(
               children: [
                 SizedBox(height: 5.h,),
                 Row(

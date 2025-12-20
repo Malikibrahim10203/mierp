@@ -4,21 +4,19 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/core/widgets/controller/input_widget_controller.dart';
+import 'package:mierp_apps/core/widgets/controller_widget/input_widget_controller.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
 
 class InputSelectWidget extends StatelessWidget {
-  InputSelectWidget({super.key, required this.head, required this.placeholder, required this.necessary, required this.isPassword, required this.formKey});
+  InputSelectWidget({super.key, required this.head, required this.placeholder, required this.necessary, required this.formKey});
 
-  final head, placeholder, necessary, isPassword, formKey;
-  final inputWidgetC = Get.put(
-      InputWidgetController(), tag: UniqueKey().toString());
-  final registerViewModel = Get.find<RegisterViewModel>();
+  final head, placeholder, necessary, formKey;
+  final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
+  final addUnitVM = Get.find<AddUnitViewModel>();
   RxBool hasError = false.obs;
   RxString dataError = "".obs;
-
-  final loginVieModel = Get.find<LoginViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,48 +54,55 @@ class InputSelectWidget extends StatelessWidget {
               height: 45.w,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: AppColors.coolGray,
-                    width: 1.w),
                 borderRadius: BorderRadius.circular(6.w),
                 boxShadow: inputWidgetC.isFocus.value ?
-                [BoxShadow(
-                    color: AppColors.blueLineShadow,
-                    spreadRadius: 4
-                )
-                ] : [BoxShadow(
-                    color: Colors.white,
-                    spreadRadius: 2
-                )
+                [
+                  BoxShadow(color: AppColors.blueLineShadow, spreadRadius: 4),
+                  BoxShadow(
+                    color: AppColors.shadowBox,
+                    spreadRadius: 0.w,
+                    blurRadius: 9.w,
+                  )
+                ] : [
+                  BoxShadow(color: Colors.white, spreadRadius: 2),
+                  BoxShadow(
+                    color: AppColors.shadowBox,
+                    spreadRadius: 0.w,
+                    blurRadius: 9.w,
+                  )
                 ],
               ),
-              child: DropdownButton<String>(
-                borderRadius: BorderRadius.circular(6.w),
-                icon: Padding(
-                  padding: EdgeInsets.only(left: 190.w),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
-                value: registerViewModel.roleC.value,
-                onChanged: (value) {
-                  registerViewModel.roleC.value = value!;
-                },
-                items: <String>['warehouse','finance'].map<DropdownMenuItem<String>>(
-                    (String value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
-                          child: Text(
-                            value,
-                            style: GoogleFonts.inter(
-                              fontSize: 13.sp,
-                              fontWeight: AppFontWeight.regular,
-                              height: 1.0,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  dropdownColor: Colors.white,
+                  borderRadius: BorderRadius.circular(6.w),
+                  icon: Padding(
+                    padding: EdgeInsets.only(left: 190.w),
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
+                  value: addUnitVM.categoryProductC.value,
+                  onChanged: (value) {
+                    addUnitVM.categoryProductC.value = value!;
+                  },
+                  items: <String>['electronics','automotive'].map<DropdownMenuItem<String>>(
+                          (String value) {
+                        return DropdownMenuItem(
+                          value: value,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
+                            child: Text(
+                              value,
+                              style: GoogleFonts.inter(
+                                fontSize: 13.sp,
+                                fontWeight: AppFontWeight.regular,
+                                height: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                ).toList(),
+                        );
+                      }
+                  ).toList(),
+                ),
               ),
             ),
             hasError.value ?

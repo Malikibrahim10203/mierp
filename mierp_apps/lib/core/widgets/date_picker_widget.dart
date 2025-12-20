@@ -6,16 +6,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/controller_widget/input_widget_controller.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
-class InputWidget extends StatelessWidget {
-  InputWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.formKey});
+class DatePickerWidget extends StatelessWidget {
+  DatePickerWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.formKey});
 
   final head, controller, placeholder, necessary, formKey;
   final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
+  final addUnitVM = Get.find<AddUnitViewModel>();
   RxBool hasError = false.obs;
   RxString dataError = "".obs;
-  final loginVieModel = Get.find<LoginViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +55,7 @@ class InputWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(6.w),
-                boxShadow: inputWidgetC.isFocus.value ?
-                [
-                  BoxShadow(color: AppColors.blueLineShadow, spreadRadius: 4),
-                  BoxShadow(
-                    color: AppColors.shadowBox,
-                    spreadRadius: 0.w,
-                    blurRadius: 9.w,
-                  )
-                ] : [
+                boxShadow: [
                   BoxShadow(color: Colors.white, spreadRadius: 2),
                   BoxShadow(
                     color: AppColors.shadowBox,
@@ -73,14 +66,17 @@ class InputWidget extends StatelessWidget {
               ),
               child: TextFormField(
                 controller: controller,
+                readOnly: true,
                 focusNode: inputWidgetC.focusNode,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     hasError.value = true;
-                    dataError.value = "wajib diisi";
-                    loginVieModel.isValid.value = false;
+                    dataError.value = "Wajib diisi";
                     return null;
                   }
+                },
+                onTap: () {
+                  addUnitVM.showDate(context);
                 },
                 style: GoogleFonts.inter(
                   fontSize: 13.sp,
@@ -101,17 +97,17 @@ class InputWidget extends StatelessWidget {
                     fontWeight: AppFontWeight.regular,
                     height: 1.0,
                   ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.blueLine,
-                          width: 1.w)
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: SvgPicture.asset(
+                      "assets/icons/price_tag.svg",
+                      width: 20.w,
+                      height: 20.w,
+                    ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide.none
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6.w),
+                  suffixIconConstraints: BoxConstraints(
+                    maxWidth: 50.w,
+                    maxHeight: 50.w,
                   ),
                   contentPadding: EdgeInsets.symmetric(
                       horizontal: 8.w, vertical: 12.5.w),
@@ -134,6 +130,18 @@ class InputWidget extends StatelessWidget {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(6.w),
+                  ),
+                  suffixIcon: Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: SvgPicture.asset(
+                      "assets/icons/calendar_month.svg",
+                      width: 20.w,
+                      height: 20.w,
+                    ),
+                  ),
+                  suffixIconConstraints: BoxConstraints(
+                    maxWidth: 50.w,
+                    maxHeight: 50.w,
                   ),
                   contentPadding: EdgeInsets.symmetric(
                       horizontal: 8.w, vertical: 12.5.w),

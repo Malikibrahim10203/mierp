@@ -4,11 +4,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/core/widgets/checkbox_widget.dart';
-import 'package:mierp_apps/core/widgets/controller/checkbox_widget_controller.dart';
-import 'package:mierp_apps/core/widgets/controller/input_select_widget.dart';
-import 'package:mierp_apps/core/widgets/input_widget.dart';
-import 'package:mierp_apps/core/widgets/input_short_widget.dart';
+import 'package:mierp_apps/core/widgets/auth/input_select_auth_widget.dart';
+import 'package:mierp_apps/core/widgets/auth/input_auth_widget.dart';
+import 'package:mierp_apps/core/widgets/auth/input_short_auth_widget.dart';
 import 'package:mierp_apps/features/login/data/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
@@ -116,14 +114,14 @@ class RegisterView extends StatelessWidget {
                                   ],
                                 ),
                                 SizedBox(height: 32.h,),
-                                InputWidget(head: "Email",
+                                InputAuthWidget(head: "Email",
                                   controller: registerViewModel.emailC,
                                   placeholder: "",
                                   necessary: true,
                                   isPassword: false,
                                   formKey: formKey,
                                 ),
-                                InputWidget(
+                                InputAuthWidget(
                                   head: "Password",
                                   controller: registerViewModel.passwordC,
                                   placeholder: "",
@@ -137,7 +135,7 @@ class RegisterView extends StatelessWidget {
                                     child: Row(
                                       mainAxisAlignment: .spaceBetween,
                                       children: [
-                                        InputShortWidget(
+                                        InputShortAuthWidget(
                                           head: "First Name",
                                           controller: registerViewModel.firstNameC,
                                           placeholder: "",
@@ -145,7 +143,7 @@ class RegisterView extends StatelessWidget {
                                           isPassword: false,
                                           formKey: formKey,
                                         ),
-                                        InputShortWidget(
+                                        InputShortAuthWidget(
                                           head: "Last Name",
                                           controller: registerViewModel.lastNameC,
                                           placeholder: "",
@@ -157,7 +155,7 @@ class RegisterView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                InputSelectWidget(
+                                InputSelectAuthWidget(
                                   head: "Role",
                                   placeholder: "",
                                   necessary: true,

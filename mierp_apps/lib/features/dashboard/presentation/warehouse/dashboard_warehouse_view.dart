@@ -2,259 +2,207 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/card_dashboard.dart';
+import 'package:mierp_apps/core/widgets/card_order.dart';
 import 'package:mierp_apps/core/widgets/card_stock.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 import 'package:mierp_apps/features/login/data/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+
 
 class DashboardWarehouseView extends StatelessWidget {
   DashboardWarehouseView({super.key});
 
   final loginViewModel = Get.find<LoginViewModel>();
   final linkVM = Get.find<LoginRepository>();
+  final warehouseVM = Get.find<WarehouseViewModel>();
+  final movePageC = Get.find<MovePageController>();
+  final loadingC = Get.find<LoadingController>();
+
+  PersistentTabController _controller = PersistentTabController(initialIndex: 0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  width: 394.w,
-                  height: 158.h,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/warehouse_card.png"),
-                      fit: BoxFit.cover,
-                      alignment: AlignmentGeometry.directional(0, 0.5),
-                    ),
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xFF7A00E6),
-                        Color(0xFF4B3FEB),
-                        Color(0xFF29B1FF)
-                      ],
-                      transform: GradientRotation(0.35.sw),
-                    ),
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(60.w)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
                     children: [
-                      SizedBox(
-                        height: 77.h,
-                      ),
                       Container(
-                        padding: EdgeInsets.only(left: 24.w),
-                        child: Row(
+                        width: 394.w,
+                        height: 158.h,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/warehouse_card.png"),
+                            fit: BoxFit.cover,
+                            alignment: AlignmentGeometry.directional(0, 0.5),
+                          ),
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xFF7A00E6),
+                              Color(0xFF4B3FEB),
+                              Color(0xFF29B1FF)
+                            ],
+                            transform: GradientRotation(0.35.sw),
+                          ),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(60.w)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 18.w,
-                              height: 18.h,
-                              child: Image.asset("assets/images/warehouse_group.png"),
-                            ),
                             SizedBox(
-                              width: 63.w,
+                              height: 77.h,
                             ),
-                            Text(
-                              "Summary Warehouse",
-                              style: GoogleFonts.inter(
-                                fontSize: 16.sp,
-                                fontWeight: AppFontWeight.semiBold,
-                                color: Colors.white,
+                            Container(
+                              padding: EdgeInsets.only(left: 24.w),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 18.w,
+                                    height: 18.h,
+                                    child: Image.asset(
+                                        "assets/images/warehouse_group.png"),
+                                  ),
+                                  SizedBox(
+                                    width: 63.w,
+                                  ),
+                                  Text(
+                                    "Summary Warehouse",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.sp,
+                                      fontWeight: AppFontWeight.semiBold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 123.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          width: 289.w,
-                          height: 66.h,
-                          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20.w),topLeft: Radius.circular(20.w)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.shadowBox,
-                                spreadRadius: -3.w,
-                                offset: Offset(0, 4),
-                                blurRadius: 21.w,
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 123.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                width: 289.w,
+                                height: 66.h,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 24.w, vertical: 12.h),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(bottomLeft: Radius
+                                      .circular(20.w),
+                                      topLeft: Radius.circular(20.w)),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.shadowBox,
+                                      spreadRadius: -3.w,
+                                      offset: Offset(0, 4),
+                                      blurRadius: 21.w,
+                                    )
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 37.w,
+                                      height: 37.h,
+                                      decoration: BoxDecoration(
+                                          color: AppColors.electricBlue,
+                                          borderRadius: BorderRadius.circular(10.w)
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/person.png", width: 33.w,
+                                            height: 33.h,),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 13.w,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            "Hello!"
+                                        ),
+                                        Text(
+                                            "Livia Vacaro!"
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 38.w,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.notifications_active, size: 24.w,),
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 37.w,
-                                height: 37.h,
-                                decoration: BoxDecoration(
-                                    color: AppColors.electricBlue,
-                                    borderRadius: BorderRadius.circular(10.w)
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Image.asset("assets/images/person.png",width: 33.w, height: 33.h,),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 13.w,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      "Hello!"
-                                  ),
-                                  Text(
-                                      "Livia Vacaro!"
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 38.w,
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.notifications_active, size: 24.w,),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CardDashboard(),
-                      CardDashboard(),
+                        ],
+                      ),
                     ],
                   ),
                   SizedBox(
-                    height: 9.h,
+                    height: 20.h,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CardDashboard(),
-                      CardDashboard(),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 22.h,
-            ),
-            Padding(
-              padding: EdgeInsetsGeometry.symmetric(
-                  horizontal: 14.h
-              ),
-              child: Container(
-                width: 345.w,
-                height: 49.h,
-                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 22.w),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.shadowBox,
-                        spreadRadius: -3.w,
-                        offset: Offset(0, 4),
-                        blurRadius: 21.w,
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(10.w)
-                ),
-                child:  Center(
-                  child: Container(
-                    width: 310.w,
-                    height: 33.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Add New Unit",
-                        ),
-                        Container(
-                          width: 36.w,
-                          height: 33.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.w),
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0xFF00B2FF),
-                                Color(0xFF7A00E6)
-                              ],
-                              transform: GradientRotation(-0.05.sw),
-                            ),
-                          ),
-                          child: Icon(Icons.add, color: Colors.white,),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 22.h,
-            ),
-            Padding(
-              padding: EdgeInsetsGeometry.symmetric(
-                  horizontal: 24.h
-              ),
-              child: Column(
-                children: [
                   Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Column(
                       children: [
-                        Text(
-                            "Stock Summary"
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CardDashboard(nameBox: "Product",
+                              description: "All stock items that are low inventory",
+                              totalItems: "5",
+                              urgent: false,),
+                            CardDashboard(nameBox: "Total Qty",
+                              description: "All stock items that are low inventory",
+                              totalItems: "127 units",
+                              urgent: false,)
+                          ],
+                        ),
+                        SizedBox(
+                          height: 9.h,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "View all",
-                            ),
-                            SizedBox(
-                              width: 5.w,
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: AppColors.charcoal,
-                              size: 10.w,
-                            )
+                            CardDashboard(nameBox: "Low Stock",
+                              description: "All stock items that are low inventory",
+                              totalItems: "8 units",
+                              urgent: true,),
+                            CardDashboard(nameBox: "Upcoming Stock",
+                              description: "All stock items that are low inventory",
+                              totalItems: "2 units",
+                              urgent: true,),
                           ],
                         )
                       ],
@@ -263,25 +211,321 @@ class DashboardWarehouseView extends StatelessWidget {
                   SizedBox(
                     height: 22.h,
                   ),
-                  CardStock(),
-                  SizedBox(height: 10.h,),
-                  CardStock(),
-                  SizedBox(height: 10.h,),
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                        horizontal: 14.h
+                    ),
+                    child: Container(
+                      width: 345.w,
+                      height: 49.h,
+                      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 22.w),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.shadowBox,
+                              spreadRadius: -3.w,
+                              offset: Offset(0, 4),
+                              blurRadius: 21.w,
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(10.w)
+                      ),
+                      child: Center(
+                        child: Container(
+                          width: 310.w,
+                          height: 33.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Add New Unit",
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  movePageC.movePage("/add_unit");
+                                },
+                                child: Container(
+                                  width: 36.w,
+                                  height: 33.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.w),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF00B2FF),
+                                        Color(0xFF7A00E6)
+                                      ],
+                                      transform: GradientRotation(-0.05.sw),
+                                    ),
+                                  ),
+                                  child: Icon(Icons.add, color: Colors.white,),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 22.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                        horizontal: 14.h
+                    ),
+                    child: Container(
+                      width: 345.w,
+                      height: 49.h,
+                      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 22.w),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.shadowBox,
+                              spreadRadius: -3.w,
+                              offset: Offset(0, 4),
+                              blurRadius: 21.w,
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(10.w)
+                      ),
+                      child: Center(
+                        child: Container(
+                          width: 310.w,
+                          height: 33.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Add Sales Order",
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  movePageC.movePage("/add_sales_order");
+                                },
+                                child: Container(
+                                  width: 36.w,
+                                  height: 33.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.w),
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF00B2FF),
+                                        Color(0xFF7A00E6)
+                                      ],
+                                      transform: GradientRotation(-0.05.sw),
+                                    ),
+                                  ),
+                                  child: Icon(Icons.add, color: Colors.white,),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 22.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                        horizontal: 14.h
+                    ),
+                    child: Container(
+                      width: 345.w,
+                      height: 49.h,
+                      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 22.w),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.shadowBox,
+                              spreadRadius: -3.w,
+                              offset: Offset(0, 4),
+                              blurRadius: 21.w,
+                            )
+                          ],
+                          borderRadius: BorderRadius.circular(10.w)
+                      ),
+                      child: Center(
+                        child: Container(
+                          width: 310.w,
+                          height: 33.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: warehouseVM.tabs.map(
+                                  (e) =>
+                                  Obx(() {
+                                    final isActive = e.isActive.value;
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        warehouseVM.changeTab(e);
+                                      },
+                                      child: Container(
+                                        height: 33.h,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10.w),
+                                        decoration: isActive ? BoxDecoration(
+                                          borderRadius: BorderRadius.circular(55.w),
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xFF00B2FF),
+                                              Color(0xFF7A00E6)
+                                            ],
+                                            transform: GradientRotation(-0.05.sw),
+                                          ),
+                                        ) : BoxDecoration(),
+                                        child: Center(
+                                          child: Text(
+                                            e.title,
+                                            style: GoogleFonts.inter(
+                                              fontSize: 11.sp,
+                                              fontWeight: AppFontWeight.medium,
+                                              color: isActive
+                                                  ? Colors.white
+                                                  : AppColors.charcoal,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 22.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsetsGeometry.symmetric(
+                        horizontal: 24.h
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                  "Summary"
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  movePageC.movePage("/summary");
+                                },
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "View all",
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: AppColors.charcoal,
+                                      size: 10.w,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 22.h,
+                        ),
+                        Obx(() {
+                          if (warehouseVM.collection.value == "products") {
+                            if(warehouseVM.collection.value.isNotEmpty) {
+                              return Container(
+                                height: warehouseVM.listProduct.length >= 2
+                                    ? 230.w
+                                    : 500.w,
+                                child: Column(
+                                  children: warehouseVM.listProduct.take(2)
+                                      .map((product) =>
+                                      Column(
+                                        children: [
+                                          CardStock(
+                                              idBarang: product!.productCode,
+                                              namaBarang: product!.productName,
+                                              quantity: product!.quantity,
+                                              unitPrice: product!.unitPrice,
+                                              lineTotal: product!.unitPrice *
+                                                  product!.quantity,
+                                              type: product!.category),
+                                          SizedBox(
+                                            height: 10.w,
+                                          ),
+                                        ],
+                                      )).toList(),
+                                ),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          } else if(warehouseVM.collection.value == "warehouse_order"){
+                            if(warehouseVM.listOrder.isNotEmpty){
+                              return Column(
+                                children: warehouseVM.listOrder.map(
+                                        (data) {
+                                      return CardOrder(idBarang: data!.productCode, namaBarang: data!.productName, financeApproved: data!.financeApproved, createdOn: data!.orderDate, nameUser: data!.firstName, quantity: data!.quantity, unitPrice: "", lineTotal: data!.totalCost);
+                                    }
+                                ).toList(),
+                              );
+                            } else {
+                              return CircularProgressIndicator();
+                            }
+                          } else {
+                            print("bukan stock");
+                            return Container(
+                              height: warehouseVM.listProduct.length >= 2
+                                  ? 230.w
+                                  : 500.w,
+                              child: Column(
+                                children: warehouseVM.listProduct.take(2).map((product) =>
+                                    Column(
+                                      children: [
+                                        CardStock(idBarang: product!.productCode,
+                                            namaBarang: product!.productName,
+                                            quantity: product!.quantity,
+                                            unitPrice: product!.unitPrice,
+                                            lineTotal: product!.unitPrice *
+                                                product!.quantity,
+                                            type: product!.category),
+                                        SizedBox(
+                                          height: 10.w,
+                                        ),
+                                      ],
+                                    )).toList(),
+                              ),
+                            );
+                          }
+                        }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 22.h,
+                  ),
+                  ElevatedButton(
+                    onPressed: loginViewModel.logout,
+                    child: Text("Logout"),
+                  ),
+                  // ElevatedButton(onPressed: () {
+                  //   linkVM.linkToAnotherAccount();
+                  // }, child: Text("Linking")),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 22.h,
-            ),
-            ElevatedButton(
-              onPressed: loginViewModel.logout,
-              child: Text("Logout"),
-            ),
-            ElevatedButton(onPressed: (){
-              linkVM.linkToAnotherAccount();
-            }, child: Text("Linking")),
-          ],
-        ),
+          ),
+          Obx(()=>loadingC.isLoading.value? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
+        ],
       ),
     );
   }

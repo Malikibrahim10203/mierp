@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +12,8 @@ class SplashViewModel extends GetxController {
 
   final loginC = Get.find<LoginViewModel>();
   final onBoardC = Get.find<OnboardingViewModel>();
+  final warehouseVM = Get.lazyPut(()=>WarehouseViewModel(),fenix: true);
+  final summaryVM = Get.lazyPut(()=>SummaryViewModel(),fenix: true);
 
   @override
   void onReady() {

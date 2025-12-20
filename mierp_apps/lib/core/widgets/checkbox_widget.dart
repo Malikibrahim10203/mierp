@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:mierp_apps/core/widgets/controller/checkbox_widget_controller.dart';
+import 'package:mierp_apps/core/widgets/controller_widget/checkbox_widget_controller.dart';
 
 class CheckboxWidget extends StatelessWidget {
   CheckboxWidget({super.key});

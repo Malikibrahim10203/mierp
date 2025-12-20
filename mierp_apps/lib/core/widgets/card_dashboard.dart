@@ -5,7 +5,9 @@ import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 
 class CardDashboard extends StatelessWidget {
-  CardDashboard({super.key});
+  CardDashboard({super.key, required this.nameBox, required this.description, required this.totalItems, required this.urgent});
+
+  final nameBox, description, totalItems, urgent;
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +40,20 @@ class CardDashboard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Product",
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        fontWeight: AppFontWeight.medium,
-                        color: AppColors.charcoal,
+                    Container(
+                      width: 113.w,
+                      child: Text(
+                        nameBox,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.inter(
+                          fontSize: 14.sp,
+                          fontWeight: AppFontWeight.medium,
+                          color: AppColors.charcoal,
+                        ),
                       ),
                     ),
                     Text(
-                      "All stock items that are low inventory",
+                      description,
                       style: GoogleFonts.inter(
                         fontSize: 11.sp,
                         fontWeight: AppFontWeight.medium,
@@ -57,13 +63,36 @@ class CardDashboard extends StatelessWidget {
                     SizedBox(
                       height: 8.h,
                     ),
-                    Text(
-                      "5",
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        fontWeight: AppFontWeight.medium,
-                        color: AppColors.charcoal,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          totalItems,
+                          style: GoogleFonts.inter(
+                            fontSize: 14.sp,
+                            fontWeight: AppFontWeight.medium,
+                            color: AppColors.charcoal,
+                          ),
+                        ),
+                        urgent?Container(
+                          width: 37.44.w,
+                          height: 14.62.h,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFD6F4FF),
+                            borderRadius: BorderRadius.circular(10.w)
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Now",
+                              style: GoogleFonts.inter(
+                                fontSize: 10.sp,
+                                fontWeight: AppFontWeight.medium,
+                                color: Color(0xFF01BAFF),
+                              ),
+                            ),
+                          ),
+                        ):SizedBox(),
+                      ],
                     ),
                   ],
                 ),
@@ -92,7 +121,7 @@ class CardDashboard extends StatelessWidget {
                 child: Container(
                   width: 17.88.w,
                   height: 17.88.h,
-                  child: Image.asset("assets/images/order.png"),
+                  child: Image.asset("assets/icons/order.png"),
                 ),
               ),
             ),

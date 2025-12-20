@@ -2,11 +2,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/checkbox_widget.dart';
-import 'package:mierp_apps/core/widgets/controller/checkbox_widget_controller.dart';
-import 'package:mierp_apps/core/widgets/input_widget.dart';
+import 'package:mierp_apps/core/widgets/auth/input_auth_widget.dart';
 import 'package:mierp_apps/features/login/data/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import '../../../core/theme/app_colors.dart';
@@ -110,14 +110,14 @@ class LoginView extends StatelessWidget {
                                   ],
                                 ),
                                 SizedBox(height: 32.h,),
-                                InputWidget(head: "Email",
+                                InputAuthWidget(head: "Email",
                                   controller: loginViewModel.emailC,
                                   placeholder: "",
                                   necessary: false,
                                   isPassword: false,
                                   formKey: formKey,
                                 ),
-                                InputWidget(
+                                InputAuthWidget(
                                   head: "Password",
                                   controller: loginViewModel.passwordC,
                                   placeholder: "",
@@ -276,15 +276,7 @@ class LoginView extends StatelessWidget {
               )
             ],
           ),
-          Obx(() {
-            if(loadingC.isLoading.value){
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return SizedBox();
-            }
-          }),
+          Obx(()=>loadingC.isLoading.value? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
         ],
       ),
     );
