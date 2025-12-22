@@ -1,0 +1,2 @@
+module mierp.apps {
+}

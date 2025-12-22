@@ -6,15 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/controller_widget/input_widget_controller.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_sales_order/add_sales_order_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
 class DatePickerWidget extends StatelessWidget {
-  DatePickerWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.formKey});
+  DatePickerWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.formKey, required this.isShort});
 
-  final head, controller, placeholder, necessary, formKey;
+  final head, controller, placeholder, necessary, formKey, isShort;
   final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
-  final addUnitVM = Get.find<AddUnitViewModel>();
   RxBool hasError = false.obs;
   RxString dataError = "".obs;
 
@@ -22,11 +22,12 @@ class DatePickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-        width: 322.w,
+        width: 146.w,
         height: 93.w,
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 necessary ?
                 Text(
@@ -49,7 +50,7 @@ class DatePickerWidget extends StatelessWidget {
             ),
             SizedBox(height: 8.w,),
             Container(
-              width: 335.w,
+              width: isShort? 145.w: 335.w,
               // height: 45.w,
               height: 45.w,
               decoration: BoxDecoration(
@@ -76,7 +77,13 @@ class DatePickerWidget extends StatelessWidget {
                   }
                 },
                 onTap: () {
-                  addUnitVM.showDate(context);
+                  if(isShort){
+                    final addSalesOrderVM = Get.find<AddSalesOrderViewModel>();
+                    addSalesOrderVM.showDate(context);
+                  } else {
+                    final addUnitVM = Get.find<AddUnitViewModel>();
+                    addUnitVM.showDate(context);
+                  }
                 },
                 style: GoogleFonts.inter(
                   fontSize: 13.sp,

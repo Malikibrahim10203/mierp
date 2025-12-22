@@ -49,8 +49,6 @@ class InputShortWidget extends StatelessWidget {
             ),
             SizedBox(height: 8.w,),
             Container(
-              width: 322.w,
-              // height: 45.w,
               height: 45.w,
               decoration: BoxDecoration(
                 color: Colors.white,

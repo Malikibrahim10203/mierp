@@ -42,7 +42,7 @@ class AddUnitViewModel extends GetxController {
   }
 
   Future<void> saveUnit() async {
-    Product product = Product(category: categoryProductC.value, createdOn: createdOnC.text, imageProduct: "", productName: nameProductC.text, productCode: productCodeC.text, quantity: int.parse(quantityC.text), unitPrice: int.parse(unitPriceC.text));
+    Product product = Product(category: categoryProductC.value, createdOn: createdOnC.text, imageProduct: "", productName: nameProductC.text, productCode: productCodeC.text, quantity: int.parse(quantityC.text), unitPrice: int.parse(unitPriceC.text), id: "");
     loadingC.showLoading();
     await addUnitRepository.addUnitToFirebase("products", product);
     Future.delayed(Duration(seconds: 2), () {

@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:mierp_apps/core/routing/middleware/login_middleware.dart';
 import 'package:mierp_apps/features/dashboard/presentation/dashboard_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_sales_order/add_sales_product_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_sales_order/add_sales_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/dashboard_warehouse_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';

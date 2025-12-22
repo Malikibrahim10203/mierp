@@ -1,4 +1,5 @@
 class Product {
+  String? id;
   String category;
   String createdOn;
   String? imageProduct;
@@ -8,6 +9,7 @@ class Product {
   int unitPrice;
 
   Product({
+    required this.id,
     required this.category,
     required this.createdOn,
     required this.imageProduct,
@@ -17,7 +19,8 @@ class Product {
     required this.unitPrice,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Product.fromJson(Map<String, dynamic> json, {required String docId}) => Product(
+    id: docId,
     category: json["category"],
     createdOn: json["created_on"],
     imageProduct: json['image_product'] == null ||
@@ -31,6 +34,7 @@ class Product {
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "category": category,
     "created_on": createdOn,
     "image_product": imageProduct,

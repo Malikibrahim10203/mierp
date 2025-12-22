@@ -29,7 +29,14 @@ class LoginRepository extends GetxController {
         return null;
       }
       final data = snapDoc.data() as Map<String, dynamic>;
-      UserModel userModel = UserModel.fromJson(data);
+
+      UserModel userModel = UserModel(
+        uid: uid,
+        email: data['email'],
+        firstName: data['first_name'],
+        lastName: data['last_name'],
+        role: data['role'],
+      );
       return userModel;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

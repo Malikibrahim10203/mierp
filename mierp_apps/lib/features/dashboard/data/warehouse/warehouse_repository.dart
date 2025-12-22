@@ -12,9 +12,9 @@ class WarehouseRepository {
   Future<List<Product?>> getBulkDataStock(collection) async {
     try {
       final snapshot = await firestore.collection(collection).get();
-      
+
       return snapshot.docs.map(
-          (doc)=>Product.fromJson(doc.data())
+          (doc)=>Product.fromJson(doc.data(), docId: doc.id)
       ).toList();
     } catch (e) {
       print(e);
@@ -32,7 +32,7 @@ class WarehouseRepository {
           .get();
 
       final result = snapshot
-          .docs.map((data)=>Product.fromJson(data.data()))
+          .docs.map((data)=>Product.fromJson(data.data(), docId: data.id))
           .toList();
 
       return result;
