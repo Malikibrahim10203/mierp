@@ -10,18 +10,20 @@ import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/core/widgets/add_sales_order/input_select_sales_order_widget.dart';
+import 'package:mierp_apps/core/widgets/add/add_sales_order/input_select_sales_order_widget.dart';
+import 'package:mierp_apps/core/widgets/add/add_warehouse_order/input_select_product_order_widget.dart';
 import 'package:mierp_apps/core/widgets/date_picker_widget.dart';
 import 'package:mierp_apps/core/widgets/input_short_widget.dart';
 import 'package:mierp_apps/core/widgets/input_widget.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_sales_order/add_sales_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_product_order/add_product_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_sales_order/add_sales_order_view_model.dart';
 
-class AddSalesOrder extends StatelessWidget {
-  AddSalesOrder({super.key});
+class AddProductOrderView extends StatelessWidget {
+  AddProductOrderView({super.key});
 
   final movePageC = Get.find<MovePageController>();
   final loadingC = Get.find<LoadingController>();
-  final addSalesOrderVM = Get.put(AddSalesOrderViewModel());
+  final addProductOrderC = Get.put(AddProductOrderViewModel());
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -47,13 +49,12 @@ class AddSalesOrder extends StatelessWidget {
                           child: Column(
                             spacing: 16.h,
                             children: [
-                              InputSelectSalesOrderWidget(head: "Name Product", placeholder: "placeholder", necessary: true, formKey: formKey),
-                              InputWidget(head: "Company Name", controller: addSalesOrderVM.companyNameC, placeholder: "placeholder", necessary: true, formKey: formKey),
+                              InputSelectProductOrderWidget(head: "Name Product", placeholder: "placeholder", necessary: true, formKey: formKey),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  DatePickerWidget(head: "Purchased Date", controller: addSalesOrderVM.purchasedDateC, placeholder: "placeholder", necessary: true, formKey: formKey, isShort: true),
-                                  InputShortWidget(head: "Quantity", controller: addSalesOrderVM.quantityC, placeholder: "placeholder", iconAsset: "box.svg", necessary: true, formKey: formKey),
+                                  DatePickerWidget(head: "Order Date", controller: addProductOrderC.orderDateC, placeholder: "placeholder", necessary: true, formKey: formKey, isShort: true, feature: "product_order",),
+                                  InputShortWidget(head: "Quantity", controller: addProductOrderC.quantityC, placeholder: "placeholder", iconAsset: "box.svg", necessary: true, formKey: formKey),
                                 ],
                               ),
                               SizedBox(height: 140.h,)
@@ -79,7 +80,7 @@ class AddSalesOrder extends StatelessWidget {
                             height: 55.h,
                             child: ElevatedButton(
                               onPressed: () {
-                                addSalesOrderVM.resetControllerInput();
+                                addProductOrderC.resetControllerInput();
                               },
                               child: SvgPicture.asset(
                                 "assets/icons/delete.svg",
@@ -101,8 +102,8 @@ class AddSalesOrder extends StatelessWidget {
                             height: 55.h,
                             child: ElevatedButton(
                               onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  addSalesOrderVM.addSalesOrder();
+                                if (formKey.currentState!.validate() && addProductOrderC.selectedProduct.value != null) {
+                                  addProductOrderC.addProductOrder();
                                 }
                               },
                               child: Text(

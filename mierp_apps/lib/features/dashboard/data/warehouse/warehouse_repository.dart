@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mierp_apps/features/dashboard/model/product.dart';
 import 'package:mierp_apps/features/dashboard/model/order.dart';
 import 'package:get/get.dart';
+import 'package:mierp_apps/features/dashboard/model/sales_order.dart';
 
 class WarehouseRepository {
 
@@ -58,17 +59,103 @@ class WarehouseRepository {
     }
   }
 
+  Future<List<SalesOrder>> searchSalesOrder(collection, searchKey) async {
+    try {
+      final snapshot = await firestore.collection(collection)
+          .where('product_name', isGreaterThanOrEqualTo: searchKey)
+          .where('product_name', isLessThan: '${searchKey}z')
+          .get();
+
+      final result = snapshot.docs.map((data) => SalesOrder.fromJson(data.data())).toList();
+
+      return result;
+    } catch(e) {
+      print(e);
+      return [];
+    }
+  }
+
   Future<List<OrderProduct>> getBulkDataOrder(collection) async {
     try {
       final snapshot = await firestore.collection(collection).get();
 
       return snapshot.docs.map(
-              (doc)=>OrderProduct.fromJson(doc.data())
+              (doc){
+                return OrderProduct.fromJson(doc.data());
+              }
       ).toList();
     } catch (e) {
       print(e);
     }
     return [];
+  }
+
+  Future<List<SalesOrder>> getBulkDataSalesOrder(collection) async {
+    try {
+      final snapshot = await firestore.collection(collection).get();
+
+      return snapshot.docs.map(
+              (doc){
+            print("ini ${doc.data()}");
+            return SalesOrder.fromJson(doc.data());
+          }
+      ).toList();
+    } catch (e) {
+      print(e);
+    }
+    return [];
+  }
+
+  Stream<int> streamGetQtyProduct() {
+    return firestore.collection("products").snapshots().map(
+        (snapshot) {
+          int total = 0;
+          for(var data in snapshot.docs) {
+            total += (data['quantity']) as int;
+          }
+          return total;
+        }
+    );
+  }
+
+  Stream<int> streamGetLowStock() {
+    return firestore.collection("products").snapshots().map(
+        (snapshot) {
+          int total = 0;
+
+          for (var data in snapshot.docs) {
+            if (data['quantity'] <= 5) {
+              total += 1;
+            }
+          }
+
+          return total;
+        }
+    );
+  }
+
+  Stream<int> streamGetUpcomingStock() {
+    return firestore.collection("warehouse_orders").snapshots().map(
+        (snapshot) {
+          int total = 0;
+          for (var data in snapshot.docs) {
+            if (data['finance_approved'] == false) {
+              total += 1;
+            }
+          }
+          return total;
+        }
+    );
+  }
+
+  Future<Product> getSingleProducts(docId) async {
+    try {
+      final snapshot = await firestore.collection("products").doc(docId).get();
+      Product product = Product.fromJson(snapshot.data()!, docId: docId);
+      return product;
+    } catch(e) {
+      rethrow;
+    }
   }
 
   DateTime? parseDate(value) {

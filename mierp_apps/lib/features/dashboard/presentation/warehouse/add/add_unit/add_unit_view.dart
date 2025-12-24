@@ -10,11 +10,11 @@ import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/core/widgets/add_unit/input_selected_add_unit_widget.dart';
+import 'package:mierp_apps/core/widgets/add/add_unit/input_selected_add_unit_widget.dart';
 import 'package:mierp_apps/core/widgets/date_picker_widget.dart';
 import 'package:mierp_apps/core/widgets/input_short_widget.dart';
 import 'package:mierp_apps/core/widgets/input_widget.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view_model.dart';
 
 class AddUnitView extends StatelessWidget {
   AddUnitView({super.key});
@@ -48,7 +48,7 @@ class AddUnitView extends StatelessWidget {
                           InputWidget(head: "Code Product", controller: addUnitVM.productCodeC, placeholder: "placeholder", necessary: true, formKey: formKey),
                           InputWidget(head: "Name Product", controller: addUnitVM.nameProductC, placeholder: "placeholder", necessary: true, formKey: formKey),
                           InputSelectAddUnitWidget(head: "Category Product", placeholder: "placeholder", necessary: true, formKey: formKey),
-                          DatePickerWidget(head: "Created On", controller: addUnitVM.createdOnC, placeholder: "placeholder", necessary: true, formKey: formKey, isShort: false,),
+                          DatePickerWidget(head: "Created On", controller: addUnitVM.createdOnC, placeholder: "placeholder", necessary: true, formKey: formKey, isShort: false, feature: "add_unit",),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

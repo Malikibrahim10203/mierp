@@ -5,16 +5,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/controller_widget/input_widget_controller.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view_model.dart';
+import 'package:mierp_apps/features/dashboard/model/order.dart';
+import 'package:mierp_apps/features/dashboard/model/product.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_product_order/add_product_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_sales_order/add_sales_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
 
-class InputSelectAddUnitWidget extends StatelessWidget {
-  InputSelectAddUnitWidget({super.key, required this.head, required this.placeholder, required this.necessary, required this.formKey});
+class InputSelectProductOrderWidget extends StatelessWidget {
+  InputSelectProductOrderWidget({super.key, required this.head, required this.placeholder, required this.necessary, required this.formKey});
 
   final head, placeholder, necessary, formKey;
   final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
-  final addUnitVM = Get.find<AddUnitViewModel>();
+  final addProductOrderVM = Get.put(AddProductOrderViewModel());
   RxBool hasError = false.obs;
   RxString dataError = "".obs;
 
@@ -73,25 +78,39 @@ class InputSelectAddUnitWidget extends StatelessWidget {
                 ],
               ),
               child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
+                child: DropdownButton<Product>(
                   dropdownColor: Colors.white,
+                  isExpanded: true,
                   borderRadius: BorderRadius.circular(6.w),
+                  hint: Container(
+                    width: 320.w,
+                    child: Text(
+                      "-- Select --",
+                      style: GoogleFonts.inter(
+                        fontSize: 13.sp,
+                        fontWeight: AppFontWeight.regular,
+                        height: 1.0,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   icon: Padding(
-                    padding: EdgeInsets.only(left: 190.w),
+                    padding: EdgeInsets.only(right: 10.w),
                     child: Icon(Icons.arrow_drop_down),
                   ),
-                  value: addUnitVM.categoryProductC.value,
+                  value: addProductOrderVM.selectedProduct.value,
                   onChanged: (value) {
-                    addUnitVM.categoryProductC.value = value!;
+                    addProductOrderVM.selectedProduct.value = value!;
+                    print(value.id);
                   },
-                  items: <String>['electronics','automotive'].map<DropdownMenuItem<String>>(
-                          (String value) {
+                  items: addProductOrderVM.listProduct.value.map<DropdownMenuItem<Product>>(
+                          (Product? value) {
                         return DropdownMenuItem(
                           value: value,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
                             child: Text(
-                              value,
+                              value!.productName,
                               style: GoogleFonts.inter(
                                 fontSize: 13.sp,
                                 fontWeight: AppFontWeight.regular,

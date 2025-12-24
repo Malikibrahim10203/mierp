@@ -6,14 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/controller_widget/input_widget_controller.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_sales_order/add_sales_order_view_model.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_product_order/add_product_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_sales_order/add_sales_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
 class DatePickerWidget extends StatelessWidget {
-  DatePickerWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.formKey, required this.isShort});
+  DatePickerWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.formKey, required this.isShort, required this.feature});
 
-  final head, controller, placeholder, necessary, formKey, isShort;
+  final head, controller, placeholder, necessary, formKey, isShort, feature;
   final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
   RxBool hasError = false.obs;
   RxString dataError = "".obs;
@@ -78,8 +79,13 @@ class DatePickerWidget extends StatelessWidget {
                 },
                 onTap: () {
                   if(isShort){
-                    final addSalesOrderVM = Get.find<AddSalesOrderViewModel>();
-                    addSalesOrderVM.showDate(context);
+                    if(feature == "sales_order"){
+                      final addSalesOrderVM = Get.find<AddSalesOrderViewModel>();
+                      addSalesOrderVM.showDate(context);
+                    } else {
+                      final addProductOrder = Get.find<AddProductOrderViewModel>();
+                      addProductOrder.showDate(context);
+                    }
                   } else {
                     final addUnitVM = Get.find<AddUnitViewModel>();
                     addUnitVM.showDate(context);

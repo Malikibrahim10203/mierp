@@ -196,29 +196,24 @@ class SummaryView extends StatelessWidget {
                   return Expanded(
                     child: SingleChildScrollView(
                       child: Column(
+                        spacing: 10.w,
                         children: warehouseVM.listProduct.map((data) {
-                          return Column(
-                            children: [
-                              CardStock(idBarang: data!.productCode,
-                                  namaBarang: data!.productName,
-                                  quantity: data!.quantity,
-                                  unitPrice: data!.unitPrice,
-                                  lineTotal: data!.unitPrice *
-                                      data!.quantity,
-                                  type: data!.category),
-                              SizedBox(
-                                height: 10.w,
-                              ),
-                            ],
-                          );
+                          return CardStock(idBarang: data!.productCode,
+                              namaBarang: data!.productName,
+                              quantity: data!.quantity,
+                              unitPrice: data!.unitPrice,
+                              lineTotal: data!.unitPrice *
+                                  data!.quantity,
+                              type: data!.category);
                         }).toList(),
                       ),
                     ),
                   );
-                } else {
+                } else if (summaryVM.collection.value == "warehouse_orders") {
                   return Expanded(
                     child: SingleChildScrollView(
                       child: Column(
+                        spacing: 10.w,
                         children: warehouseVM.listOrder.map(
                               (data) {
                             return CardOrder(idBarang: data!.productCode,
@@ -227,10 +222,30 @@ class SummaryView extends StatelessWidget {
                                 createdOn: data!.orderDate,
                                 nameUser: data!.firstName,
                                 quantity: data!.quantity,
-                                unitPrice: "",
+                                unitPrice: data!.unitPrice,
                                 lineTotal: data!.totalCost);
                           },
                         ).toList(),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        spacing: 10.w,
+                        children: warehouseVM.listSalesOrder.map((
+                            data) =>
+                            CardOrder(
+                                idBarang: data!.productCode,
+                                namaBarang: data!.productName,
+                                financeApproved: data!.financeApproved,
+                                createdOn: data!.purchasedDate,
+                                nameUser: data!.firstName,
+                                quantity: data!.quantity,
+                                unitPrice: data!.unitPrice,
+                                lineTotal: data!.totalPrice
+                            ),).toList(),
                       ),
                     ),
                   );

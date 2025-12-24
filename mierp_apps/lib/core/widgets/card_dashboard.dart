@@ -3,11 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
+import 'package:get/get.dart';
 
 class CardDashboard extends StatelessWidget {
-  CardDashboard({super.key, required this.nameBox, required this.description, required this.totalItems, required this.urgent});
+  CardDashboard(
+      {super.key, required this.nameBox, required this.description, required this.totalItems, required this.urgent});
 
-  final nameBox, description, totalItems, urgent;
+  final nameBox, description, urgent;
+  RxInt totalItems;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +29,16 @@ class CardDashboard extends StatelessWidget {
                 height: 109.h,
                 padding: EdgeInsets.only(top: 14.h, left: 17.w, right: 17.w),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.w),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.shadowBox,
-                      spreadRadius: -3.w,
-                      offset: Offset(0, 4),
-                      blurRadius: 21.w,
-                    )
-                  ]
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.w),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.shadowBox,
+                        spreadRadius: -3.w,
+                        offset: Offset(0, 4),
+                        blurRadius: 21.w,
+                      )
+                    ]
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,20 +69,22 @@ class CardDashboard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          totalItems,
-                          style: GoogleFonts.inter(
-                            fontSize: 14.sp,
-                            fontWeight: AppFontWeight.medium,
-                            color: AppColors.charcoal,
-                          ),
-                        ),
-                        urgent?Container(
+                        Obx(() {
+                          return Text(
+                            "${totalItems.toString()} units",
+                            style: GoogleFonts.inter(
+                              fontSize: 14.sp,
+                              fontWeight: AppFontWeight.medium,
+                              color: AppColors.charcoal,
+                            ),
+                          );
+                        }),
+                        urgent ? Container(
                           width: 37.44.w,
                           height: 14.62.h,
                           decoration: BoxDecoration(
-                            color: Color(0xFFD6F4FF),
-                            borderRadius: BorderRadius.circular(10.w)
+                              color: Color(0xFFD6F4FF),
+                              borderRadius: BorderRadius.circular(10.w)
                           ),
                           child: Center(
                             child: Text(
@@ -91,7 +96,7 @@ class CardDashboard extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ):SizedBox(),
+                        ) : SizedBox(),
                       ],
                     ),
                   ],
@@ -115,7 +120,7 @@ class CardDashboard extends StatelessWidget {
                     blurRadius: 8.2.w,
                   )
                 ],
-                border: Border.all(color: Colors.white,width: 2.w),
+                border: Border.all(color: Colors.white, width: 2.w),
               ),
               child: Center(
                 child: Container(

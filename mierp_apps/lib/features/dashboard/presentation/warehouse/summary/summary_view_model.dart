@@ -11,7 +11,7 @@ class SummaryViewModel extends GetxController {
   final tabs = [
     TabItem("All Summary", true.obs, "products"),
     TabItem("Order", false.obs, "warehouse_orders"),
-    TabItem("Sales Order", false.obs, "warehouse_orders"),
+    TabItem("Sales Order", false.obs, "sales_orders"),
     TabItem("Stock", false.obs, "products"),
   ];
 
@@ -30,11 +30,12 @@ class SummaryViewModel extends GetxController {
     for(var tab in tabs) {
       tab.isActive.value = false;
     }
-    if(selected.collection == "products") {
-      warehouseVM.loadAllDataStock();
-    }
-    if(selected.collection == "warehouse_orders") {
+    if (selected.collection == "warehouse_orders") {
       warehouseVM.loadAllDataOrder();
+    } else if (selected.collection == "products") {
+      warehouseVM.loadAllDataStock();
+    } else {
+      warehouseVM.loadAllDataSalesOrder();
     }
     collection.value = selected.collection;
     selected.isActive.value = true;
@@ -42,7 +43,8 @@ class SummaryViewModel extends GetxController {
 
   Future<void> searchItems() async {
     print(collection.value);
-    if(collection.value=="products"){
+
+    if (collection.value=="products"){
       final result = await warehouseRepository.searchProducts(collection.value, searchKeyC.text);
       if(result.isNotEmpty){
         warehouseVM.listProduct.clear();
@@ -54,7 +56,9 @@ class SummaryViewModel extends GetxController {
           warehouseVM.loadAllDataStock();
         }
       }
-    } else {
+    }
+
+    if (collection.value == "warehouse_orders") {
       final result = await warehouseRepository.searchOrder(collection.value, searchKeyC.text);
       if(result.isNotEmpty){
         warehouseVM.listOrder.clear();
@@ -67,5 +71,20 @@ class SummaryViewModel extends GetxController {
         }
       }
     }
+
+    if (collection.value == "sales_orders") {
+      final result = await warehouseRepository.searchSalesOrder(collection.value, searchKeyC.text);
+      if(result.isNotEmpty){
+        warehouseVM.listSalesOrder.clear();
+        warehouseVM.listSalesOrder.addAll(result);
+      }else{
+        if(searchKeyC.text.isNotEmpty){
+          warehouseVM.listSalesOrder.clear();
+        }else{
+          warehouseVM.loadAllDataSalesOrder();
+        }
+      }
+    }
+
   }
 }

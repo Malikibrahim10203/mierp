@@ -2,8 +2,9 @@ import 'package:get/get.dart';
 import 'package:mierp_apps/core/routing/middleware/login_middleware.dart';
 import 'package:mierp_apps/features/dashboard/presentation/dashboard_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_sales_order/add_sales_order_view.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/add_unit/add_unit_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_product_order/add_product_order_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_sales_order/add_sales_order_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/dashboard_warehouse_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';
 import 'package:mierp_apps/features/login/presentation/login_view.dart';
@@ -32,5 +33,6 @@ class AppRoutes {
       GetPage(name: "/summary", page: () => SummaryView()),
       GetPage(name: "/add_unit", page: () => AddUnitView()),
       GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
+      GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
   ];
 }

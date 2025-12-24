@@ -9,7 +9,7 @@ class AddSalesOrderRepository {
   
   Future<void> addSalesOrderToFireStore(SalesOrder salesOrder) async {
     try {
-      await firestore.collection("sales_order").add({
+      await firestore.collection("sales_orders").add({
         "company_name": salesOrder.companyName,
         "finance_approved": salesOrder.financeApproved,
         "finance_approved_date": salesOrder.financeApprovedDate,
