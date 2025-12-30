@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -7,9 +8,13 @@ import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
+import 'package:mierp_apps/core/widgets/bottom_navbar_helper.dart';
 import 'package:mierp_apps/core/widgets/card_dashboard.dart';
 import 'package:mierp_apps/core/widgets/card_order.dart';
 import 'package:mierp_apps/core/widgets/card_stock.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_product/detail_product_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_product_order/detail_product_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_sales_order/detail_sales_order_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
@@ -529,6 +534,7 @@ class DashboardWarehouseView extends StatelessWidget {
                                     .map((product) =>
                                     GestureDetector(
                                       onTap: () {
+                                        Get.toNamed("/detail_product", arguments: product.id);
                                         print(product.id);
                                       },
                                       child: CardStock(
@@ -553,15 +559,21 @@ class DashboardWarehouseView extends StatelessWidget {
                               spacing: 10.w,
                               children: warehouseVM.listOrder.take(2).map(
                                       (data) {
-                                    return CardOrder(
-                                        idBarang: data!.productCode,
-                                        namaBarang: data!.productName,
-                                        financeApproved: data!.financeApproved,
-                                        createdOn: data!.orderDate,
-                                        nameUser: data!.firstName,
-                                        quantity: data!.quantity,
-                                        unitPrice: data!.unitPrice,
-                                        lineTotal: data!.totalCost);
+                                    return GestureDetector(
+                                      onTap: () {
+                                        final detailVM = Get.put(DetailProductOrderViewModel());
+                                        detailVM.requestSingleProductOrder(data.id);
+                                      },
+                                      child: CardOrder(
+                                          idBarang: data!.productCode,
+                                          namaBarang: data!.productName,
+                                          financeApproved: data!.financeApproved,
+                                          createdOn: data!.orderDate,
+                                          nameUser: data!.firstName,
+                                          quantity: data!.quantity,
+                                          unitPrice: data!.unitPrice,
+                                          lineTotal: data!.totalCost),
+                                    );
                                   }
                               ).toList(),
                             );
@@ -576,7 +588,8 @@ class DashboardWarehouseView extends StatelessWidget {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-
+                                        final detailVM = Get.put(DetailSalesOrderViewModel());
+                                        detailVM.requestSingleSalesOrder(data.id);
                                       },
                                       child: CardOrder(
                                           idBarang: data!.productCode,
@@ -617,6 +630,21 @@ class DashboardWarehouseView extends StatelessWidget {
               child: Center(child: LoadingAnimationWidget.stretchedDots(
                 color: AppColors.softWhite, size: 70.w,))) : SizedBox(),)
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        padding: EdgeInsetsGeometry.only(left: 16.w, right: 16.w, top: 12.w, bottom: 6.w),
+        height: 58.w,
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
+            BottomAppBarHelper(icon: "assets/icons/search-normal.svg"),
+            BottomAppBarHelper(icon: "assets/icons/graph.svg"),
+            BottomAppBarHelper(icon: "assets/icons/clock.svg"),
+            BottomAppBarHelper(icon: "assets/icons/user.svg")
+          ],
+        ),
       ),
     );
   }

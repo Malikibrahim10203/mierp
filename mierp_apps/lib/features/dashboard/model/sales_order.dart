@@ -1,19 +1,21 @@
 class SalesOrder {
+  String? id;
   String companyName;
   bool? financeApproved;
-  String financeApprovedDate;
+  String? financeApprovedDate;
   String firstName;
   bool? paymentStatus;
   String productCode;
   String productId;
   String productName;
   String purchasedDate;
-  String quantity;
-  String totalPrice;
-  String unitPrice;
+  int quantity;
+  int totalPrice;
+  int unitPrice;
   String userId;
 
   SalesOrder({
+    required this.id,
     required this.companyName,
     required this.financeApproved,
     required this.financeApprovedDate,
@@ -29,10 +31,11 @@ class SalesOrder {
     required this.userId,
   });
 
-  factory SalesOrder.fromJson(Map<String, dynamic> json) => SalesOrder(
+  factory SalesOrder.fromJson(Map<String, dynamic> json, {required String? docId}) => SalesOrder(
+    id: docId,
     companyName: json["company_name"],
     financeApproved: json["finance_approved"],
-    financeApprovedDate: json["finance_approved_date"],
+    financeApprovedDate: json["finance_approved_date"]??'',
     firstName: json["first_name"],
     paymentStatus: json["payment_status"],
     productCode: json["product_code"],
@@ -46,6 +49,7 @@ class SalesOrder {
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "company_name": companyName,
     "finance_approved": financeApproved,
     "finance_approved_date": financeApprovedDate,

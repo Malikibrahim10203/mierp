@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mierp_apps/core/controller/convertDollar.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
@@ -13,6 +14,7 @@ class CardStock extends StatelessWidget {
   final idBarang, namaBarang, quantity, unitPrice, lineTotal, type;
 
   final warehouseVM = Get.find<WarehouseViewModel>();
+  final converDollar = ConvertDollar();
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +132,7 @@ class CardStock extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          unitPrice.toString(),
+                                          converDollar.intToDollar(unitPrice),
                                           style: GoogleFonts.inter(
                                             fontSize: 10.sp,
                                             fontWeight: AppFontWeight.regular,

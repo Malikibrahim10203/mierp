@@ -23,7 +23,7 @@ class DatePickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return Container(
-        width: 146.w,
+        width: isShort? 145.w: 335.w,
         height: 93.w,
         child: Column(
           children: [
@@ -51,7 +51,6 @@ class DatePickerWidget extends StatelessWidget {
             ),
             SizedBox(height: 8.w,),
             Container(
-              width: isShort? 145.w: 335.w,
               // height: 45.w,
               height: 45.w,
               decoration: BoxDecoration(

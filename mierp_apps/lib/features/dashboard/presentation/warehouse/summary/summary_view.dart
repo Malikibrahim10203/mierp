@@ -3,12 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mierp_apps/core/controller/convertDollar.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/card_order.dart';
+import 'package:mierp_apps/core/widgets/card_sales.dart';
 import 'package:mierp_apps/core/widgets/card_stock.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_product_order/detail_product_order_view_model.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_sales_order/detail_sales_order_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 
@@ -19,6 +23,7 @@ class SummaryView extends StatelessWidget {
   final summaryVM = Get.find<SummaryViewModel>();
   final movePageC = Get.find<MovePageController>();
   final loadingC = Get.find<LoadingController>();
+  final convertDollar = ConvertDollar();
 
   @override
   Widget build(BuildContext context) {
@@ -198,15 +203,20 @@ class SummaryView extends StatelessWidget {
                       child: Column(
                         spacing: 10.w,
                         children: warehouseVM.listProduct.map((data) {
-                          return CardStock(idBarang: data!.productCode,
-                              namaBarang: data!.productName,
-                              quantity: data!.quantity,
-                              unitPrice: data!.unitPrice,
-                              lineTotal: data!.unitPrice *
-                                  data!.quantity,
-                              type: data!.category);
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed("/detail_product", arguments: data.id);
+                            },
+                            child: CardStock(idBarang: data!.productCode,
+                                namaBarang: data!.productName,
+                                quantity: data!.quantity,
+                                unitPrice: data!.unitPrice,
+                                lineTotal: data!.unitPrice *
+                                    data!.quantity,
+                                type: data!.category),
+                          );
                         }).toList(),
-                      ),
+                      ).paddingOnly(top: 12.w, bottom: 24.w),
                     ),
                   );
                 } else if (summaryVM.collection.value == "warehouse_orders") {
@@ -216,17 +226,23 @@ class SummaryView extends StatelessWidget {
                         spacing: 10.w,
                         children: warehouseVM.listOrder.map(
                               (data) {
-                            return CardOrder(idBarang: data!.productCode,
-                                namaBarang: data!.productName,
-                                financeApproved: data!.financeApproved,
-                                createdOn: data!.orderDate,
-                                nameUser: data!.firstName,
-                                quantity: data!.quantity,
-                                unitPrice: data!.unitPrice,
-                                lineTotal: data!.totalCost);
+                            return GestureDetector(
+                              onTap: () {
+                                final detailProductOrder = Get.put(DetailProductOrderViewModel());
+                                detailProductOrder.requestSingleProductOrder(data.id);
+                              },
+                              child: CardOrder(idBarang: data!.productCode,
+                                  namaBarang: data!.productName,
+                                  financeApproved: data!.financeApproved,
+                                  createdOn: data!.orderDate,
+                                  nameUser: data!.firstName,
+                                  quantity: data!.quantity,
+                                  unitPrice: data!.unitPrice,
+                                  lineTotal: data!.totalCost),
+                            );
                           },
                         ).toList(),
-                      ),
+                      ).paddingOnly(top: 12.w, bottom: 24.w),
                     ),
                   );
                 } else {
@@ -236,7 +252,12 @@ class SummaryView extends StatelessWidget {
                         spacing: 10.w,
                         children: warehouseVM.listSalesOrder.map((
                             data) =>
-                            CardOrder(
+                            GestureDetector(
+                              onTap: () {
+                                final detailSalesOrderVM = Get.put(DetailSalesOrderViewModel());
+                                detailSalesOrderVM.requestSingleSalesOrder(data.id);
+                              },
+                              child: CardSales(
                                 idBarang: data!.productCode,
                                 namaBarang: data!.productName,
                                 financeApproved: data!.financeApproved,
@@ -244,9 +265,11 @@ class SummaryView extends StatelessWidget {
                                 nameUser: data!.firstName,
                                 quantity: data!.quantity,
                                 unitPrice: data!.unitPrice,
-                                lineTotal: data!.totalPrice
+                                lineTotal: data!.totalPrice,
+                                nameCustomer: data!.companyName,
+                              ),
                             ),).toList(),
-                      ),
+                      ).paddingOnly(top: 12.w, bottom: 24.w),
                     ),
                   );
                 }

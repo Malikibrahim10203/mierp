@@ -50,7 +50,7 @@ class WarehouseRepository {
           .where('product_name', isLessThan: '${searchKey}z')
           .get();
 
-      final result = snapshot.docs.map((data) => OrderProduct.fromJson(data.data())).toList();
+      final result = snapshot.docs.map((data) => OrderProduct.fromJson(data.data(), docId: data.id)).toList();
 
       return result;
     } catch(e) {
@@ -66,7 +66,7 @@ class WarehouseRepository {
           .where('product_name', isLessThan: '${searchKey}z')
           .get();
 
-      final result = snapshot.docs.map((data) => SalesOrder.fromJson(data.data())).toList();
+      final result = snapshot.docs.map((data) => SalesOrder.fromJson(data.data(),docId: data.id)).toList();
 
       return result;
     } catch(e) {
@@ -81,7 +81,7 @@ class WarehouseRepository {
 
       return snapshot.docs.map(
               (doc){
-                return OrderProduct.fromJson(doc.data());
+                return OrderProduct.fromJson(doc.data(), docId: doc.id);
               }
       ).toList();
     } catch (e) {
@@ -97,7 +97,7 @@ class WarehouseRepository {
       return snapshot.docs.map(
               (doc){
             print("ini ${doc.data()}");
-            return SalesOrder.fromJson(doc.data());
+            return SalesOrder.fromJson(doc.data(), docId: doc.id);
           }
       ).toList();
     } catch (e) {
@@ -146,16 +146,6 @@ class WarehouseRepository {
           return total;
         }
     );
-  }
-
-  Future<Product> getSingleProducts(docId) async {
-    try {
-      final snapshot = await firestore.collection("products").doc(docId).get();
-      Product product = Product.fromJson(snapshot.data()!, docId: docId);
-      return product;
-    } catch(e) {
-      rethrow;
-    }
   }
 
   DateTime? parseDate(value) {

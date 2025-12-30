@@ -71,7 +71,7 @@ class CardDashboard extends StatelessWidget {
                       children: [
                         Obx(() {
                           return Text(
-                            "${totalItems.toString()} units",
+                            nameBox == "Total Qty"?"${totalItems.toString()} Items":"${totalItems.toString()} units",
                             style: GoogleFonts.inter(
                               fontSize: 14.sp,
                               fontWeight: AppFontWeight.medium,

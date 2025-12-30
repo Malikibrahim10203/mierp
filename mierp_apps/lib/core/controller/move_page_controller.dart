@@ -12,4 +12,20 @@ class MovePageController extends GetxController {
       return Get.offAllNamed(page);
     });
   }
+
+  Future<void> movePageWithBack(page) async {
+    loading.showLoading();
+    Future.delayed(Duration(seconds: 1,), () async {
+      loading.hideLoading();
+      return Get.toNamed(page);
+    });
+  }
+
+  Future<void> movePageBack() async {
+    loading.showLoading();
+    Future.delayed(Duration(seconds: 1,), () async {
+      loading.hideLoading();
+      return Get.back();
+    });
+  }
 }

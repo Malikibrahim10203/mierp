@@ -6,10 +6,10 @@ import 'package:mierp_apps/core/controller/convertDollar.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 
-class CardOrder extends StatelessWidget {
-  CardOrder({super.key, required this.idBarang, required this.namaBarang, required this.financeApproved, required this.createdOn, required this.nameUser, required this.quantity, required this.unitPrice, required this.lineTotal});
+class CardSales extends StatelessWidget {
+  CardSales({super.key, required this.idBarang, required this.namaBarang, required this.financeApproved, required this.createdOn, required this.nameUser, required this.quantity, required this.unitPrice, required this.lineTotal, required this.nameCustomer});
 
-  final idBarang, namaBarang, financeApproved, createdOn, nameUser, quantity, unitPrice, lineTotal;
+  final idBarang, namaBarang, financeApproved, createdOn, nameUser, quantity, unitPrice, lineTotal, nameCustomer;
   
   final converDollar = ConvertDollar();
 
@@ -80,7 +80,7 @@ class CardOrder extends StatelessWidget {
                               ),
                               child: Center(
                                 child: Text(
-                                  "Account Payables",
+                                  "Account Receivables",
                                   style: GoogleFonts.inter(
                                       fontSize: 7.sp,
                                       fontWeight: AppFontWeight.regular,
@@ -167,10 +167,45 @@ class CardOrder extends StatelessWidget {
               ),
               SizedBox(height: 13.w,),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
+                    spacing: 20.w,
                     children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            constraints: BoxConstraints(
+                              maxWidth: 68.w,
+                              minWidth: 50.w
+                            ),
+                            child: Text(
+                              "To",
+                              style: GoogleFonts.inter(
+                                fontSize: 8.sp,
+                                fontWeight: AppFontWeight.light,
+                                color: AppColors.gray,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Container(
+                            constraints: BoxConstraints(
+                                maxWidth: 68.w,
+                                minWidth: 50.w
+                            ),
+                            child: Text(
+                              nameCustomer,
+                              style: GoogleFonts.inter(
+                                fontSize: 12.sp,
+                                fontWeight: AppFontWeight.medium,
+                                color: AppColors.gray,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -183,107 +218,96 @@ class CardOrder extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            //"Warehouse",
-                            nameUser,
+                            "Warehouse",
                             style: GoogleFonts.inter(
                               fontSize: 12.sp,
                               fontWeight: AppFontWeight.medium,
                               color: AppColors.gray,
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 23.w,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Quantity",
-                            style: GoogleFonts.inter(
-                              fontSize: 8.sp,
-                              fontWeight: AppFontWeight.light,
-                              color: AppColors.gray,
-                            ),
-                          ),
-                          Text(
-                            quantity.toString(),
-                            style: GoogleFonts.inter(
-                              fontSize: 10.sp,
-                              fontWeight: AppFontWeight.regular,
-                              color: AppColors.gray,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 9.w,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Unit Price",
-                            style: GoogleFonts.inter(
-                              fontSize: 8.sp,
-                              fontWeight: AppFontWeight.light,
-                              color: AppColors.gray,
-                            ),
-                          ),
-                          Text(
-                            converDollar.intToDollar(unitPrice),
-                            style: GoogleFonts.inter(
-                              fontSize: 10.sp,
-                              fontWeight: AppFontWeight.regular,
-                              color: AppColors.gray,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 9.w,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Line Total",
-                            style: GoogleFonts.inter(
-                              fontSize: 8.sp,
-                              fontWeight: AppFontWeight.light,
-                              color: AppColors.gray,
-                            ),
-                          ),
-                          Text(
-                            converDollar.intToDollar(lineTotal),
-                            style: GoogleFonts.inter(
-                              fontSize: 10.sp,
-                              fontWeight: AppFontWeight.regular,
-                              color: AppColors.gray,
-                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
                     ],
                   ),
-                  Container(
-                    width: 80.w,
-                    height: 24.81.h,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.w)
+                  SizedBox(width: 23.w,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Quantity",
+                        style: GoogleFonts.inter(
+                          fontSize: 8.sp,
+                          fontWeight: AppFontWeight.light,
+                          color: AppColors.gray,
                         ),
-                        backgroundColor: AppColors.coolGray,
-                        padding: EdgeInsets.all(0)
                       ),
-                      onPressed: null,
-                      child: Center(
+                      SizedBox(width: 9.w,),
+                      Container(
+                        width: 32.w,
                         child: Text(
-                          "Pay Invoice",
+                          quantity.toString(),
                           style: GoogleFonts.inter(
-                            fontSize: 9.sp,
-                            color: Colors.white,
-                            fontWeight: AppFontWeight.medium,
+                            fontSize: 10.sp,
+                            fontWeight: AppFontWeight.regular,
+                            color: AppColors.gray,
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
+                    ],
+                  ),
+                  SizedBox(width: 9.w,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Unit Price",
+                        style: GoogleFonts.inter(
+                          fontSize: 8.sp,
+                          fontWeight: AppFontWeight.light,
+                          color: AppColors.gray,
+                        ),
+                      ),
+                      Container(
+                        width: 32.w,
+                        child: Text(
+                          converDollar.intToDollar(unitPrice),
+                          style: GoogleFonts.inter(
+                            fontSize: 10.sp,
+                            fontWeight: AppFontWeight.regular,
+                            color: AppColors.gray,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 9.w,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Line Total",
+                        style: GoogleFonts.inter(
+                          fontSize: 8.sp,
+                          fontWeight: AppFontWeight.light,
+                          color: AppColors.gray,
+                        ),
+                      ),
+                      Container(
+                        width: 32.w,
+                        child: Text(
+                          converDollar.intToDollar(lineTotal),
+                          style: GoogleFonts.inter(
+                            fontSize: 10.sp,
+                            fontWeight: AppFontWeight.regular,
+                            color: AppColors.gray,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

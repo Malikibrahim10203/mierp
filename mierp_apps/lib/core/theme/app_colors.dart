@@ -34,6 +34,7 @@ class AppColors {
   static const shadowBox2 = Color(0xFFE8E8E8);
   static const purpleTransparent = Color(0xFFEEF1FF);
   static const blueBold = Color(0xFF001EA5);
+  static const cream = Color(0xFFC0A546);
 
   static const grayDashline = Color(0xFFEEEEEE);
   static const purpleShadow = Color(0xffE3DBFF);

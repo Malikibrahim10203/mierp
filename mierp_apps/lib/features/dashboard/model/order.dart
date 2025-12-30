@@ -1,4 +1,5 @@
 class OrderProduct {
+  String? id;
   bool? financeApproved;
   DateTime? financeApprovedDate;
   String? orderDate;
@@ -12,6 +13,7 @@ class OrderProduct {
   String firstName;
 
   OrderProduct({
+    required this.id,
     required this.financeApproved,
     required this.financeApprovedDate,
     required this.orderDate,
@@ -25,8 +27,9 @@ class OrderProduct {
     required this.firstName,
   });
 
-  factory OrderProduct.fromJson(Map<String, dynamic> json) => OrderProduct(
-    financeApproved: json["finance_approved"]??'',
+  factory OrderProduct.fromJson(Map<String, dynamic> json, {required String? docId}) => OrderProduct(
+    id: docId,
+    financeApproved: json["finance_approved"]??false,
     financeApprovedDate: json["finance_approved_date"] != null? DateTime.tryParse(json["finance_approved_date"]):null,
     orderDate: json["order_date"],
     productId: json["product_id"],
@@ -40,7 +43,8 @@ class OrderProduct {
   );
 
   Map<String, dynamic> toJson() => {
-    "finance_approved": financeApproved!,
+    "id": id,
+    "finance_approved": financeApproved! ,
     "finance_approved_date": financeApprovedDate!.toIso8601String(),
     "order_date": orderDate!,
     "product_id": productId,

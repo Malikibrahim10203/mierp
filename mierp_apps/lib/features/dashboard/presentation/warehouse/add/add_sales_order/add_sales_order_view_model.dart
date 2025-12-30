@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/features/dashboard/data/warehouse/add_sales_order_repository.dart';
+import 'package:mierp_apps/features/dashboard/data/warehouse/add/add_sales_order_repository.dart';
 import 'package:mierp_apps/features/dashboard/data/warehouse/warehouse_repository.dart';
 import 'package:mierp_apps/features/dashboard/model/product.dart';
 import 'package:mierp_apps/features/dashboard/model/sales_order.dart';
@@ -76,6 +76,7 @@ class AddSalesOrderViewModel extends GetxController {
       }
 
       SalesOrder salesOrder = SalesOrder(
+        id: "",
         companyName: companyNameC.text,
         financeApproved: false,
         financeApprovedDate: financeApprovedDate.text,
@@ -85,9 +86,9 @@ class AddSalesOrderViewModel extends GetxController {
         productId: productIdC!,
         productName: nameProductC!,
         purchasedDate: purchasedDateC.text,
-        quantity: quantityC.text,
-        totalPrice: totalCostC!,
-        unitPrice: unitPrice!,
+        quantity: int.parse(quantityC.text),
+        totalPrice: int.parse(totalCostC!),
+        unitPrice: int.parse(unitPrice!),
         userId: dataUser['uid'],
       );
 
