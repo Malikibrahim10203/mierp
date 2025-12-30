@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:mierp_apps/core/routing/middleware/login_middleware.dart';
 import 'package:mierp_apps/features/dashboard/presentation/dashboard_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/profile/profile_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_product_order/add_product_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_sales_order/add_sales_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view.dart';
@@ -31,6 +32,8 @@ class AppRoutes {
         page: () => DashboardFinanceView(),
         middlewares: [LoginMiddleware()]
       ),
+
+      GetPage(name: "/profile", page: () => ProfileView()),
 
       // Warehouse
       GetPage(name: "/summary", page: () => SummaryView()),

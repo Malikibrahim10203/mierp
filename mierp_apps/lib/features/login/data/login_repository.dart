@@ -143,7 +143,6 @@ class LoginRepository extends GetxController {
         return null;
       };
       final docJson = snapDoc.data() as Map<String, dynamic>;
-      print(authFirebase.currentUser!.providerData);
       return UserModel.fromJson(docJson);
     } catch(e) {
       print("Google Login Error: $e");

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 
@@ -46,12 +48,15 @@ Widget MainBottomAppBarHelper({required String icon, required String label}) {
   );
 }
 
-Widget BottomAppBarHelper({required String icon}) {
+Widget BottomAppBarHelper({required String icon, required String page}) {
+  final movePageC = Get.find<MovePageController>();
   return Material(
     color: Colors.transparent,
     child: InkWell(
       borderRadius: BorderRadius.circular(20.w),
-      onTap: (){},
+      onTap: (){
+        movePageC.movePageWithBack(page);
+      },
       child: Container(
         width: 55.w,
         height: 40.w,

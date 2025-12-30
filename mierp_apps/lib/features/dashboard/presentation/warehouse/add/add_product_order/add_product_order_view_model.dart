@@ -87,7 +87,7 @@ class AddProductOrderViewModel extends GetxController {
         totalCost: int.parse(totalCostC!),
         unitPrice: selectedProduct.value!.unitPrice,
         userId: userModel.uid.toString(),
-        firstName: userModel.firstName,
+        firstName: userModel.firstName!,
       );
 
       await addProductOrderR.addProductOrderToFireStore(orderProduct);

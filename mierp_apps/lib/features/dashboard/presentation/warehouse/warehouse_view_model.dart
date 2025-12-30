@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/features/dashboard/data/warehouse/warehouse_repository.dart';
@@ -10,6 +11,8 @@ import 'package:mierp_apps/features/dashboard/model/sales_order.dart';
 import 'package:mierp_apps/features/dashboard/model/tab_item.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/dashboard_warehouse_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';
+import 'package:mierp_apps/features/login/data/login_repository.dart';
+import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,7 +68,7 @@ class WarehouseViewModel extends GetxController {
   Future<void> getUserData() async {
     try {
       UserModel? userModel = await userDataC.getDataUser();
-      userName.value = userModel!.firstName + " " + userModel!.lastName;
+      userName.value = userModel!.firstName! + " " + userModel!.lastName!;
 
     } catch(e) {
       Get.snackbar("Failed", "$e");
@@ -101,10 +104,6 @@ class WarehouseViewModel extends GetxController {
       DashboardWarehouseView(),
       SummaryView()
     ];
-  }
-
-  Future<void> getSingleProducts() async {
-
   }
 
   List<PersistentBottomNavBarItem> navbarItems() {

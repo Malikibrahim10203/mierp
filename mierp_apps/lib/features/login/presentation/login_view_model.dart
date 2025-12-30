@@ -66,6 +66,7 @@ class LoginViewModel extends GetxController {
       final dataUserRaw = jsonEncode(result);
       await prefs.setString('user', dataUserRaw);
       print("Saved User: ${prefs.getString("user")}");
+      loadingC.showLoading();
       user.value = result;
       Future.delayed(Duration(seconds: 3), () {
         loadingC.hideLoading();
@@ -76,7 +77,18 @@ class LoginViewModel extends GetxController {
         }
       });
     }catch(e) {
-      print("object");
+      print("Error Google login VM");
+    }
+  }
+
+  Future<void> linkAcccountToGoogle() async {
+    try {
+      final linkVM = Get.find<LoginRepository>();
+      loadingC.showLoading();
+      await linkVM.linkToAnotherAccount();
+      Future.delayed(Duration(seconds: 2), () => loadingC.hideLoading());
+    } catch(e) {
+      Get.snackbar("Failed", "Link account to Google");
     }
   }
 
@@ -84,8 +96,12 @@ class LoginViewModel extends GetxController {
 
   Future<void> logout() async {
     try {
-      await repo.authFirebase.signOut();
-      await repo.googleSignIn.signOut();
+      loadingC.showLoading();
+      Future.delayed(Duration(seconds: 2), () async {
+        await repo.authFirebase.signOut();
+        await repo.googleSignIn.signOut();
+      });
+      loadingC.hideLoading();
       Get.offAllNamed("/login");
       print('User signed out successfully.');
     } catch(e) {

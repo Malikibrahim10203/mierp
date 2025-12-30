@@ -37,11 +37,11 @@ class DashboardWarehouseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.bgColor,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: AppColors.bgColor,
+          body: SingleChildScrollView(
             child: Column(
               children: [
                 Stack(
@@ -583,39 +583,37 @@ class DashboardWarehouseView extends StatelessWidget {
                         } else {
                           return Column(
                             children: warehouseVM.listSalesOrder.take(2).map(
-                              (data) =>
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        final detailVM = Get.put(DetailSalesOrderViewModel());
-                                        detailVM.requestSingleSalesOrder(data.id);
-                                      },
-                                      child: CardOrder(
-                                          idBarang: data!.productCode,
-                                          namaBarang: data!.productName,
-                                          financeApproved: data!.financeApproved,
-                                          createdOn: data!.purchasedDate,
-                                          nameUser: data!.firstName,
-                                          quantity: data!.quantity,
-                                          unitPrice: data!.unitPrice,
-                                          lineTotal: data!.totalPrice
+                                  (data) =>
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          final detailVM = Get.put(DetailSalesOrderViewModel());
+                                          detailVM.requestSingleSalesOrder(data.id);
+                                        },
+                                        child: CardOrder(
+                                            idBarang: data!.productCode,
+                                            namaBarang: data!.productName,
+                                            financeApproved: data!.financeApproved,
+                                            createdOn: data!.purchasedDate,
+                                            nameUser: data!.firstName,
+                                            quantity: data!.quantity,
+                                            unitPrice: data!.unitPrice,
+                                            lineTotal: data!.totalPrice
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 10.w,
-                                    ),
-                                  ],
-                                ),).toList(),
+                                      SizedBox(
+                                        height: 10.w,
+                                      ),
+                                    ],
+                                  ),).toList(),
                           );
                         }
                       }),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 22.h,
-                ),
+
                 ElevatedButton(
                   onPressed: loginViewModel.logout,
                   child: Text("Logout"),
@@ -626,26 +624,26 @@ class DashboardWarehouseView extends StatelessWidget {
               ],
             ),
           ),
-          Obx(() => loadingC.isLoading.value ? Container(color: Colors.black26,
-              child: Center(child: LoadingAnimationWidget.stretchedDots(
-                color: AppColors.softWhite, size: 70.w,))) : SizedBox(),)
-        ],
-      ),
-      bottomNavigationBar: BottomAppBar(
-        padding: EdgeInsetsGeometry.only(left: 16.w, right: 16.w, top: 12.w, bottom: 6.w),
-        height: 58.w,
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
-            BottomAppBarHelper(icon: "assets/icons/search-normal.svg"),
-            BottomAppBarHelper(icon: "assets/icons/graph.svg"),
-            BottomAppBarHelper(icon: "assets/icons/clock.svg"),
-            BottomAppBarHelper(icon: "assets/icons/user.svg")
-          ],
+          bottomNavigationBar: BottomAppBar(
+            padding: EdgeInsetsGeometry.only(left: 16.w, right: 16.w, top: 12.w, bottom: 6.w),
+            height: 58.w,
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
+                BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
+                BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
+                BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),
+                BottomAppBarHelper(icon: "assets/icons/user.svg", page: "/profile")
+              ],
+            ),
+          ),
         ),
-      ),
+        Obx(() => loadingC.isLoading.value ? Container(color: Colors.black26,
+            child: Center(child: LoadingAnimationWidget.stretchedDots(
+              color: AppColors.softWhite, size: 70.w,))) : SizedBox(),)
+      ],
     );
   }
 }
