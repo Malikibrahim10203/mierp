@@ -613,14 +613,6 @@ class DashboardWarehouseView extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                ElevatedButton(
-                  onPressed: loginViewModel.logout,
-                  child: Text("Logout"),
-                ),
-                // ElevatedButton(onPressed: () {
-                //   linkVM.linkToAnotherAccount();
-                // }, child: Text("Linking")),
               ],
             ),
           ),
@@ -631,7 +623,7 @@ class DashboardWarehouseView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", page: "/dashboard_warehouse"),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),

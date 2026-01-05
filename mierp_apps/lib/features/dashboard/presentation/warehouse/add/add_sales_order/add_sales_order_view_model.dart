@@ -116,10 +116,12 @@ class AddSalesOrderViewModel extends GetxController {
   }
 
   void resetControllerInput() {
+    companyNameC.clear();
     financeApproved.clear();
     financeApprovedDate.clear();
     orderDateC.clear();
     quantityC.clear();
+    purchasedDateC.clear();
     selectedProduct.value = null;
   }
 }

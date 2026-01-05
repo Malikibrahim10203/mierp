@@ -52,7 +52,7 @@ class ProfileView extends StatelessWidget {
                                   color: AppColors.grayTitle,
                                 ),
                               ),
-                              SizedBox(height: 7.h,),
+                              SizedBox(height: 5.h,),
                               Text(
                                 "WAREHOUSE",
                                 style: GoogleFonts.lexendDeca(
@@ -167,7 +167,7 @@ class ProfileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", page: "/dashboard_warehouse"),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),
