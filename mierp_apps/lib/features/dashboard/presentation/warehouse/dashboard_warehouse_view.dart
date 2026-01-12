@@ -12,16 +12,10 @@ import 'package:mierp_apps/core/widgets/bottom_navbar_helper.dart';
 import 'package:mierp_apps/core/widgets/card_dashboard.dart';
 import 'package:mierp_apps/core/widgets/card_order.dart';
 import 'package:mierp_apps/core/widgets/card_stock.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_product/detail_product_view_model.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_product_order/detail_product_order_view_model.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/detail/detail_sales_order/detail_sales_order_view_model.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
-import 'package:mierp_apps/features/login/data/login_repository.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-
 
 class DashboardWarehouseView extends StatelessWidget {
   DashboardWarehouseView({super.key});
@@ -109,7 +103,7 @@ class DashboardWarehouseView extends StatelessWidget {
                           children: [
                             Container(
                               width: 289.w,
-                              height: 66.h,
+                              height: 70.h,
                               padding: EdgeInsets.symmetric(
                                   horizontal: 24.w, vertical: 12.h),
                               decoration: BoxDecoration(
@@ -160,13 +154,27 @@ class DashboardWarehouseView extends StatelessWidget {
                                               .start,
                                           children: [
                                             Text(
-                                                "Hello!"
+                                              "Hello!",
+                                              style: GoogleFonts.lexendDeca(
+                                                  fontWeight: AppFontWeight.regular,
+                                                  fontSize: 14.sp,
+                                                  color: AppColors.grayTitle
+                                              ),
                                             ),
-                                            Obx(() {
-                                              return Text(
-                                                  "${warehouseVM.userName.value}!"
-                                              );
-                                            }),
+                                            Container(
+                                              width: 130.w,
+                                              child: Obx(() {
+                                                return Text(
+                                                  "${warehouseVM.userName.value}!",
+                                                  style: GoogleFonts.lexendDeca(
+                                                      fontWeight: AppFontWeight.semiBold,
+                                                      fontSize: 16.sp,
+                                                      color: AppColors.grayTitle
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                );
+                                              }),
+                                            ),
                                           ],
                                         ),
                                         IconButton(
@@ -192,6 +200,7 @@ class DashboardWarehouseView extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
+                    spacing: 9.h,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -205,9 +214,6 @@ class DashboardWarehouseView extends StatelessWidget {
                             totalItems: warehouseVM.totalQtyProduct,
                             urgent: false,)
                         ],
-                      ),
-                      SizedBox(
-                        height: 9.h,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -497,7 +503,7 @@ class DashboardWarehouseView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                movePageC.movePage("/summary");
+                                movePageC.movePageWithBack("/summary");
                               },
                               child: Row(
                                 children: [
@@ -561,18 +567,21 @@ class DashboardWarehouseView extends StatelessWidget {
                                       (data) {
                                     return GestureDetector(
                                       onTap: () {
-                                        final detailVM = Get.put(DetailProductOrderViewModel());
-                                        detailVM.requestSingleProductOrder(data.id);
+                                        // final detailVM = Get.put(DetailProductOrderViewModel());
+                                        // detailVM.requestSingleProductOrder(data.id);
                                       },
                                       child: CardOrder(
-                                          idBarang: data!.productCode,
-                                          namaBarang: data!.productName,
-                                          financeApproved: data!.financeApproved,
-                                          createdOn: data!.orderDate,
-                                          nameUser: data!.firstName,
-                                          quantity: data!.quantity,
-                                          unitPrice: data!.unitPrice,
-                                          lineTotal: data!.totalCost),
+                                        idOrder: data!.id,
+                                        idBarang: data!.productCode,
+                                        namaBarang: data!.productName,
+                                        financeApproved: data!.financeApproved,
+                                        createdOn: data!.orderDate,
+                                        nameUser: data!.firstName,
+                                        quantity: data!.quantity,
+                                        unitPrice: data!.unitPrice,
+                                        lineTotal: data!.totalCost,
+                                        onPayPressed: (){},
+                                      ),
                                     );
                                   }
                               ).toList(),
@@ -588,18 +597,19 @@ class DashboardWarehouseView extends StatelessWidget {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          final detailVM = Get.put(DetailSalesOrderViewModel());
-                                          detailVM.requestSingleSalesOrder(data.id);
+                                          Get.toNamed("/detail_sales_order/${data!.id}");
                                         },
                                         child: CardOrder(
-                                            idBarang: data!.productCode,
-                                            namaBarang: data!.productName,
-                                            financeApproved: data!.financeApproved,
-                                            createdOn: data!.purchasedDate,
-                                            nameUser: data!.firstName,
-                                            quantity: data!.quantity,
-                                            unitPrice: data!.unitPrice,
-                                            lineTotal: data!.totalPrice
+                                          idOrder: data!.id,
+                                          idBarang: data!.productCode,
+                                          namaBarang: data!.productName,
+                                          financeApproved: data!.financeApproved,
+                                          createdOn: data!.purchasedDate,
+                                          nameUser: data!.firstName,
+                                          quantity: data!.quantity,
+                                          unitPrice: data!.unitPrice,
+                                          lineTotal: data!.totalPrice,
+                                          onPayPressed: (){},
                                         ),
                                       ),
                                       SizedBox(
@@ -623,7 +633,7 @@ class DashboardWarehouseView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", page: "/dashboard_warehouse"),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),

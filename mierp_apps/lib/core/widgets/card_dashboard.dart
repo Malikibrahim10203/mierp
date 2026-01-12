@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -71,7 +73,9 @@ class CardDashboard extends StatelessWidget {
                       children: [
                         Obx(() {
                           return Text(
-                            nameBox == "Total Qty"?"${totalItems.toString()} Items":"${totalItems.toString()} units",
+                            nameBox == "Total Qty" ? "${totalItems
+                                .toString()} Items" : "${totalItems
+                                .toString()} units",
                             style: GoogleFonts.inter(
                               fontSize: 14.sp,
                               fontWeight: AppFontWeight.medium,
@@ -79,24 +83,30 @@ class CardDashboard extends StatelessWidget {
                             ),
                           );
                         }),
-                        urgent ? Container(
-                          width: 37.44.w,
-                          height: 14.62.h,
-                          decoration: BoxDecoration(
-                              color: Color(0xFFD6F4FF),
-                              borderRadius: BorderRadius.circular(10.w)
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Now",
-                              style: GoogleFonts.inter(
-                                fontSize: 10.sp,
-                                fontWeight: AppFontWeight.medium,
-                                color: Color(0xFF01BAFF),
+                        Obx(() {
+                          if(totalItems.value <= 10 && urgent){
+                            return Container(
+                              width: 37.44.w,
+                              height: 14.62.h,
+                              decoration: BoxDecoration(
+                                  color: Color(0xFFD6F4FF),
+                                  borderRadius: BorderRadius.circular(10.w)
                               ),
-                            ),
-                          ),
-                        ) : SizedBox(),
+                              child: Center(
+                                child: Text(
+                                  "Now",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 10.sp,
+                                    fontWeight: AppFontWeight.medium,
+                                    color: Color(0xFF01BAFF),
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return SizedBox();
+                          };
+                        }),
                       ],
                     ),
                   ],

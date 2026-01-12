@@ -2,12 +2,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/auth/input_select_auth_widget.dart';
 import 'package:mierp_apps/core/widgets/auth/input_auth_widget.dart';
 import 'package:mierp_apps/core/widgets/auth/input_short_auth_widget.dart';
-import 'package:mierp_apps/features/login/data/login_repository.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
 import '../../../core/theme/app_colors.dart';
@@ -26,12 +27,12 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.electricBlue,
-      body: Stack(
-        children: [
-          Column(
+    return Stack(
+      children: [
+        Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: AppColors.electricBlue,
+          body: Column(
             mainAxisAlignment: .end,
             children: [
               Stack(
@@ -205,7 +206,7 @@ class RegisterView extends StatelessWidget {
                                     width: 322.w,
                                     height: 20.h,
                                     child: Row(
-                                      mainAxisAlignment: .center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "Have an account?",
@@ -244,17 +245,11 @@ class RegisterView extends StatelessWidget {
               )
             ],
           ),
-          Obx(() {
-            if(loadingC.isLoading.value){
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return SizedBox();
-            }
-          }),
-        ],
-      ),
+        ),
+        Obx(() => loadingC.isLoading.value ? Container(color: Colors.black26,
+            child: Center(child: LoadingAnimationWidget.stretchedDots(
+              color: AppColors.softWhite, size: 70.w,))) : SizedBox(),)
+      ],
     );
   }
 }

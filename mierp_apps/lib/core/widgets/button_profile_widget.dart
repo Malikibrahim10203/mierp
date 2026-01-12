@@ -32,13 +32,14 @@ class ButtonProfileWidget extends StatelessWidget {
           ]
       ),
       child: ElevatedButton(
-        onPressed: () {
-          if (onPress == "link") {
-            loginVM.linkAcccountToGoogle();
-          } else if (onPress == "logout") {
-            loginVM.logout();
-          }
-        },
+        onPressed: onPress != null?
+            () {
+              if (onPress == "link") {
+                loginVM.linkAcccountToGoogle();
+              } else if (onPress == "logout") {
+                loginVM.logout();
+              }
+            }: null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

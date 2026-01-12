@@ -3,13 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
-import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/routing/app_routes.dart';
-import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
-import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
-import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
-import 'package:mierp_apps/features/splash/presentation/splash_view_model.dart';
+import 'package:mierp_apps/global_binding.dart';
 import 'firebase_options.dart';
 
 import 'package:get/get.dart';
@@ -20,13 +15,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Get.put(LoadingController(), permanent: true);
-  Get.put(LoginViewModel(), permanent: true);
-  Get.lazyPut(()=>SplashViewModel());
-  Get.lazyPut(()=>RegisterViewModel());
-  Get.lazyPut(()=>MovePageController(),fenix: true);
-  await Get.putAsync(() async => OnboardingViewModel());
-
   runApp(MierpApps());
 }
 
@@ -41,8 +29,10 @@ class MierpApps extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          smartManagement: SmartManagement.full,
           initialRoute: '/splash',
           getPages: AppRoutes.pages,
+          initialBinding: GlobalBinding(),
         );
       },
     );

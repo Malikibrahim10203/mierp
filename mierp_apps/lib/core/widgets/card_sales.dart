@@ -111,15 +111,15 @@ class CardSales extends StatelessWidget {
                               height: 14.h,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(5.w)),
-                                  color: AppColors.softCream
+                                  color: financeApproved? AppColors.mintGreen: AppColors.softCream
                               ),
                               child: Center(
                                 child: Text(
-                                  "UnPaid",
+                                  financeApproved?"Paid":"Unpaid",
                                   style: GoogleFonts.inter(
                                       fontSize: 7.sp,
                                       fontWeight: AppFontWeight.regular,
-                                      color: AppColors.vibrantOrange
+                                      color: financeApproved? AppColors.neonGreen: AppColors.vibrantOrange
                                   ),
                                 ),
                               ),
@@ -296,7 +296,7 @@ class CardSales extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: 32.w,
+                        width: 35.w,
                         child: Text(
                           converDollar.intToDollar(lineTotal),
                           style: GoogleFonts.inter(

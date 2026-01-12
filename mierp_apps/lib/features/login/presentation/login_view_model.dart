@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/models/user_model.dart';
-import '../data/login_repository.dart';
+import '../../../data/login/login_repository.dart';
 
 class LoginViewModel extends GetxController {
   final repo = Get.put(LoginRepository());
@@ -21,7 +21,7 @@ class LoginViewModel extends GetxController {
       UserModel? result = await repo.login(email, password);
       if(result!=null){
         user.value = result;
-        final dataUserRaw = jsonEncode(user.value);
+        final dataUserRaw = jsonEncode(result);
         await prefs.setString('user', dataUserRaw);
         print(prefs.getString('user'));
         print(user.value!.role);

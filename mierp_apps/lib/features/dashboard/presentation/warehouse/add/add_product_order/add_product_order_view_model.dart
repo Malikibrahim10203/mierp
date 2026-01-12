@@ -5,10 +5,10 @@ import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
-import 'package:mierp_apps/features/dashboard/data/warehouse/add/add_product_order_repository.dart';
-import 'package:mierp_apps/features/dashboard/data/warehouse/warehouse_repository.dart';
-import 'package:mierp_apps/features/dashboard/model/order.dart';
-import 'package:mierp_apps/features/dashboard/model/product.dart';
+import 'package:mierp_apps/data/warehouse/add/add_product_order_repository.dart';
+import 'package:mierp_apps/data/warehouse/warehouse_repository.dart';
+import 'package:mierp_apps/core/models/order.dart';
+import 'package:mierp_apps/core/models/product.dart';
 
 class AddProductOrderViewModel extends GetxController {
 

@@ -42,4 +42,9 @@ class AppColors {
   static const appBarShadow = Color(0xFFDEDEDE);
   static const greyPlacholder = Color(0xFF8B8B8B);
 
+  static const purpleGradient2_1 = Color(0xFF4B3FEB);
+  static const purpleGradient2_2 = Color(0xFF7A00E6);
+  static const blueGradient2 = Color(0xFF079BF1);
+
+
 }

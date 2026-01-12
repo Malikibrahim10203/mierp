@@ -10,9 +10,10 @@ import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/bottom_navbar_helper.dart';
 import 'package:mierp_apps/core/widgets/button_profile_widget.dart';
+import 'package:mierp_apps/features/dashboard/presentation/profile/profile_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends GetView<ProfileViewModel> {
   ProfileView({super.key});
   final loadingC = Get.find<LoadingController>();
   final movePageC = Get.find<MovePageController>();
@@ -79,7 +80,7 @@ class ProfileView extends StatelessWidget {
                     Column(
                       spacing: 11.1.w,
                       children: [
-                        ButtonProfileWidget(icon: "user-profile", label: "Account Info", onPress: ""),
+                        ButtonProfileWidget(icon: "user-profile", label: "Account Info", onPress: null),
                         ButtonProfileWidget(icon: "link", label: "Link Account to Google", onPress: "link"),
                         ButtonProfileWidget(icon: "logout", label: "Logout", onPress: "logout")
                       ],
@@ -167,7 +168,7 @@ class ProfileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", page: "/dashboard_warehouse"),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),

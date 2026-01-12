@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/features/dashboard/data/warehouse/add/add_unit_repository.dart';
-import 'package:mierp_apps/features/dashboard/model/product.dart';
+import 'package:mierp_apps/data/warehouse/add/add_unit_repository.dart';
+import 'package:mierp_apps/core/models/product.dart';
 
 class AddUnitViewModel extends GetxController {
   final productCodeC = TextEditingController();

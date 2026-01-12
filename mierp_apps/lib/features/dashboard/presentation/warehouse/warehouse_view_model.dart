@@ -3,15 +3,16 @@ import 'package:get/get.dart';
 import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
-import 'package:mierp_apps/features/dashboard/data/warehouse/warehouse_repository.dart';
-import 'package:mierp_apps/features/dashboard/model/order.dart';
-import 'package:mierp_apps/features/dashboard/model/product.dart';
+import 'package:mierp_apps/data/inventory/inventory_repository.dart';
+import 'package:mierp_apps/data/warehouse/warehouse_repository.dart';
+import 'package:mierp_apps/core/models/order.dart';
+import 'package:mierp_apps/core/models/product.dart';
 import 'package:intl/intl.dart';
-import 'package:mierp_apps/features/dashboard/model/sales_order.dart';
-import 'package:mierp_apps/features/dashboard/model/tab_item.dart';
+import 'package:mierp_apps/core/models/sales_order.dart';
+import 'package:mierp_apps/core/models/tab_item.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/dashboard_warehouse_view.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/summary/summary_view.dart';
-import 'package:mierp_apps/features/login/data/login_repository.dart';
+import 'package:mierp_apps/features/dashboard/presentation/summary/summary_view.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class WarehouseViewModel extends GetxController {
 
   final warehouseRepository = WarehouseRepository();
+  final inventoryRepository = InventoryRepository();
+
   final userDataC = UserDataController();
 
   RxList<Product?> listProduct = <Product>[].obs;
@@ -47,22 +50,22 @@ class WarehouseViewModel extends GetxController {
     totalQtyProduct.bindStream(warehouseRepository.streamGetQtyProduct());
     totalLowProduct.bindStream(warehouseRepository.streamGetLowStock());
     totalUpcomingProduct.bindStream(warehouseRepository.streamGetUpcomingStock());
-    loadAllDataStock();
+    requestAllDataProduct();
     getUserData();
     super.onInit();
   }
 
-  void loadAllDataStock() async {
-    listProduct.value = await warehouseRepository.getBulkDataStock("products");
+  void requestAllDataProduct() async {
+    listProduct.value = await inventoryRepository.getBulkDataStock("products");
     lenghtProduct.value = listProduct.value.length;
   }
 
-  void loadAllDataOrder() async {
-    listOrder.value = await warehouseRepository.getBulkDataOrder("warehouse_orders");
+  void requestAllDataOrder() async {
+    listOrder.value = await inventoryRepository.getBulkDataOrder("warehouse_orders");
   }
 
-  void loadAllDataSalesOrder() async {
-    listSalesOrder.value = await warehouseRepository.getBulkDataSalesOrder("sales_orders");
+  void requestAllDataSalesOrder() async {
+    listSalesOrder.value = await inventoryRepository.getBulkDataSalesOrder("sales_orders");
   }
 
   Future<void> getUserData() async {
@@ -89,11 +92,11 @@ class WarehouseViewModel extends GetxController {
       tab.isActive.value = false;
     }
     if (selected.collection == "warehouse_order") {
-      loadAllDataOrder();
+      requestAllDataOrder();
     } else if (selected.collection == "products") {
-      loadAllDataStock();
+      requestAllDataProduct();
     } else {
-      loadAllDataSalesOrder();
+      requestAllDataSalesOrder();
     }
     collection.value = selected.collection;
     selected.isActive.value = true;

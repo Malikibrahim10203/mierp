@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mierp_apps/features/login/data/login_repository.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
 class DashboardView extends StatelessWidget {

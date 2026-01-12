@@ -1,20 +1,25 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/controller/convertDollar.dart';
+import 'package:mierp_apps/core/controller/move_page_controller.dart';
+import 'package:mierp_apps/core/controller/payment_order_product_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
+import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product_order/detail_product_order_view_model.dart';
 
 class CardOrder extends StatelessWidget {
-  CardOrder({super.key, required this.idBarang, required this.namaBarang, required this.financeApproved, required this.createdOn, required this.nameUser, required this.quantity, required this.unitPrice, required this.lineTotal});
+  CardOrder({super.key, required this.idOrder,required this.idBarang, required this.namaBarang, required this.financeApproved, required this.createdOn, required this.nameUser, required this.quantity, required this.unitPrice, required this.lineTotal, this.finance, required this.onPayPressed});
 
-  final idBarang, namaBarang, financeApproved, createdOn, nameUser, quantity, unitPrice, lineTotal;
-  
+  final idOrder, idBarang, namaBarang, financeApproved, createdOn, nameUser, quantity, unitPrice, lineTotal, finance;
   final converDollar = ConvertDollar();
+  final VoidCallback onPayPressed;
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       width: 342.w,
       height: 140.h,
@@ -111,15 +116,15 @@ class CardOrder extends StatelessWidget {
                               height: 14.h,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(Radius.circular(5.w)),
-                                  color: AppColors.softCream
+                                  color: financeApproved? AppColors.mintGreen: AppColors.softCream
                               ),
                               child: Center(
                                 child: Text(
-                                  "UnPaid",
+                                  financeApproved?"Paid":"Unpaid",
                                   style: GoogleFonts.inter(
                                       fontSize: 7.sp,
                                       fontWeight: AppFontWeight.regular,
-                                      color: AppColors.vibrantOrange
+                                      color: financeApproved? AppColors.neonGreen: AppColors.vibrantOrange
                                   ),
                                 ),
                               ),
@@ -269,10 +274,10 @@ class CardOrder extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.w)
                         ),
-                        backgroundColor: AppColors.coolGray,
+                        backgroundColor: !financeApproved && finance != null? AppColors.electricBlue: AppColors.coolGray,
                         padding: EdgeInsets.all(0)
                       ),
-                      onPressed: null,
+                      onPressed: !financeApproved && finance != null? onPayPressed:null,
                       child: Center(
                         child: Text(
                           "Pay Invoice",

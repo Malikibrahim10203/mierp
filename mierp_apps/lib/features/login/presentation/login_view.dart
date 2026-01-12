@@ -7,7 +7,7 @@ import 'package:mierp_apps/core/controller/loading_controller.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/checkbox_widget.dart';
 import 'package:mierp_apps/core/widgets/auth/input_auth_widget.dart';
-import 'package:mierp_apps/features/login/data/login_repository.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import '../../../core/theme/app_colors.dart';
 
