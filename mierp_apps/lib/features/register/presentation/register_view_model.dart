@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/data/register/register_repository.dart';
 
 class RegisterViewModel extends GetxController {

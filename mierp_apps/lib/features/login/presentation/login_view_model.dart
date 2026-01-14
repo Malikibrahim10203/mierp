@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/models/user_model.dart';
 import '../../../data/login/login_repository.dart';

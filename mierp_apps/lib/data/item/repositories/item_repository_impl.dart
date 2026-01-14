@@ -15,26 +15,30 @@ class ItemStoreRepositoryImpl implements ItemRepository {
 
   @override
   Future<void> getBulkDataStock() async {
-    final snapshot = await firestore.collection("products").get();
+     final snapshot = await firestore.collection("products").get();
 
-   final data = snapshot.docs.map(
-            (doc)=>Product.fromJson(doc.data(), docId: doc.id)
-    ).toList();
+     final data = snapshot.docs.map(
+              (doc)=>Product.fromJson(doc.data(), docId: doc.id)
+      ).toList();
 
-   itemStore.setProducts(data);
+     itemStore.setProductsList(data);
   }
 
   @override
   Future<void> getBulkDataOrder() async {
-    final snapshot = await firestore.collection("warehouse_orders").get();
+    try {
+      final snapshot = await firestore.collection("warehouse_orders").get();
 
-    final data = snapshot.docs.map(
-            (doc){
-          return OrderProduct.fromJson(doc.data(), docId: doc.id);
-        }
-    ).toList();
+      final data = snapshot.docs.map(
+              (doc){
+            return OrderProduct.fromJson(doc.data(), docId: doc.id);
+          }
+      ).toList();
 
-    itemStore.setOrderProduct(data);
+      itemStore.setOrderProductList(data);
+    } on FirebaseException catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -48,6 +52,27 @@ class ItemStoreRepositoryImpl implements ItemRepository {
         }
     ).toList();
 
+    itemStore.setSalesOrderList(data);
+  }
+
+  @override
+  Future<void> getDetailDataStock(prodId) async {
+    final snapshot = await firestore.collection("products").doc(prodId).get();
+    final data = Product.fromJson(snapshot.data() as Map<String, dynamic>, docId: prodId);
+    itemStore.setProducts(data);
+  }
+
+  @override
+  Future<void> getDetailDataOrder(prodId) async {
+    final snapshot = await firestore.collection("warehouse_orders").doc(prodId).get();
+    final data = OrderProduct.fromJson(snapshot.data() as Map<String, dynamic>, docId: prodId);
+    itemStore.setOrderProduct(data);
+  }
+
+  @override
+  Future<void> getDetailDataSalesOrder(prodId) async {
+    final snapshot = await firestore.collection("sales_orders").doc(prodId).get();
+    final data = SalesOrder.fromJson(snapshot.data() as Map<String, dynamic>, docId: prodId);
     itemStore.setSalesOrder(data);
   }
 }

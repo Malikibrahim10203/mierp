@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_product_repository.dart';
 import 'package:mierp_apps/core/models/product.dart';
+import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
+import 'package:mierp_apps/state/item_store.dart';
 
 class DetailProductViewModel extends GetxController {
-  DetailProductViewModel(this.docId);
-  final docId;
 
-  final detailProduct = Rxn<Product?>();
+  final id;
+  final ItemRepository itemRepository;
+  final ItemStore itemStore;
+  DetailProductViewModel({required this.id, required this.itemRepository, required this.itemStore});
+
   final detailProductR = DetailProductRepository();
   final loadingC = Get.find<LoadingController>();
+
+  RxBool isLoading = false.obs;
 
   TextEditingController productCodeC = TextEditingController();
   TextEditingController nameProductC = TextEditingController();
@@ -20,18 +26,24 @@ class DetailProductViewModel extends GetxController {
   RxString categoryProductC = "electronics".obs;
 
   @override
-  void onReady() {
-    // TODO: implement onReady
-    requestSingleProduct(docId);
-    super.onReady();
+  void onInit() {
+    // TODO: implement onInit
+    getDetailProduct();
+    super.onInit();
   }
 
-  Future<void> requestSingleProduct(docId) async {
+  Rxn<Product> get detailProduct {
+    return itemStore.products;
+  }
+
+  Future<void> getDetailProduct() async {
     try {
-      detailProduct.value = await detailProductR.getSingleProduct(docId);
+      isLoading.value = true;
+      await itemRepository.getDetailDataStock(id);
       updateDataController();
-      print(detailProduct.value!.toJson());
+      isLoading.value = false;
     } catch(e) {
+      isLoading.value = false;
       Get.snackbar("Failed", "$e");
     }
   }

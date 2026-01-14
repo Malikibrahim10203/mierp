@@ -14,8 +14,6 @@ class SplashViewModel extends GetxController {
 
   final loginC = Get.find<LoginViewModel>();
   final onBoardC = Get.find<OnboardingViewModel>();
-  final warehouseVM = Get.lazyPut(()=>WarehouseViewModel(),fenix: true);
-  final summaryVM = Get.lazyPut(()=>SummaryViewModel(Get.find<ItemRepository>(),Get.find<ItemStore>()),fenix: true);
 
   @override
   void onReady() {

@@ -3,11 +3,15 @@ import 'package:mierp_apps/core/routing/middleware/login_middleware.dart';
 import 'package:mierp_apps/data/finance/dashboard_finance_repository.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/features/dashboard/presentation/dashboard_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product/detail_product_binding.dart';
+import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product_order/detail_product_order_binding.dart';
+import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product_order/detail_product_order_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/detail/detail_sales_order/detail_sales_order_binding.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/profile/profile_binding.dart';
 import 'package:mierp_apps/features/dashboard/presentation/profile/profile_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/summary/summary_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_product_order/add_product_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_sales_order/add_sales_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view.dart';
@@ -16,6 +20,7 @@ import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product
 import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product_order/detail_product_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/detail/detail_sales_order/detail_sales_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/summary/summary_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
@@ -41,6 +46,11 @@ class AppRoutes {
         name: "/dashboard_warehouse",
         page: () => DashboardWarehouseView(),
         middlewares: [LoginMiddleware()],
+        binding: BindingsBuilder(
+          () {
+            Get.put(WarehouseViewModel(Get.find<ItemRepository>(), Get.find<ItemStore>()));
+          },
+        ),
       ),
       GetPage(
         name: "/dashboard_finance",
@@ -56,7 +66,14 @@ class AppRoutes {
       GetPage(name: "/profile", page: () => ProfileView(), binding: ProfileBinding()),
 
 
-      GetPage(name: "/summary", page: () => SummaryView()),
+      GetPage(name: "/summary",
+        page: () => SummaryView(),
+        binding: BindingsBuilder(
+          () {
+            Get.put(SummaryViewModel(Get.find<ItemRepository>(), Get.find<ItemStore>()));
+          },
+        ),
+      ),
 
       // Warehouse
 
@@ -64,13 +81,18 @@ class AppRoutes {
       GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
       GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
 
-      GetPage(name: "/detail_product", page: () => DetailProductView()),
       GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
       GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
 
       GetPage(
-        name: "/detail_product_order",
+        name: "/detail_product/:id",
+        page: () => DetailProductView(),
+        binding: DetailProductBinding()
+      ),
+      GetPage(
+        name: "/detail_product_order/:id",
         page: () => DetailProductOrderView(),
+        binding: DetailProductOrderBinding()
       ),
       GetPage(
         name: "/detail_sales_order/:id",

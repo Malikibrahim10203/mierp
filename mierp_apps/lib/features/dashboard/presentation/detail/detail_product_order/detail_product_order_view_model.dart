@@ -3,33 +3,36 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mierp_apps/core/controller/convertDollar.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/convert_dollar.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/core/controller/user_data_controller.dart';
+import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
+import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/domain/transaction/services/pay_product_order_services.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
 import 'package:mierp_apps/core/models/order.dart';
+import 'package:mierp_apps/state/item_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum RequestStatus { idle, loading, success, error }
 
 class DetailProductOrderViewModel extends GetxController {
-  DetailProductOrderViewModel(this.id);
-
-  final orderProducts = Rxn<OrderProduct>();
-  final totalCost = "".obs;
-  final unitPrice = "".obs;
 
   final id;
+  final ItemRepository itemRepository;
+  final ItemStore itemStore;
+
+  DetailProductOrderViewModel({required this.id, required this.itemRepository, required this.itemStore});
+
+  final totalCost = "".obs;
+  final unitPrice = "".obs;
 
   final detailProductOrderR = DetailProductOrderRepository();
   final loadingC = Get.find<LoadingController>();
   final movePageC = Get.find<MovePageController>();
   final convertDollar = ConvertDollar();
   final userDataC = UserDataController();
-  final payInvoiceService = Get.find<PayProductOrderServices>();
+  // final payInvoiceService = Get.find<PayProductOrderServices>();
 
   RxBool success = false.obs;
   RxString errorMessage = "".obs;
@@ -42,7 +45,12 @@ class DetailProductOrderViewModel extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    itemRepository.getDetailDataOrder(id);
     getRoleUser();
+  }
+
+  Rxn<OrderProduct> get orderProducts {
+    return itemStore.orderProducts;
   }
 
 
@@ -52,20 +60,20 @@ class DetailProductOrderViewModel extends GetxController {
   }
 
   Future<void> requestPayInvoid(docId, prodId, totalQty) async {
-    try {
-      isLoading.value = false;
-      loadingC.showLoading();
-
-      await payInvoiceService.payInvoice(docId, prodId, totalQty);
-
-      loadingC.hideLoading();
-      success.value = true;
-      isLoading.value = false;
-    } catch(e) {
-      loadingC.hideLoading();
-      errorMessage.value = "$e";
-      print("Error, $e");
-    }
+    // try {
+    //   isLoading.value = false;
+    //   loadingC.showLoading();
+    //
+    //   await payInvoiceService.payInvoice(docId, prodId, totalQty);
+    //
+    //   loadingC.hideLoading();
+    //   success.value = true;
+    //   isLoading.value = false;
+    // } catch(e) {
+    //   loadingC.hideLoading();
+    //   errorMessage.value = "$e";
+    //   print("Error, $e");
+    // }
   }
 
   Future<void> requestSingleProductOrder(docId) async {

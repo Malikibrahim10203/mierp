@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/controller/payment_order_product_controller.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';

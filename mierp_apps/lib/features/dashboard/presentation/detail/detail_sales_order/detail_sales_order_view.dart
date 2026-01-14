@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
@@ -20,21 +20,20 @@ class DetailSalesOrderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     ever(
       detailSalesOrderVM.success,
-      (callback) {
+          (callback) {
         if (detailSalesOrderVM.success.value == true) {
           Get.snackbar("Success", "Success pay invoice");
           detailSalesOrderVM.success.value = false;
-          detailSalesOrderVM.requestSingleSalesOrder();
+          // detailSalesOrderVM.requestSingleSalesOrder();
         }
       },
     );
 
     ever(
       detailSalesOrderVM.errorMessage,
-      (msg) {
+          (msg) {
         Get.snackbar("Failed", msg);
         detailSalesOrderVM.success.value = false;
         detailSalesOrderVM.errorMessage.value = "";
@@ -45,412 +44,447 @@ class DetailSalesOrderView extends StatelessWidget {
       backgroundColor: AppColors.bgColor,
       body: Stack(
         children: [
-          Obx(() =>
-          detailSalesOrderVM.isLoading.value ? Container(color: Colors.black26,
-              child: Center(child: LoadingAnimationWidget.stretchedDots(
-                color: AppColors.softWhite, size: 70.w,))) : Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 346.w,
-                  height: 400.h,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.w),
-                      boxShadow: [
-                        BoxShadow(
-                            color: AppColors.shadowBox2,
-                            spreadRadius: 0,
-                            blurRadius: 9.w
-                        )
-                      ]
-                  ),
-                  padding: EdgeInsets.only(
-                      top: 22.h, left: 27.w, right: 27.w, bottom: 14.h),
-                  child: Obx(() {
-                    return Column(
-                      spacing: 10.h,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 28.w,
-                          children: [
-                            Container(
-                              width: 183.w,
-                              height: 77.h,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+          Obx(() {
+            if(detailSalesOrderVM.salesOrder.value == null) {
+              return Container(color: Colors.black12,
+                  child: Center(child: LoadingAnimationWidget.stretchedDots(
+                    color: AppColors.softWhite, size: 70.w,)));
+            }
+            return Container(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 346.w,
+                    height: 400.h,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.w),
+                        boxShadow: [
+                          BoxShadow(
+                              color: AppColors.shadowBox2,
+                              spreadRadius: 0,
+                              blurRadius: 9.w
+                          )
+                        ]
+                    ),
+                    padding: EdgeInsets.only(
+                        top: 22.h, left: 27.w, right: 27.w, bottom: 14.h),
+                    child: Obx(() {
+                      return Column(
+                        spacing: 10.h,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            spacing: 28.w,
+                            children: [
+                              Container(
+                                width: 183.w,
+                                height: 77.h,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment
+                                      .start,
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween,
+                                  children: [
+                                    Text(
+                                      detailSalesOrderVM.salesOrder.value!
+                                          .productName,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.gray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                    Text(
+                                      detailSalesOrderVM.salesOrder.value!
+                                          .productCode,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                    SizedBox(height: 12.h,),
+                                    detailSalesOrderVM.salesOrder.value!
+                                        .financeApproved! == true ? Container(
+                                      width: double.infinity,
+                                      height: 24.w,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.mintGreen,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "PAID",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.inter(
+                                              fontSize: 12.sp,
+                                              color: AppColors.neonGreen,
+                                              fontWeight: AppFontWeight
+                                                  .regular
+                                          ),
+                                        ),
+                                      ),
+                                    ) : Container(
+                                      width: double.infinity,
+                                      height: 24.w,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.softCream,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "UNPAID",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.inter(
+                                              fontSize: 12.sp,
+                                              color: AppColors.cream,
+                                              fontWeight: AppFontWeight
+                                                  .regular
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: 75.w,
+                                height: 75.h,
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFF1F4FF),
+                                    borderRadius: BorderRadius.circular(10.w)
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            spacing: 45.w,
+                            children: [
+                              Column(
+                                spacing: 5.h,
                                 children: [
-                                  Text(
-                                    detailSalesOrderVM.orderSales.value!.productName,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.gray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                  Text(
-                                    detailSalesOrderVM.orderSales.value!.productCode,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.coolGray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                  SizedBox(height: 12.h,),
-                                  detailSalesOrderVM.orderSales.value!.financeApproved! == true? Container(
-                                    width: double.infinity,
-                                    height: 24.w,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.mintGreen,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "PAID",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.inter(
-                                            fontSize: 12.sp,
-                                            color: AppColors.neonGreen,
-                                            fontWeight: AppFontWeight.regular
-                                        ),
-                                      ),
-                                    ),
-                                  ):Container(
-                                    width: double.infinity,
-                                    height: 24.w,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.softCream,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        "UNPAID",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: GoogleFonts.inter(
-                                            fontSize: 12.sp,
-                                            color: AppColors.cream,
-                                            fontWeight: AppFontWeight.regular
-                                        ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "Order Id",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
                                       ),
                                     ),
                                   ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      detailSalesOrderVM.salesOrder.value!
+                                          .id!,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 15.sp,
+                                          color: AppColors.charcoal,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
-                            ),
-                            Container(
-                              width: 75.w,
-                              height: 75.h,
-                              decoration: BoxDecoration(
-                                  color: Color(0xFFF1F4FF),
-                                  borderRadius: BorderRadius.circular(10.w)
+                              Column(
+                                spacing: 5.h,
+                                children: [
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "Created On",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      detailSalesOrderVM.salesOrder.value!
+                                          .purchasedDate!,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.charcoal,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          spacing: 45.w,
-                          children: [
-                            Column(
-                              spacing: 5.h,
-                              children: [
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    "Order Id",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.coolGray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    detailSalesOrderVM.orderSales.value!.id!,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 15.sp,
-                                        color: AppColors.charcoal,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              spacing: 5.h,
-                              children: [
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    "Created On",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.coolGray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    detailSalesOrderVM.orderSales.value!.purchasedDate!,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.charcoal,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          spacing: 45.w,
-                          children: [
-                            Column(
-                              spacing: 5.h,
-                              children: [
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    "To",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.coolGray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    detailSalesOrderVM.orderSales.value!.companyName,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.charcoal,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              spacing: 5.h,
-                              children: [
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    "From",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.coolGray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    "Warehouse",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.charcoal,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        Row(
-                          spacing: 45.w,
-                          children: [
-                            Column(
-                              spacing: 5.h,
-                              children: [
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    "Quantity",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.coolGray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    detailSalesOrderVM.orderSales.value!.quantity.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.charcoal,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Column(
-                              spacing: 5.h,
-                              children: [
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    "Unit Price",
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.coolGray,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 119.w,
-                                  child: Text(
-                                    detailSalesOrderVM.unitPrice.value,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        color: AppColors.charcoal,
-                                        fontWeight: AppFontWeight.regular
-                                    ),
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 2.h,),
-                        Container(
-                          width: double.infinity,
-                          child: detail_sales_order_view.DottedLine(
-                            lineThickness: 1.2.w,
-                            dashLength: 10.w,
-                            dashGapLength: 10.w,
-                            dashColor: Color(0xFFD5D5D5),
+                            ],
                           ),
-                        ),
-                        Row(
-                          spacing: 45.w,
-                          children: [
-                            Column(
-                              spacing: 5.h,
-                              children: [
-                                Container(
-                                  width: 119.w,
+                          Row(
+                            spacing: 45.w,
+                            children: [
+                              Column(
+                                spacing: 5.h,
+                                children: [
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "To",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      detailSalesOrderVM.salesOrder.value!
+                                          .companyName,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.charcoal,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                spacing: 5.h,
+                                children: [
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "From",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "Warehouse",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.charcoal,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          Row(
+                            spacing: 45.w,
+                            children: [
+                              Column(
+                                spacing: 5.h,
+                                children: [
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "Quantity",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      detailSalesOrderVM.salesOrder.value!
+                                          .quantity.toString(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.charcoal,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                spacing: 5.h,
+                                children: [
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "Unit Price",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      detailSalesOrderVM.unitPrice.value,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.charcoal,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 2.h,),
+                          Container(
+                            width: double.infinity,
+                            child: detail_sales_order_view.DottedLine(
+                              lineThickness: 1.2.w,
+                              dashLength: 10.w,
+                              dashGapLength: 10.w,
+                              dashColor: Color(0xFFD5D5D5),
+                            ),
+                          ),
+                          Row(
+                            spacing: 45.w,
+                            children: [
+                              Column(
+                                spacing: 5.h,
+                                children: [
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      "Line Total",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          color: AppColors.coolGray,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 119.w,
+                                    child: Text(
+                                      detailSalesOrderVM.totalCost.value,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.inter(
+                                          fontSize: 15.sp,
+                                          color: AppColors.charcoal,
+                                          fontWeight: AppFontWeight.regular
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              detailSalesOrderVM.role.value == "warehouse" ?
+                              Container(
+                                width: 116.w,
+                                height: 30.h,
+                                child: ElevatedButton(
+                                  onPressed: detailSalesOrderVM.salesOrder
+                                      .value!.financeApproved! != true
+                                      ? () {
+                                    detailSalesOrderVM
+                                        .requestDeleteSalesOrder(
+                                        detailSalesOrderVM.salesOrder.value!
+                                            .id);
+                                  }
+                                      : null,
                                   child: Text(
-                                    "Line Total",
-                                    overflow: TextOverflow.ellipsis,
+                                    "Delete",
                                     style: GoogleFonts.inter(
                                         fontSize: 12.sp,
-                                        color: AppColors.coolGray,
+                                        color: Colors.white,
                                         fontWeight: AppFontWeight.regular
                                     ),
                                   ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: detailSalesOrderVM
+                                          .salesOrder!.value!
+                                          .financeApproved! != true
+                                          ? AppColors.vibrantOrange
+                                          : AppColors.coolGray,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadiusGeometry
+                                              .circular(5.w)
+                                      )
+                                  ),
                                 ),
-                                Container(
-                                  width: 119.w,
+                              ) : Container(
+                                width: 116.w,
+                                height: 30.h,
+                                child: ElevatedButton(
+                                  onPressed: detailSalesOrderVM.salesOrder
+                                      .value!.financeApproved! == false ?
+                                      () {
+                                    detailSalesOrderVM.requestPaySalesOrder(
+                                        detailSalesOrderVM.salesOrder.value!
+                                            .id,
+                                        detailSalesOrderVM.salesOrder.value!
+                                            .productId,
+                                        detailSalesOrderVM.salesOrder.value!
+                                            .quantity);
+                                  } : null,
                                   child: Text(
-                                    detailSalesOrderVM.totalCost.value,
-                                    overflow: TextOverflow.ellipsis,
+                                    "Pay Invoice",
                                     style: GoogleFonts.inter(
-                                        fontSize: 15.sp,
-                                        color: AppColors.charcoal,
+                                        fontSize: 12.sp,
+                                        color: Colors.white,
                                         fontWeight: AppFontWeight.regular
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                            detailSalesOrderVM.role.value == "warehouse"?
-                            Container(
-                              width: 116.w,
-                              height: 30.h,
-                              child: ElevatedButton(
-                                onPressed: detailSalesOrderVM.orderSales.value!.financeApproved! != true
-                                    ? () {
-                                  detailSalesOrderVM.requestDeleteSalesOrder(detailSalesOrderVM.orderSales.value!.id);
-                                }
-                                    :null,
-                                child: Text(
-                                  "Delete",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 12.sp,
-                                      color: Colors.white,
-                                      fontWeight: AppFontWeight.regular
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: detailSalesOrderVM
+                                          .salesOrder!.value!
+                                          .financeApproved! == false
+                                          ? AppColors.electricBlue
+                                          : AppColors.coolGray,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadiusGeometry
+                                              .circular(5.w)
+                                      )
                                   ),
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: detailSalesOrderVM.orderSales!.value!.financeApproved! != true?AppColors.vibrantOrange:AppColors.coolGray,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadiusGeometry.circular(5.w)
-                                    )
-                                ),
                               ),
-                            ):Container(
-                              width: 116.w,
-                              height: 30.h,
-                              child: ElevatedButton(
-                                onPressed: detailSalesOrderVM.orderSales.value!.financeApproved! == false?
-                                    () {
-                                  detailSalesOrderVM.requestPaySalesOrder(detailSalesOrderVM.orderSales.value!.id, detailSalesOrderVM.orderSales.value!.productId, detailSalesOrderVM.orderSales.value!.quantity);
-                                }:null,
-                                child: Text(
-                                  "Pay Invoice",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 12.sp,
-                                      color: Colors.white,
-                                      fontWeight: AppFontWeight.regular
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: detailSalesOrderVM.orderSales!.value!.financeApproved! == false? AppColors.electricBlue:AppColors.coolGray,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadiusGeometry.circular(5.w)
-                                    )
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 25.h,),
-                        Container(
-                          width: 135.w,
-                          height: 5.h,
-                          decoration: BoxDecoration(
-                              color: AppColors.grayThin,
-                              borderRadius: BorderRadius.circular(10.w)
+                            ],
                           ),
-                        ),
-                      ],
-                    );
-                  }),
-                )
-              ],
-            ),
-          ),),
+                          SizedBox(height: 25.h,),
+                          Container(
+                            width: 135.w,
+                            height: 5.h,
+                            decoration: BoxDecoration(
+                                color: AppColors.grayThin,
+                                borderRadius: BorderRadius.circular(10.w)
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  )
+                ],
+              ),
+            );
+          }),
           Column(
             children: [
               Container(
@@ -485,7 +519,8 @@ class DetailSalesOrderView extends StatelessWidget {
                                 InkWell(
                                   onTap: () {
                                     detailSalesOrderVM.isLoading.value = true;
-                                    movePageC.movePageBack();
+                                    detailSalesOrderVM.resetVariable();
+                                    Get.back();
                                   },
                                   child: Icon(
                                     Icons.close,

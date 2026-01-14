@@ -13,15 +13,37 @@ class ItemStore extends GetxController {
   RxList<OrderProduct?> listOrder = <OrderProduct>[].obs;
   RxList<SalesOrder?> listSalesOrder = <SalesOrder>[].obs;
 
-  void setProducts(List<Product> product) {
+  Rxn<Product> products = Rxn();
+  Rxn<OrderProduct> orderProducts = Rxn();
+  Rxn<SalesOrder> salesOrders = Rxn();
+
+  void setProductsList(List<Product> product) {
     listProduct.assignAll(product);
   }
 
-  void setSalesOrder(List<SalesOrder> salesOrder) {
+  void setSalesOrderList(List<SalesOrder> salesOrder) {
     listSalesOrder.assignAll(salesOrder);
   }
 
-  void setOrderProduct(List<OrderProduct> orderProduct) {
+  void setOrderProductList(List<OrderProduct> orderProduct) {
     listOrder.assignAll(orderProduct);
+  }
+
+  void setProducts(Product product) {
+    products.value = product;
+  }
+
+  void setSalesOrder(SalesOrder salesOrder) {
+    salesOrders.value = salesOrder;
+  }
+
+  void setOrderProduct(OrderProduct orderProduct) {
+    orderProducts.value = orderProduct;
+  }
+
+  void clearDetailProduct() {
+    products.value = null;
+    orderProducts.value = null;
+    salesOrders.value = null;
   }
 }

@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:mierp_apps/core/controller/convertDollar.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/convert_dollar.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
@@ -294,8 +294,7 @@ class SummaryView extends StatelessWidget {
                         children: summaryVM.listProduct.map((data) {
                           return GestureDetector(
                             onTap: () {
-                              Get.toNamed(
-                                  "/detail_product", arguments: data.id);
+                              Get.toNamed("/detail_product/${data.id}");
                             },
                             child: CardStock(idBarang: data!.productCode,
                                 namaBarang: data!.productName,
@@ -318,8 +317,7 @@ class SummaryView extends StatelessWidget {
                               (data) {
                             return GestureDetector(
                               onTap: () {
-                                // final detailProductOrder = Get.put(DetailProductOrderViewModel());
-                                // detailProductOrder.requestSingleProductOrder(data.id);
+                                summaryVM.detailProductOrder(data.id);
                               },
                               child: CardOrder(
                                 idOrder: data!.id,

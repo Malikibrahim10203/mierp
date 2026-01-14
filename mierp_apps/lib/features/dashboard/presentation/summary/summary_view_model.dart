@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
-import 'package:mierp_apps/core/controller/user_data_controller.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
+import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/domain/transaction/services/pay_product_order_services.dart';
@@ -50,13 +50,13 @@ class SummaryViewModel extends GetxController {
     Iterable<OrderProduct?> orderProducts = itemStore.listOrder;
 
     if(keyword.value.isNotEmpty){
-      orderProducts = itemStore.listOrder.where((p) => p!.productName.contains(searchKeyC.text)).toList();
+      orderProducts = itemStore.listOrder.where((p) => p!.productName.contains(searchKeyC.text));
     }
 
     if(tag.value == 1){
       orderProducts = itemStore.listOrder.where(
             (p) => p!.productName.contains(keyword.value),
-      ).toList();
+      );
     }
 
     if(tag.value == 2){
@@ -73,13 +73,13 @@ class SummaryViewModel extends GetxController {
     Iterable<SalesOrder?> salesOrder = itemStore.listSalesOrder;
 
     if(keyword.value.isNotEmpty){
-      salesOrder = itemStore.listSalesOrder.where((p) => p!.productName.contains(searchKeyC.text)).toList();
+      salesOrder = itemStore.listSalesOrder.where((p) => p!.productName.contains(searchKeyC.text));
     }
 
     if(tag.value == 1){
       salesOrder = itemStore.listSalesOrder.where(
             (p) => p!.productName.contains(keyword.value),
-      ).toList();
+      );
     }
 
     if(tag.value == 2){
@@ -141,6 +141,32 @@ class SummaryViewModel extends GetxController {
     selected.isActive.value = true;
   }
 
+  Future<void> detailProductOrder(id) async {
+    try {
+      isLoading.value = true;
+      Future.delayed(Duration(seconds: 1), () {
+        isLoading.value = false;
+        Get.toNamed("/detail_product_order/${id}");
+      },);
+    } catch(e) {
+      loadingC.hideLoading();
+      Get.snackbar("Failed", "$e");
+    }
+  }
+
+  Future<void> detailSalesOrder(id) async {
+    try {
+      isLoading.value = true;
+
+      Future.delayed(Duration(seconds: 1), () {
+        isLoading.value = false;
+        Get.toNamed("/detail_sales_order/${id}");
+      },);
+    } catch(e) {
+      isLoading.value = false;
+      Get.snackbar("Failed", "$e");
+    }
+  }
 
   Future<void> requestPayInvoiceOrderProduct(docId, prodId, totalQty) async {
     try {

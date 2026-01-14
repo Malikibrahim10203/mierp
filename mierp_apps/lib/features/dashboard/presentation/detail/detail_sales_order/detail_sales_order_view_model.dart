@@ -3,25 +3,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mierp_apps/core/controller/convertDollar.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/convert_dollar.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/core/controller/user_data_controller.dart';
+import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
+import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/domain/transaction/services/pay_sales_order_services.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_sales_order_repository.dart';
 import 'package:mierp_apps/core/models/order.dart';
 import 'package:mierp_apps/core/models/sales_order.dart';
+import 'package:mierp_apps/state/item_store.dart';
 
 class DetailSalesOrderViewModel extends GetxController {
 
-  DetailSalesOrderViewModel({required this.id});
+  final id;
+  final ItemRepository itemRepository;
+  final ItemStore itemStore;
 
-  final orderSales = Rxn<SalesOrder>();
+  DetailSalesOrderViewModel({required this.id, required this.itemRepository, required this.itemStore});
+
   final totalCost = "".obs;
   final unitPrice = "".obs;
-  final id;
 
   final detailSalesOrderR = DetailSalesOrderRepository();
   final loadingC = Get.find<LoadingController>();
@@ -39,13 +43,21 @@ class DetailSalesOrderViewModel extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    requestSingleSalesOrder();
+    getSalesOrder(id);
     getRoleUser();
+  }
+
+  Rxn<SalesOrder> get salesOrder {
+    return itemStore.salesOrders;
   }
 
   Future<void> getRoleUser() async {
     UserModel user = await userDataC.getDataUser();
     role.value = user.role;
+  }
+
+  void resetVariable() {
+    itemStore.clearDetailProduct();
   }
 
   Future<void> requestPaySalesOrder(docId, prodId, totalQty) async {
@@ -62,16 +74,12 @@ class DetailSalesOrderViewModel extends GetxController {
     }
   }
 
-  Future<void> requestSingleSalesOrder() async {
+  Future<void> getSalesOrder(id) async {
     try {
-      isLoading.value = true;
-      orderSales.value = await detailSalesOrderR.getSingleSalesOrder(id);
-      unitPrice.value = convertDollar.intToDollar(orderSales.value!.unitPrice);
-      totalCost.value = convertDollar.intToDollar(orderSales.value!.totalPrice!);
-      isLoading.value = false;
+      itemRepository.getDetailDataSalesOrder(id);
     } catch(e) {
-      loadingC.hideLoading();
-      Get.snackbar("Failed", "$e");
+      isLoading.value = false;
+      Get.back();
     }
   }
 

@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:mierp_apps/core/controller/loading_controller.dart';
+import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
@@ -22,7 +22,7 @@ import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_uni
 class DetailProductView extends StatelessWidget {
   DetailProductView({super.key});
 
-  final detailProductViewVM = Get.put(DetailProductViewModel(Get.arguments));
+  final detailProductViewVM = Get.find<DetailProductViewModel>();
   final addUnitVM = Get.put(AddUnitViewModel());
   final movePageC = Get.find<MovePageController>();
   final loadingC = Get.find<LoadingController>();
@@ -240,7 +240,7 @@ class DetailProductView extends StatelessWidget {
                 ),
               ],
             ),
-            Obx(()=>loadingC.isLoading.value? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
+            Obx(()=>detailProductViewVM.isLoading.value? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
           ],
         ),
       ),
