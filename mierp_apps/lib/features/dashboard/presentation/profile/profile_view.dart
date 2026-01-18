@@ -16,7 +16,6 @@ import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 class ProfileView extends GetView<ProfileViewModel> {
   ProfileView({super.key});
   final loadingC = Get.find<LoadingController>();
-  final movePageC = Get.find<MovePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +79,9 @@ class ProfileView extends GetView<ProfileViewModel> {
                     Column(
                       spacing: 11.1.w,
                       children: [
-                        ButtonProfileWidget(icon: "user-profile", label: "Account Info", onPress: null),
-                        ButtonProfileWidget(icon: "link", label: "Link Account to Google", onPress: "link"),
-                        ButtonProfileWidget(icon: "logout", label: "Logout", onPress: "logout")
+                        ButtonProfileWidget(icon: "user-profile", label: "Account Info", onPress: (){}),
+                        ButtonProfileWidget(icon: "link", label: "Link Account to Google", onPress: controller.linkAcccountToGoogle),
+                        ButtonProfileWidget(icon: "logout", label: "Logout", onPress: controller.logout)
                       ],
                     )
                   ],
@@ -121,7 +120,7 @@ class ProfileView extends GetView<ProfileViewModel> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        movePageC.movePageBack();
+                                        Get.back();
                                       },
                                       child: Icon(
                                         Icons.close,
@@ -168,7 +167,7 @@ class ProfileView extends GetView<ProfileViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", voidCallback: controller.back),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),

@@ -31,7 +31,7 @@ class SummaryView extends StatelessWidget {
     ever(
       summaryVM.success,
       (status) {
-        if (status) {
+        if (status == true) {
           Get.snackbar("Success", ("Success pay invoice"));
           summaryVM.success.value = false;
         }

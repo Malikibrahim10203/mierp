@@ -8,9 +8,10 @@ import 'package:mierp_apps/core/widgets/controller_widget/input_widget_controlle
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
 class InputAuthWidget extends StatelessWidget {
+  final TextEditingController controller;
   InputAuthWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.isPassword, required this.formKey});
 
-  final head, controller, placeholder, necessary, isPassword, formKey;
+  final head, placeholder, necessary, isPassword, formKey;
   final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
   RxBool hasError = false.obs;
   RxString dataError = "".obs;

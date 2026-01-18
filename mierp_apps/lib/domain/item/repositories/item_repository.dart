@@ -12,4 +12,7 @@ abstract class ItemRepository {
   Future<void> getDetailDataStock(prodId);
   Future<void> getDetailDataOrder(id);
   Future<void> getDetailDataSalesOrder(prodId);
+
+  Future<void> updateDetailDataStock(prodId, Product product);
+  Future<void> deleteDetailDataStock(prodId);
 }

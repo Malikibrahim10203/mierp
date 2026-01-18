@@ -6,15 +6,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
 
 class ButtonProfileWidget extends StatelessWidget {
+
+  final icon, label;
+  VoidCallback onPress;
+
   ButtonProfileWidget({super.key, required this.icon, required this.label, required this.onPress});
-  final icon, label, onPress;
 
   final movePageC = Get.find<MovePageController>();
-  final loginVM = Get.find<LoginViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +34,7 @@ class ButtonProfileWidget extends StatelessWidget {
       ),
       child: ElevatedButton(
         onPressed: onPress != null?
-            () {
-              if (onPress == "link") {
-                loginVM.linkAcccountToGoogle();
-              } else if (onPress == "logout") {
-                loginVM.logout();
-              }
-            }: null,
+        onPress: null,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

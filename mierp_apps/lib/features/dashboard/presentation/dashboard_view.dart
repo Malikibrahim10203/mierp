@@ -15,10 +15,10 @@ class DashboardView extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: loginViewModel.logout,
-            child: Text("Logout"),
-          ),
+          // ElevatedButton(
+          //   onPressed: loginViewModel.logout,
+          //   child: Text("Logout"),
+          // ),
           ElevatedButton(onPressed: (){
             linkVM.linkToAnotherAccount();
           }, child: Text("Linking")),

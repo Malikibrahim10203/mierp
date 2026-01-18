@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
+import 'package:mierp_apps/core/session/auth_session.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/features/dashboard/presentation/summary/summary_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
@@ -12,8 +14,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashViewModel extends GetxController {
 
-  final loginC = Get.find<LoginViewModel>();
-  final onBoardC = Get.find<OnboardingViewModel>();
+  final AuthSession authSession;
+  final OnboardingViewModel onboardingViewModel;
+
+  SplashViewModel({required this.authSession, required this.onboardingViewModel});
 
   @override
   void onReady() {
@@ -25,7 +29,7 @@ class SplashViewModel extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     await Future.delayed(Duration(seconds: 2), () {
 
-      if (!loginC.isLoggedIn) {
+      if (!authSession.isLoggedIn.value) {
         Get.offAllNamed("/login");
         return;
       }
@@ -45,7 +49,7 @@ class SplashViewModel extends GetxController {
   }
 
   Future<void> _init() async {
-    final isFirst = onBoardC.isFirst;
+    final isFirst = onboardingViewModel.isFirst;
     if (isFirst.value) {
       Future.delayed(Duration(seconds: 5),() {
         Get.offAllNamed('/onboarding');

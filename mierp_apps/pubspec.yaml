@@ -50,6 +50,7 @@ dependencies:
   dotted_border: ^3.1.0
   modal_bottom_sheet: ^3.0.0
   chips_choice: ^3.0.1
+  flutter_secure_storage: ^10.0.0
 
 dev_dependencies:
   flutter_test:

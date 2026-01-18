@@ -21,7 +21,7 @@ class AddUnitView extends StatelessWidget {
 
   final movePageC = Get.find<MovePageController>();
   final loadingC = Get.find<LoadingController>();
-  final addUnitVM = Get.put(AddUnitViewModel());
+  final addUnitVM = Get.find<AddUnitViewModel>();
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -150,7 +150,7 @@ class AddUnitView extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              addUnitVM.saveUnit();
+                              addUnitVM.requestPostDataProduct();
                             }
                           },
                           child: Text(
@@ -235,7 +235,7 @@ class AddUnitView extends StatelessWidget {
                 ),
               ],
             ),
-            Obx(()=>loadingC.isLoading.value? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
+            Obx(()=>addUnitVM.isLoading.value == true? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
           ],
         ),
       ),

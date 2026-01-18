@@ -23,7 +23,6 @@ class DetailProductView extends StatelessWidget {
   DetailProductView({super.key});
 
   final detailProductViewVM = Get.find<DetailProductViewModel>();
-  final addUnitVM = Get.put(AddUnitViewModel());
   final movePageC = Get.find<MovePageController>();
   final loadingC = Get.find<LoadingController>();
   final formKey = GlobalKey<FormState>();
@@ -132,7 +131,7 @@ class DetailProductView extends StatelessWidget {
                         height: 55.h,
                         child: ElevatedButton(
                           onPressed: () {
-                            // addUnitVM.resetControllerInput();
+                            detailProductViewVM.delete();
                           },
                           child: SvgPicture.asset(
                             "assets/icons/delete.svg",

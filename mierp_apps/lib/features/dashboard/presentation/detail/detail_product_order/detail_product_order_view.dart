@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
@@ -16,6 +17,7 @@ class DetailProductOrderView extends StatelessWidget {
   final movePageC = Get.find<MovePageController>();
   final loadingC = Get.find<LoadingController>();
   final detailProductOrderVM = Get.find<DetailProductOrderViewModel>();
+  final converDollar = ConvertDollar();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,6 @@ class DetailProductOrderView extends StatelessWidget {
         if (check == true) {
           Get.snackbar("Success", "Payment success");
           detailProductOrderVM.success.value = false;
-          movePageC.movePage("/dashboard_finance");
         }
       },
     );
@@ -34,8 +35,7 @@ class DetailProductOrderView extends StatelessWidget {
       detailProductOrderVM.errorMessage,
           (msg) {
         if (msg.isNotEmpty) {
-          Get.snackbar("Failed", msg);
-          detailProductOrderVM.errorMessage.value = "";
+          Get.snackbar("Failed", msg);detailProductOrderVM.errorMessage.value = "";
         }
       },
     );
@@ -307,7 +307,7 @@ class DetailProductOrderView extends StatelessWidget {
                                   Container(
                                     width: 119.w,
                                     child: Text(
-                                      detailProductOrderVM.unitPrice.value,
+                                      converDollar.intToDollar(detailProductOrderVM.orderProducts.value!.unitPrice),
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.inter(
                                           fontSize: 12.sp,
@@ -351,7 +351,7 @@ class DetailProductOrderView extends StatelessWidget {
                                   Container(
                                     width: 119.w,
                                     child: Text(
-                                      detailProductOrderVM.totalCost.value,
+                                      converDollar.intToDollar(detailProductOrderVM.orderProducts.value!.totalCost),
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.inter(
                                           fontSize: 15.sp,
@@ -402,13 +402,7 @@ class DetailProductOrderView extends StatelessWidget {
                                   onPressed: detailProductOrderVM.orderProducts
                                       .value!.financeApproved! != true
                                       ? () {
-                                    detailProductOrderVM.requestPayInvoid(
-                                        detailProductOrderVM.orderProducts
-                                            .value!.id,
-                                        detailProductOrderVM.orderProducts
-                                            .value!.productId,
-                                        detailProductOrderVM.orderProducts
-                                            .value!.quantity);
+                                    detailProductOrderVM.requestPayProductOrder(detailProductOrderVM.orderProducts.value!.id, detailProductOrderVM.orderProducts.value!.productId, detailProductOrderVM.orderProducts.value!.quantity);
                                   }
                                       : null,
                                   child: Text(
@@ -513,7 +507,7 @@ class DetailProductOrderView extends StatelessWidget {
             ],
           ),
           Obx(() =>
-          loadingC.isLoading.value ? Container(color: Colors.black26,
+          detailProductOrderVM.isLoading.value == true ? Container(color: Colors.black26,
               child: Center(child: LoadingAnimationWidget.stretchedDots(
                 color: AppColors.softWhite, size: 70.w,))) : SizedBox(),),
         ],

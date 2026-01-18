@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/models/product.dart';
 
-class AddUnitRepository extends GetxController {
+class AddUnitRepository {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  RxBool isSuccess = false.obs;
 
   Future<void> addUnitToFirebase(collection, Product data) async {
     try {
@@ -19,8 +18,7 @@ class AddUnitRepository extends GetxController {
         "quantity": data.quantity,
         "unit_price": data.unitPrice,
       });
-      isSuccess.value = true;
-      Get.snackbar("Success", "Success add unit!");
+
     } catch(e) {
       Get.snackbar("Error add unit", "$e");
     }

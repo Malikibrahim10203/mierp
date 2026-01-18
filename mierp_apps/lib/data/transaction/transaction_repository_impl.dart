@@ -11,25 +11,29 @@ class TransactionRepositoryImpl implements TransactionRepository {
   TransactionRepositoryImpl({required this.firestore});
 
   @override
-  Future<void> payProductOrderInvoice(prodId,totalQty,date) async {
-    await firestore.runTransaction(
-      (transaction) async {
-        transaction.update(firestore.collection("warehouse_orders").doc(prodId),  {
-          'finance_approved': true,
-          'finance_approved_date': date,
-        });
-        transaction.update(firestore.collection("products").doc(prodId), {
-          "quantity":FieldValue.increment(totalQty)
-        });
-      },
-    );
+  Future<void> payProductOrderInvoice(docId,prodId,totalQty,date) async {
+    try {
+      await firestore.runTransaction(
+            (transaction) async {
+          transaction.update(firestore.collection("warehouse_orders").doc(docId),  {
+            'finance_approved': true,
+            'finance_approved_date': date,
+          });
+          transaction.update(firestore.collection("products").doc(prodId), {
+            "quantity":FieldValue.increment(totalQty)
+          });
+        },
+      );
+    } catch(e) {
+      print("Found Error: $e");
+    }
   }
 
   @override
-  Future<void> paySalesOrderInvoice(prodId,totalQty,date) async {
+  Future<void> paySalesOrderInvoice(docId,prodId,totalQty,date) async {
     await firestore.runTransaction(
-      (transaction) async {
-        transaction.update(firestore.collection("sales_orders").doc(prodId), {
+          (transaction) async {
+        transaction.update(firestore.collection("sales_orders").doc(docId), {
           'finance_approved': true,
           'finance_approved_date': date,
         });

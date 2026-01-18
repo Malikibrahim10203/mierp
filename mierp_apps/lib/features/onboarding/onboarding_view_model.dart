@@ -1,12 +1,9 @@
 import 'package:get/get.dart';
-import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingViewModel extends GetxController {
 
   final isFirst = true.obs;
-
-  final loginC = Get.find<LoginViewModel>();
 
   @override
   void onInit() {

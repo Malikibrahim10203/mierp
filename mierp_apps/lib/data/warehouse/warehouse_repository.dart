@@ -106,6 +106,18 @@ class WarehouseRepository {
     }
   }
 
+  Stream<int> streamTotalProducts() {
+    return firestore.collection("products").snapshots().map(
+          (event) {
+        int total = 0;
+        for (var data in event.docs) {
+          total += 1;
+        }
+        return total;
+      },
+    );
+  }
+
 
   Stream<int> streamGetQtyProduct() {
     return firestore.collection("products").snapshots().map(

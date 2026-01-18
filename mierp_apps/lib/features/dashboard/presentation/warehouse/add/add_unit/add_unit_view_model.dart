@@ -7,17 +7,24 @@ import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/data/warehouse/add/add_unit_repository.dart';
 import 'package:mierp_apps/core/models/product.dart';
+import 'package:mierp_apps/data/warehouse/services/add_unit_services.dart';
 
 class AddUnitViewModel extends GetxController {
+
+  final AddUnitServices addUnitServices;
+
+  AddUnitViewModel({required this.addUnitServices});
+
   final productCodeC = TextEditingController();
   final nameProductC = TextEditingController();
   final createdOnC = TextEditingController();
   final quantityC = TextEditingController();
   final unitPriceC = TextEditingController();
+
   RxString categoryProductC = "electronics".obs;
+  RxBool isLoading = false.obs;
 
   final loadingC = Get.find<LoadingController>();
-  final addUnitRepository = Get.put(AddUnitRepository());
   final movePage = Get.find<MovePageController>();
 
 
@@ -41,20 +48,25 @@ class AddUnitViewModel extends GetxController {
     }
   }
 
-  Future<void> saveUnit() async {
-    Product product = Product(category: categoryProductC.value, createdOn: createdOnC.text, imageProduct: "", productName: nameProductC.text, productCode: productCodeC.text, quantity: int.parse(quantityC.text), unitPrice: int.parse(unitPriceC.text), id: "");
-    loadingC.showLoading();
-    await addUnitRepository.addUnitToFirebase("products", product);
-    Future.delayed(Duration(seconds: 2), () {
-      loadingC.hideLoading();
-      if (addUnitRepository.isSuccess.value) {
-        movePage.movePage("/dashboard_warehouse");
-        addUnitRepository.isSuccess.value = false;
-      } else {
-        resetControllerInput();
-      }
+  Future<void> requestPostDataProduct() async {
+    try {
+      isLoading.value = true;
 
-    });
+      Product product = Product(category: categoryProductC.value, createdOn: createdOnC.text, imageProduct: "", productName: nameProductC.text, productCode: productCodeC.text, quantity: int.parse(quantityC.text), unitPrice: int.parse(unitPriceC.text), id: "");
+
+      await addUnitServices.postDataProduct(product);
+
+      Future.delayed(Duration(seconds: 2), () {
+        isLoading.value = false;
+        loadingC.hideLoading();
+        Get.snackbar("Success", "Success add unit!");
+        resetControllerInput();
+      });
+    } catch(e) {
+      isLoading.value = false;
+      Get.snackbar("Failed", "Failed add unit!");
+      resetControllerInput();
+    }
   }
 
   void resetControllerInput() {

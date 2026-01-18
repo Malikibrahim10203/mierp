@@ -23,9 +23,8 @@ class DashboardFinanceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PersistentTabController _controller = PersistentTabController(
-        initialIndex: 0);
-    final loadingC = Get.find<LoadingController>();
+    PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+    final loadingC = LoadingController();
     final financeVM = Get.find<DashboardFinanceViewModel>();
     final movePageC = MovePageController();
 
@@ -33,7 +32,7 @@ class DashboardFinanceView extends StatelessWidget {
     ever(
       financeVM.success,
       (status) {
-        if (status) {
+        if (status == true) {
           Get.snackbar("Success", "Success pay invoice");
           financeVM.success.value = false;
         }
@@ -269,8 +268,7 @@ class DashboardFinanceView extends StatelessWidget {
                                 .map((product) =>
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed("/detail_product", arguments: product.id);
-                                    print(product.id);
+                                    Get.toNamed("/detail_product/${product.id}");
                                   },
                                   child: CardStock(
                                       idBarang: product!.productCode,
@@ -296,8 +294,7 @@ class DashboardFinanceView extends StatelessWidget {
                                   (data) {
                                 return GestureDetector(
                                   onTap: () {
-                                    // final detailVM = Get.put(DetailProductViewModel(data!.id));
-                                    // detailVM.requestSingleProduct(data!.id);
+                                    Get.toNamed("/detail_product_order/${data.id}");
                                   },
                                   child: CardOrder(
                                     idOrder: data!.id,
@@ -310,7 +307,7 @@ class DashboardFinanceView extends StatelessWidget {
                                     unitPrice: data!.unitPrice,
                                     lineTotal: data!.totalCost,
                                     finance: true,
-                                    onPayPressed: () => financeVM.requestPayInvoice(data!.id, data!.productId, data!.quantity),
+                                    onPayPressed: () => financeVM.requestPayProductOrder(data!.id, data!.productId, data!.quantity),
                                   ),
                                 );
                               }
@@ -362,7 +359,7 @@ class DashboardFinanceView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home",),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", voidCallback: (){}),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),

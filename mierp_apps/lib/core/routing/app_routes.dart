@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/routing/middleware/login_middleware.dart';
 import 'package:mierp_apps/data/finance/dashboard_finance_repository.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
+import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
+import 'package:mierp_apps/domain/credential/repository/credential_repository.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
+import 'package:mierp_apps/domain/transaction/repository/transaction_repository.dart';
 import 'package:mierp_apps/features/dashboard/presentation/dashboard_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product/detail_product_binding.dart';
 import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product_order/detail_product_order_binding.dart';
@@ -15,6 +19,7 @@ import 'package:mierp_apps/features/dashboard/presentation/summary/summary_view_
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_product_order/add_product_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_sales_order/add_sales_order_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view.dart';
+import 'package:mierp_apps/features/dashboard/presentation/warehouse/add/add_unit/add_unit_view_binding.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/dashboard_warehouse_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product/detail_product_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product_order/detail_product_order_view.dart';
@@ -22,6 +27,7 @@ import 'package:mierp_apps/features/dashboard/presentation/detail/detail_sales_o
 import 'package:mierp_apps/features/dashboard/presentation/summary/summary_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 import 'package:mierp_apps/features/login/presentation/login_view.dart';
+import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view.dart';
 import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
 import 'package:mierp_apps/features/register/presentation/register_view.dart';
@@ -40,7 +46,15 @@ class AppRoutes {
               },
           ),
       ),
-      GetPage(name: "/login", page: () => LoginView()),
+      GetPage(
+        name: "/login",
+        page: () => LoginView(),
+        binding: BindingsBuilder(
+          () {
+            Get.put(LoginViewModel(repo: Get.find<LoginRepository>(), credentialRepository: Get.find<CredentialRepository>()));
+          },
+        )
+      ),
       GetPage(name: "/register", page: () => RegisterView()),
       GetPage(
         name: "/dashboard_warehouse",
@@ -58,7 +72,7 @@ class AppRoutes {
         middlewares: [LoginMiddleware()],
         binding: BindingsBuilder(
           () {
-            Get.put(DashboardFinanceViewModel(DashboardFinanceRepository(), Get.find<ItemRepository>(), Get.find<ItemStore>()));
+            Get.put(DashboardFinanceViewModel(DashboardFinanceRepository(), Get.find<ItemRepository>(), Get.find<ItemStore>(), Get.find<TransactionServices>()));
           },
         )
       ),
@@ -70,14 +84,18 @@ class AppRoutes {
         page: () => SummaryView(),
         binding: BindingsBuilder(
           () {
-            Get.put(SummaryViewModel(Get.find<ItemRepository>(), Get.find<ItemStore>()));
+            Get.put(SummaryViewModel(Get.find<ItemRepository>(), Get.find<ItemStore>(), Get.find<TransactionServices>()));
           },
         ),
       ),
 
       // Warehouse
 
-      GetPage(name: "/add_unit", page: () => AddUnitView()),
+      GetPage(
+        name: "/add_unit",
+        page: () => AddUnitView(),
+        binding: AddUnitViewBinding()
+      ),
       GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
       GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
 

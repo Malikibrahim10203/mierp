@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
+import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
 import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
-import 'package:mierp_apps/domain/transaction/services/pay_product_order_services.dart';
-import 'package:mierp_apps/domain/transaction/services/pay_sales_order_services.dart';
-import 'package:mierp_apps/data/inventory/inventory_repository.dart';
 import 'package:mierp_apps/data/summary/summary_repository.dart';
 import 'package:mierp_apps/core/models/order.dart';
 import 'package:mierp_apps/core/models/product.dart';
@@ -18,17 +16,17 @@ class SummaryViewModel extends GetxController {
 
   final ItemRepository itemRepository;
   final ItemStore itemStore;
+  final TransactionServices transactionServices;
 
-  SummaryViewModel(this.itemRepository, this.itemStore);
+  SummaryViewModel(this.itemRepository, this.itemStore, this.transactionServices);
 
   final searchKeyC = TextEditingController();
   final keyword = "".obs;
-  final InventoryRepository inventoryRepository = InventoryRepository();
   final userDataC = UserDataController();
   final summaryR  = SummaryRepository();
   final loadingC = Get.find<LoadingController>();
-  final payInvoiceServiceOrderProduct = Get.find<PayProductOrderServices>();
-  final payInvoiceServiceSalesOrder = Get.find<PaySalesOrderServices>();
+  // final payInvoiceServiceOrderProduct = Get.find<PayProductOrderServices>();
+  // final payInvoiceServiceSalesOrder = Get.find<PaySalesOrderServices>();
 
   RxInt tag = 1.obs;
   RxBool success = false.obs;
@@ -172,11 +170,10 @@ class SummaryViewModel extends GetxController {
     try {
       isLoading.value = true;
 
-      // await payInvoiceServiceOrderProduct.payInvoice(docId, prodId, totalQty);
+      await transactionServices.payProductOrderServices(docId, prodId, totalQty);
       itemRepository.getBulkDataOrder();
-
-      success.value = true;
       isLoading.value = false;
+      success.value = true;
     } catch(e) {
       isLoading.value = false;
       errorMessage.value = "Error, $e";

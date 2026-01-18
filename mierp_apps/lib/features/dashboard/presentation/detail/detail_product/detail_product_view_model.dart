@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
+import 'package:mierp_apps/data/finance/services/detail_product_services.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_product_repository.dart';
 import 'package:mierp_apps/core/models/product.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
@@ -11,7 +12,8 @@ class DetailProductViewModel extends GetxController {
   final id;
   final ItemRepository itemRepository;
   final ItemStore itemStore;
-  DetailProductViewModel({required this.id, required this.itemRepository, required this.itemStore});
+  final DetailProductServices detailProductServices;
+  DetailProductViewModel({required this.id, required this.itemRepository, required this.itemStore, required this.detailProductServices});
 
   final detailProductR = DetailProductRepository();
   final loadingC = Get.find<LoadingController>();
@@ -59,15 +61,27 @@ class DetailProductViewModel extends GetxController {
 
   Future<void> updateSingleProduct() async {
     try {
-      loadingC.showLoading();
+      isLoading.value = true;
       Product product = Product(id: detailProduct.value!.id, category: categoryProductC.value, createdOn: createdOnC.text, imageProduct: "", productName: nameProductC.text, productCode: productCodeC.text, quantity: int.parse(quantityC.text), unitPrice: int.parse(unitPriceC.text));
-      await detailProductR.updateSingleProduct(product);
+      await detailProductServices.updateDataProduct(detailProduct.value!.id, product);
+      isLoading.value = false;
       Get.snackbar("Success", "Update data success");
+    } catch(e) {
+      Get.snackbar("Failed", "$e");
+    }
+  }
+
+  Future<void> delete() async {
+    try {
+      isLoading.value = true;
+      await detailProductServices.deleteDataProduct(detailProduct.value!.id);
       Future.delayed(Duration(seconds: 2), () {
-        loadingC.hideLoading();
-        Get.offAllNamed("/dashboard_warehouse");
+        Get.back();
+        Get.snackbar("Success", "Delete data success");
+        isLoading.value = false;
       },);
     } catch(e) {
+      isLoading.value = false;
       Get.snackbar("Failed", "$e");
     }
   }

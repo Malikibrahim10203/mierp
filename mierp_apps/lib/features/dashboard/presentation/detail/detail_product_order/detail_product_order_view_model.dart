@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
+import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
 import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
@@ -21,8 +22,9 @@ class DetailProductOrderViewModel extends GetxController {
   final id;
   final ItemRepository itemRepository;
   final ItemStore itemStore;
+  final TransactionServices transactionServices;
 
-  DetailProductOrderViewModel({required this.id, required this.itemRepository, required this.itemStore});
+  DetailProductOrderViewModel({required this.id, required this.itemRepository, required this.itemStore, required this.transactionServices});
 
   final totalCost = "".obs;
   final unitPrice = "".obs;
@@ -59,35 +61,18 @@ class DetailProductOrderViewModel extends GetxController {
     role.value = user.role;
   }
 
-  Future<void> requestPayInvoid(docId, prodId, totalQty) async {
-    // try {
-    //   isLoading.value = false;
-    //   loadingC.showLoading();
-    //
-    //   await payInvoiceService.payInvoice(docId, prodId, totalQty);
-    //
-    //   loadingC.hideLoading();
-    //   success.value = true;
-    //   isLoading.value = false;
-    // } catch(e) {
-    //   loadingC.hideLoading();
-    //   errorMessage.value = "$e";
-    //   print("Error, $e");
-    // }
-  }
 
-  Future<void> requestSingleProductOrder(docId) async {
+  Future<void> requestPayProductOrder(docId, prodId, totalQty) async {
     try {
-      loadingC.showLoading();
-      orderProducts.value = await detailProductOrderR.getSingleProductOrder(docId);
-      unitPrice.value = convertDollar.intToDollar(orderProducts.value!.unitPrice);
-      totalCost.value = convertDollar.intToDollar(orderProducts.value!.totalCost!);
-      Future.delayed(Duration(seconds: 2), () {
-        loadingC.hideLoading();
-        Get.toNamed("/detail_product_order");
-      },);
+      isLoading.value = true;
+
+      await transactionServices.payProductOrderServices(docId, prodId, totalQty);
+      await itemRepository.getDetailDataOrder(docId);
+
+      success.value = true;
+      isLoading.value = false;
     } catch(e) {
-      loadingC.hideLoading();
+      isLoading.value = false;
       Get.snackbar("Failed", "$e");
     }
   }

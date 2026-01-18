@@ -24,7 +24,7 @@ class DashboardWarehouseView extends StatelessWidget {
   final linkVM = Get.find<LoginRepository>();
   final warehouseVM = Get.find<WarehouseViewModel>();
   final movePageC = Get.find<MovePageController>();
-  final loadingC = Get.find<LoadingController>();
+  final loadingC = LoadingController();
 
   PersistentTabController _controller = PersistentTabController(
       initialIndex: 0);
@@ -540,8 +540,7 @@ class DashboardWarehouseView extends StatelessWidget {
                                     .map((product) =>
                                     GestureDetector(
                                       onTap: () {
-                                        Get.toNamed("/detail_product", arguments: product.id);
-                                        print(product.id);
+                                        Get.toNamed("/detail_product/${product.id}");
                                       },
                                       child: CardStock(
                                           idBarang: product!.productCode,
@@ -567,8 +566,7 @@ class DashboardWarehouseView extends StatelessWidget {
                                       (data) {
                                     return GestureDetector(
                                       onTap: () {
-                                        // final detailVM = Get.put(DetailProductOrderViewModel());
-                                        // detailVM.requestSingleProductOrder(data.id);
+                                        Get.toNamed("/detail_product_order/${data.id}");
                                       },
                                       child: CardOrder(
                                         idOrder: data!.id,
@@ -633,7 +631,7 @@ class DashboardWarehouseView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", voidCallback: (){}),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),

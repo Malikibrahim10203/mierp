@@ -1,20 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
-import 'package:mierp_apps/data/summary/summary_repository.dart';
-import 'package:mierp_apps/data/warehouse/warehouse_repository.dart';
-import 'package:mierp_apps/core/models/order.dart';
-import 'package:mierp_apps/core/models/product.dart';
-import 'package:mierp_apps/core/models/sales_order.dart';
-import 'package:mierp_apps/core/models/tab_item.dart';
-import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view_model.dart';
-import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 
 class ProfileViewModel extends GetxController {
 
   final role = "warehouse".obs;
   final userDataC = UserDataController();
+  final isLoading = false.obs;
+
+  final LoginRepository loginRepository;
+  ProfileViewModel({required this.loginRepository});
 
   @override
   void onInit() {
@@ -29,7 +25,6 @@ class ProfileViewModel extends GetxController {
     super.onClose();
   }
 
-
   Future<void> getUserData() async {
     try {
       UserModel? userModel = await userDataC.getDataUser();
@@ -37,5 +32,33 @@ class ProfileViewModel extends GetxController {
     } catch(e) {
       Get.snackbar("Failed", "$e");
     }
+  }
+
+  Future<void> linkAcccountToGoogle() async {
+    try {
+      await loginRepository.linkToAnotherAccount();
+    } catch(e) {
+      Get.snackbar("Failed", "Link account to Google");
+    }
+  }
+
+
+  Future<void> logout() async {
+    try {
+      isLoading.value = true;
+      Future.delayed(Duration(seconds: 2), () async {
+        await loginRepository.authFirebase.signOut();
+        await loginRepository.googleSignIn.signOut();
+      });
+      isLoading.value = false;
+      Get.offAllNamed("/login");
+      print('User signed out successfully.');
+    } catch(e) {
+      print('Error signing out: $e');
+    }
+  }
+
+  void back() {
+    Get.offAllNamed("/dashboard_$role");
   }
 }

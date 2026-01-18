@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
@@ -17,6 +18,7 @@ class DetailSalesOrderView extends StatelessWidget {
   final movePageC = Get.find<MovePageController>();
   final loadingC = Get.find<LoadingController>();
   final detailSalesOrderVM = Get.find<DetailSalesOrderViewModel>();
+  final convertDollar = ConvertDollar();
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +343,7 @@ class DetailSalesOrderView extends StatelessWidget {
                                   Container(
                                     width: 119.w,
                                     child: Text(
-                                      detailSalesOrderVM.unitPrice.value,
+                                      convertDollar.intToDollar(detailSalesOrderVM.salesOrder.value!.unitPrice),
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.inter(
                                           fontSize: 12.sp,
@@ -385,7 +387,7 @@ class DetailSalesOrderView extends StatelessWidget {
                                   Container(
                                     width: 119.w,
                                     child: Text(
-                                      detailSalesOrderVM.totalCost.value,
+                                      convertDollar.intToDollar(detailSalesOrderVM.salesOrder.value!.totalPrice),
                                       overflow: TextOverflow.ellipsis,
                                       style: GoogleFonts.inter(
                                           fontSize: 15.sp,
@@ -548,6 +550,10 @@ class DetailSalesOrderView extends StatelessWidget {
               ),
             ],
           ),
+          Obx(() =>
+          detailSalesOrderVM.isLoading.value == true ? Container(color: Colors.black26,
+              child: Center(child: LoadingAnimationWidget.stretchedDots(
+                color: AppColors.softWhite, size: 70.w,))) : SizedBox(),),
         ],
       ),
     );

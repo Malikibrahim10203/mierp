@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
+import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
 import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
@@ -17,12 +18,12 @@ class DashboardFinanceViewModel extends GetxController {
   final DashboardFinanceRepository dashboardFinanceR;
   final ItemRepository itemRepository;
   final ItemStore itemStore;
+  final TransactionServices transactionServices;
 
-  DashboardFinanceViewModel(this.dashboardFinanceR, this.itemRepository, this.itemStore);
+  DashboardFinanceViewModel(this.dashboardFinanceR, this.itemRepository, this.itemStore, this.transactionServices);
 
   final userDataC = UserDataController();
   final loadingC = Get.find<LoadingController>();
-  final payInvoiceService = Get.find<PayProductOrderServices>();
 
   Rx<String> userName = "".obs;
   RxBool success = false.obs;
@@ -83,12 +84,13 @@ class DashboardFinanceViewModel extends GetxController {
   }
 
 
-  Future<void> requestPayInvoice(docId, prodId, totalQty) async {
+  Future<void> requestPayProductOrder(docId, prodId, totalQty) async {
     try {
       isLoading.value = true;
 
-      await payInvoiceService.payInvoice(docId, prodId, totalQty);
+      await transactionServices.payProductOrderServices(docId, prodId, totalQty);
       itemRepository.getBulkDataOrder();
+
       success.value = true;
       isLoading.value = false;
     } catch(e) {

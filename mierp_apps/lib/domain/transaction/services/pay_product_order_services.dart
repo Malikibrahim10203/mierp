@@ -1,21 +1,26 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mierp_apps/core/models/product.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
+import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
+import 'package:mierp_apps/domain/transaction/repository/transaction_repository.dart';
+import 'package:mierp_apps/state/item_store.dart';
 
 class PayProductOrderServices {
-  DetailProductOrderRepository detailProductOrderRepository;
+  TransactionRepository transactionRepository;
+  ItemStore itemStore;
 
-  PayProductOrderServices(this.detailProductOrderRepository);
+  PayProductOrderServices(this.transactionRepository, this.itemStore);
 
   Future<void> payInvoice(docId, prodId, totalQty) async {
     try {
-      final product = await detailProductOrderRepository.getProduct(prodId);
-      if (totalQty >= product.quantity) {
-        throw Exception("Out of stock");
-      }
-      final now = DateTime.now();
-      final dateParse = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-      await detailProductOrderRepository.payInvoiceProduct(docId, prodId, dateParse, totalQty);
+
+      // if (totalQty >= product!.quantity) {
+      //   throw Exception("Out of stock");
+      // }
+      // final now = DateTime.now();
+      // final dateParse = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+      // transactionRepository.payProductOrderInvoice(prodId, totalQty, dateParse);
     } catch(e) {
       rethrow;
     }

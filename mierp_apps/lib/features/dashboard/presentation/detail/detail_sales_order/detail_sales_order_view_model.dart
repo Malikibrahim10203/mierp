@@ -65,6 +65,7 @@ class DetailSalesOrderViewModel extends GetxController {
       isLoading.value = true;
 
       await paySalesOrderService.payInvoice(docId, prodId, totalQty);
+      await itemRepository.getDetailDataSalesOrder(docId);
 
       isLoading.value = false;
       success.value = true;

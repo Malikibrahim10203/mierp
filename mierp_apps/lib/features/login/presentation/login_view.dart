@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/core/widgets/checkbox_widget.dart';
 import 'package:mierp_apps/core/widgets/auth/input_auth_widget.dart';
 import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
@@ -16,7 +14,6 @@ class LoginView extends StatelessWidget {
 
   final loginViewModel = Get.find<LoginViewModel>();
   final loginR = Get.find<LoginRepository>();
-  final loadingC = Get.find<LoadingController>();
 
   final formKey = GlobalKey<FormState>();
 
@@ -134,7 +131,18 @@ class LoginView extends StatelessWidget {
                                       children: [
                                         Row(
                                           children: [
-                                            CheckboxWidget(),
+                                            Obx(() {
+                                              return Container(
+                                                width: 15.w,
+                                                height: 15.h,
+                                                child: Checkbox(
+                                                  value: loginViewModel.saveCredential.value,
+                                                  onChanged: (newValue) {
+                                                    loginViewModel.saveCredential.value = newValue!;
+                                                  },
+                                                ),
+                                              );
+                                            }),
                                             SizedBox(width: 8.w,),
                                             Text(
                                               "Remember me",
@@ -181,6 +189,9 @@ class LoginView extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         if(formKey.currentState!.validate()){
+                                          if(loginViewModel.saveCredential.value == true) {
+
+                                          }
                                           loginViewModel.login(loginViewModel.emailC.text, loginViewModel.passwordC.text);
                                           print("${loginViewModel.emailC.text} ${loginViewModel.passwordC.text}");
                                         }
@@ -276,7 +287,7 @@ class LoginView extends StatelessWidget {
               )
             ],
           ),
-          Obx(()=>loadingC.isLoading.value? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
+          Obx(()=>loginViewModel.isLoading.value == true? Container(color: Colors.black26, child: Center(child: LoadingAnimationWidget.stretchedDots(color: AppColors.softWhite, size: 70.w,))):SizedBox(),)
         ],
       ),
     );

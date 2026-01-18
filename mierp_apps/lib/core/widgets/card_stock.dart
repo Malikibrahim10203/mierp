@@ -213,7 +213,7 @@ class CardStock extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                "Electronics",
+                type,
                 style: GoogleFonts.inter(
                   fontSize: 9.sp,
                   fontWeight: AppFontWeight.regular,

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/data/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
-import 'package:mierp_apps/data/inventory/inventory_repository.dart';
 import 'package:mierp_apps/data/warehouse/warehouse_repository.dart';
 import 'package:mierp_apps/core/models/order.dart';
 import 'package:mierp_apps/core/models/product.dart';
@@ -29,9 +28,13 @@ class WarehouseViewModel extends GetxController {
   WarehouseViewModel(this.itemRepository, this.itemStore);
 
   final warehouseRepository = WarehouseRepository();
-  final inventoryRepository = InventoryRepository();
 
   final userDataC = UserDataController();
+
+  RxInt lenghtProduct = 0.obs;
+  RxInt totalQtyProduct = 0.obs;
+  RxInt totalLowProduct = 0.obs;
+  RxInt totalUpcomingProduct = 0.obs;
 
   RxList<Product?> get listProduct {
     return itemStore.listProduct;
@@ -42,11 +45,6 @@ class WarehouseViewModel extends GetxController {
   RxList<SalesOrder?> get listSalesOrder {
     return itemStore.listSalesOrder;
   }
-
-  RxInt lenghtProduct = 0.obs;
-  RxInt totalQtyProduct = 0.obs;
-  RxInt totalLowProduct = 0.obs;
-  RxInt totalUpcomingProduct = 0.obs;
 
   RxString collection = "products".obs;
   RxnString userName = RxnString();
@@ -61,6 +59,7 @@ class WarehouseViewModel extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
+    lenghtProduct.bindStream(warehouseRepository.streamTotalProducts());
     totalQtyProduct.bindStream(warehouseRepository.streamGetQtyProduct());
     totalLowProduct.bindStream(warehouseRepository.streamGetLowStock());
     totalUpcomingProduct.bindStream(warehouseRepository.streamGetUpcomingStock());

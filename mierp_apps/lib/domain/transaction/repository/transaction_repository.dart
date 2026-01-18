@@ -1,6 +1,6 @@
 
 abstract class TransactionRepository {
 
-  Future<void> payProductOrderInvoice(prodId,totalQty,date);
-  Future<void> paySalesOrderInvoice(prodId,totalQty,date);
+  Future<void> payProductOrderInvoice(docId,prodId,totalQty,date);
+  Future<void> paySalesOrderInvoice(docId,prodId,totalQty,date);
 }
