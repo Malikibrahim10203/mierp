@@ -14,6 +14,7 @@ import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_fin
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view_model.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_binding.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_view.dart';
+import 'package:mierp_apps/features/register/presentation/register_binding.dart';
 import 'package:mierp_apps/features/summary/presentation/summary_view_model.dart';
 import 'package:mierp_apps/features/add/presentation/add_product_order/add_product_order_view.dart';
 import 'package:mierp_apps/features/add/presentation/add_sales_order/add_sales_order_view.dart';
@@ -54,7 +55,7 @@ class AppRoutes {
           },
         )
       ),
-      GetPage(name: "/register", page: () => RegisterView()),
+      GetPage(name: "/register", page: () => RegisterView(), binding: RegisterBinding()),
       GetPage(
         name: "/dashboard_warehouse",
         page: () => DashboardWarehouseView(),

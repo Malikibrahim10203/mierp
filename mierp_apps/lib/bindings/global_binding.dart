@@ -29,9 +29,9 @@ class GlobalBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
-    Get.lazyPut(() => PaySalesOrderServices(DetailSalesOrderRepository()), fenix: true);
 
     Get.put(LoadingController(), permanent: true);
+
     Get.put(FirebaseFirestore.instance);
     Get.put(FirebaseAuth.instance);
 
@@ -41,8 +41,6 @@ class GlobalBinding extends Bindings {
     Get.put<CredentialRepository>(CredentialRepositoryImpl());
 
     Get.put(LoginRepository());
-
-    Get.lazyPut(()=>RegisterViewModel());
 
     Get.put(OnboardingViewModel());
     Get.lazyPut(()=>SplashViewModel(authSession: Get.find<AuthSession>(), onboardingViewModel: Get.find<OnboardingViewModel>()));
@@ -55,8 +53,5 @@ class GlobalBinding extends Bindings {
     Get.put(DetailProductServices(itemRepository: Get.find<ItemRepository>()));
     Get.put<TransactionRepository>(TransactionRepositoryImpl(firestore: Get.find()));
     Get.put<TransactionServices>(TransactionServices(itemRepository: Get.find<ItemRepository>(), itemStore: Get.find<ItemStore>(), transactionRepository: Get.find<TransactionRepository>()));
-
-
-
   }
 }
