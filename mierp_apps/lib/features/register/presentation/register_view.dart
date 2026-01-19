@@ -17,7 +17,6 @@ import '../../../core/theme/app_colors.dart';
 class RegisterView extends StatelessWidget {
   RegisterView({super.key});
 
-  final loginViewModel = Get.find<LoginViewModel>();
   final loginR = Get.find<LoginRepository>();
   final loadingC = Get.find<LoadingController>();
 

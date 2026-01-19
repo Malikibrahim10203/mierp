@@ -5,10 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/core/controller/payment_order_product_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product_order/detail_product_order_view_model.dart';
+import 'package:mierp_apps/features/detail/presentation/detail_product_order/detail_product_order_view_model.dart';
 
 class CardOrder extends StatelessWidget {
   CardOrder({super.key, required this.idOrder,required this.idBarang, required this.namaBarang, required this.financeApproved, required this.createdOn, required this.nameUser, required this.quantity, required this.unitPrice, required this.lineTotal, this.finance, required this.onPayPressed});

@@ -8,13 +8,6 @@ class InputWidgetController extends GetxController {
   RxString eCode = "".obs;
 
   @override
-  void onInit() {
-    // TODO: implement onInit
-    focusNode.addListener(() => isFocus.value = focusNode.hasFocus);
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     // TODO: implement onClose
     focusNode.dispose();

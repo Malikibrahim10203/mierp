@@ -12,13 +12,14 @@ class InputWidget extends StatelessWidget {
   InputWidget({super.key, required this.head, required this.controller, required this.placeholder, required this.necessary, required this.formKey});
 
   final head, controller, placeholder, necessary, formKey;
-  final inputWidgetC = Get.put(InputWidgetController(), tag: UniqueKey().toString());
   RxBool hasError = false.obs;
   RxString dataError = "".obs;
-  final loginVieModel = Get.find<LoginViewModel>();
 
   @override
   Widget build(BuildContext context) {
+
+    final inputWidgetC = Get.put(InputWidgetController(), tag: head.toString());
+
     return Obx(() {
       return Container(
         width: 322.w,
@@ -71,72 +72,76 @@ class InputWidget extends StatelessWidget {
                   )
                 ],
               ),
-              child: TextFormField(
-                controller: controller,
-                focusNode: inputWidgetC.focusNode,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    hasError.value = true;
-                    dataError.value = "wajib diisi";
-                    loginVieModel.isValid.value = false;
-                    return null;
-                  }
+              child: Focus(
+                onFocusChange: (value) {
+                  inputWidgetC.isFocus.value = value;
                 },
-                style: GoogleFonts.inter(
-                  fontSize: 13.sp,
-                  fontWeight: AppFontWeight.regular,
-                  height: 1.0,
-                ),
-                decoration: hasError.value?InputDecoration(
-                  errorMaxLines: 1,
-                  errorText: '',
-                  errorStyle: TextStyle(
-                    color: Colors.transparent,
-                    fontSize: 0,
-                  ),
-                  hintText: "$head",
-                  hintStyle: GoogleFonts.inter(
-                    color: AppColors.greyPlacholder,
+                child: TextFormField(
+                  controller: controller,
+                  focusNode: inputWidgetC.focusNode,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      hasError.value = true;
+                      dataError.value = "wajib diisi";
+                      return null;
+                    }
+                  },
+                  style: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
                     height: 1.0,
                   ),
-                  focusedBorder: OutlineInputBorder(
+                  decoration: hasError.value?InputDecoration(
+                    errorMaxLines: 1,
+                    errorText: '',
+                    errorStyle: TextStyle(
+                      color: Colors.transparent,
+                      fontSize: 0,
+                    ),
+                    hintText: "$head",
+                    hintStyle: GoogleFonts.inter(
+                      color: AppColors.greyPlacholder,
+                      fontSize: 13.sp,
+                      fontWeight: AppFontWeight.regular,
+                      height: 1.0,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.w),
+                        borderSide: BorderSide(color: AppColors.blueLine,
+                            width: 1.w)
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.w),
+                        borderSide: BorderSide.none
+                    ),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.blueLine,
-                          width: 1.w)
-                  ),
-                  enabledBorder: OutlineInputBorder(
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 8.w, vertical: 12.5.w),
+                  ):InputDecoration(
+                    hintText: "$head",
+                    hintStyle: GoogleFonts.inter(
+                      color: AppColors.greyPlacholder,
+                      fontSize: 13.sp,
+                      fontWeight: AppFontWeight.regular,
+                      height: 1.0,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.w),
+                        borderSide: BorderSide(color: AppColors.blueLine,
+                            width: 1.w)
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(6.w),
+                        borderSide: BorderSide.none
+                    ),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide.none
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 8.w, vertical: 12.5.w),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6.w),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 8.w, vertical: 12.5.w),
-                ):InputDecoration(
-                  hintText: "$head",
-                  hintStyle: GoogleFonts.inter(
-                    color: AppColors.greyPlacholder,
-                    fontSize: 13.sp,
-                    fontWeight: AppFontWeight.regular,
-                    height: 1.0,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide(color: AppColors.blueLine,
-                          width: 1.w)
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.w),
-                      borderSide: BorderSide.none
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(6.w),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 8.w, vertical: 12.5.w),
                 ),
               ),
             ),

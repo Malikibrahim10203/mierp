@@ -4,6 +4,7 @@ class UserModel {
   String? firstName;
   String? lastName;
   String? role;
+  bool allowGoogleLogin;
 
   UserModel({
     required this.uid,
@@ -11,6 +12,7 @@ class UserModel {
     required this.firstName,
     required this.lastName,
     required this.role,
+    required this.allowGoogleLogin,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -19,6 +21,7 @@ class UserModel {
     firstName: json["first_name"]??'',
     lastName: json["last_name"]??'',
     role: json["role"]??'',
+    allowGoogleLogin: json["allow_google_login"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -26,6 +29,6 @@ class UserModel {
     "email": email,
     "first_name": firstName,
     "last_name": lastName,
-    "role": role,
+    "allow_google_login": allowGoogleLogin,
   };
 }

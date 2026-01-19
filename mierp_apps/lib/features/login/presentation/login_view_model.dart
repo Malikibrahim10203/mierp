@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:mierp_apps/core/utils/loading_controller.dart';
+import 'package:mierp_apps/data/login/exception/auth_failures.dart';
 import 'package:mierp_apps/domain/credential/repository/credential_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/models/user_model.dart';
 import '../../../data/login/login_repository.dart';
 
@@ -56,13 +54,12 @@ class LoginViewModel extends GetxController {
           Get.offAllNamed("/dashboard_finance");
         }
 
-      } else {
-        isLoading.value = false;
-        handleError(repo.eCode.value);
       }
     } catch (e) {
       isLoading.value = false;
-      Get.snackbar("Login Gagal", e.toString());
+      if (e is AuthFailures) {
+        handleError(e);
+      }
     }
   }
 
@@ -83,11 +80,13 @@ class LoginViewModel extends GetxController {
         }
       });
     }catch(e) {
-      print("Error Google login VM");
+      print(e);
+      isLoading.value = false;
+      if (e is AuthFailures) {
+        handleError(e);
+      }
     }
   }
-
-
 
   Future<void> loadCredentialUser() async {
 
@@ -95,29 +94,40 @@ class LoginViewModel extends GetxController {
     final email = data.email;
     final save = data.isSave;
 
-    if(save != null) {
+    if(data != null) {
       saveCredential.value = save;
     }
 
     if(save) {
-      emailC.text = email??'';
+      emailC.text = email;
     }
   }
 
-  void handleError(String eCode) {
+  void handleError(AuthFailures eCode) {
     switch (eCode) {
-      case 'user-not-found':
+      case AuthFailures.userNotFound:
         Get.snackbar("Login Gagal!", "Email tidak terdaftar");
         break;
-      case 'wrong-password':
+      case AuthFailures.wrongPassword:
         Get.snackbar("Login Gagal", "Password salah");
         break;
-      case 'invalid-email':
+      case AuthFailures.invalidEmail:
         Get.snackbar("Login Gagal", "Format email salah");
         break;
-      case 'auth-error':
+      case AuthFailures.googleCanceled:
+        Get.snackbar("Login Gagal", "Authentikasi dibatalkan");
+        break;
+      case AuthFailures.idTokenMissing:
+        Get.snackbar("Login Gagal", "Id token tidak ditemukan");
+        break;
+      case AuthFailures.userNotRegistrated:
+        Get.snackbar("Login Gagal", "Akun harus disambungkan dahulu");
+        break;
+      case AuthFailures.userNotFoundInFirestore:
+        Get.snackbar("Login Gagal", "Akun tidak terdaftar");
+        break;
       default:
-        Get.snackbar("Login Gagal", "Email tidak terdaftar");
+        Get.snackbar("Login Gagal", "Terjadi kesalahan!");
         break;
     }
   }

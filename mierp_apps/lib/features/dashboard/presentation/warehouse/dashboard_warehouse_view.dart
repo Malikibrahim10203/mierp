@@ -20,7 +20,6 @@ import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 class DashboardWarehouseView extends StatelessWidget {
   DashboardWarehouseView({super.key});
 
-  final loginViewModel = Get.find<LoginViewModel>();
   final linkVM = Get.find<LoginRepository>();
   final warehouseVM = Get.find<WarehouseViewModel>();
   final movePageC = Get.find<MovePageController>();

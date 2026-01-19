@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/core/controller/payment_order_product_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/bottom_navbar_helper.dart';
@@ -14,7 +13,7 @@ import 'package:mierp_apps/core/widgets/card_finance_box.dart';
 import 'package:mierp_apps/core/widgets/card_order.dart';
 import 'package:mierp_apps/core/widgets/card_sales.dart';
 import 'package:mierp_apps/core/widgets/card_stock.dart';
-import 'package:mierp_apps/features/dashboard/presentation/detail/detail_product/detail_product_view_model.dart';
+import 'package:mierp_apps/features/detail/presentation/detail_product/detail_product_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view_model.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -233,7 +232,7 @@ class DashboardFinanceView extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            movePageC.movePageWithBack("/summary");
+                            financeVM.moveToSummaryView();
                           },
                           child: Row(
                             children: [

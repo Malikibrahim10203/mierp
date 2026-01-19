@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
-import 'package:mierp_apps/data/user_data_controller.dart';
+import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/domain/transaction/services/pay_product_order_services.dart';
@@ -114,5 +114,11 @@ class DashboardFinanceViewModel extends GetxController {
     selected.isActive.value = true;
   }
 
-
+  void moveToSummaryView() {
+    isLoading.value = true;
+    Future.delayed(Duration(seconds: 1), () {
+      isLoading.value = false;
+      Get.toNamed("/summary");
+    },);
+  }
 }

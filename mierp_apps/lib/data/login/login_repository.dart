@@ -4,24 +4,16 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
+import 'package:mierp_apps/data/login/exception/auth_failures.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
-class LoginRepository extends GetxController {
+class LoginRepository {
   final FirebaseAuth authFirebase = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn.instance;
   final FirebaseFirestore authStore = FirebaseFirestore.instance;
 
-  final loadingC = Get.find<LoadingController>();
-
-  RxString eCode = "".obs;
-  RxBool hasError = false.obs;
-
-  AuthCredential? _authCredential;
-  String? _conflictEmail;
-
   Future<UserModel?> login(String email, String password) async {
     try {
-      loadingC.showLoading();
       UserCredential userCredential = await authFirebase.signInWithEmailAndPassword(email: email, password: password);
       String uid = userCredential.user!.uid;
       DocumentSnapshot snapDoc = await authStore.collection('users').doc(uid).get();
@@ -36,80 +28,24 @@ class LoginRepository extends GetxController {
         firstName: data['first_name'],
         lastName: data['last_name'],
         role: data['role'],
+        allowGoogleLogin: data['allow_google_login']
       );
       return userModel;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        eCode.value = 'user-not-found';
-      } else if (e.code == 'wrong-password') {
-        eCode.value = 'wrong-password';
-      } else if (e.code == 'invalid-email') {
-        eCode.value = 'invalid-email';
+      switch (e.code) {
+        case 'user-not-found':
+          throw AuthFailures.userNotFound;
+        case 'wrong-password':
+          throw AuthFailures.wrongPassword;
+        case 'invalid-email':
+          throw AuthFailures.invalidEmail;
+        default:
+          throw AuthFailures.unknown;
       }
-    } catch (e) {
-      eCode.value = 'auth-error';
+    } catch (_) {
+      rethrow;
     }
-    return null;
   }
-
-  // Future<UserModel?> loginWithGoogle() async {
-  //   try {
-  //     await googleSignIn.initialize();
-  //
-  //     final GoogleSignInAccount? googleUser = await googleSignIn.authenticate(
-  //       scopeHint: ['email'],
-  //     );
-  //
-  //     if (googleUser == null) {
-  //       print("Google Sign-In canceled");
-  //       return null;
-  //     }
-  //
-  //     final googleAuth = googleUser.authentication;
-  //     final authClient = googleSignIn.authorizationClient;
-  //     var authorization = await authClient.authorizationForScopes(['email']);
-  //
-  //     if (authorization == null) {
-  //       authorization = await authClient.authorizeScopes(['email']);
-  //     }
-  //
-  //     loadingC.showLoading();
-  //
-  //     if (authorization == null) {
-  //       print("Authorization failed");
-  //       return null;
-  //     }
-  //
-  //     final credential = GoogleAuthProvider.credential(
-  //       accessToken: authorization.accessToken,
-  //       idToken: googleAuth.idToken,
-  //     );
-  //
-  //     try {
-  //       final userCredential = await authFirebase.signInWithCredential(credential);
-  //       final uid = userCredential.user!.uid;
-  //
-  //       DocumentSnapshot snapDoc =
-  //       await authStore.collection('users').doc(uid).get();
-  //
-  //       final data = snapDoc.data() as Map<String, dynamic>;
-  //       final userModel = UserModel.fromJson(data);
-  //
-  //       return userModel;
-  //     } on FirebaseAuthException catch(e) {
-  //       if (e.code == 'account-exists-with-different-credential') {
-  //         print(e.code);
-  //         return null;
-  //       }
-  //     } catch(e) {
-  //       print("Error ini : $e");
-  //     }
-  //   } catch (e) {
-  //     loadingC.hideLoading();
-  //     print("Google login error: $e");
-  //     return null;
-  //   }
-  // }
 
   Future<UserModel?> loginWithGoogle() async {
     try {
@@ -119,17 +55,28 @@ class LoginRepository extends GetxController {
         scopeHint: ['email']
       );
 
-      if(googleUser==null) {
-        print("Google Sign-In canceled");
-        return null;
-      };
+      final email = googleUser.email;
+
+      final query = await authStore.collection("users").where(
+        'email', isEqualTo: email
+      ).limit(1).get();
+
+      if(query.docs.isEmpty){
+         throw AuthFailures.googleCanceled;
+      }
+
+      final checkProvider = query.docs.first.data();
+
+      if (checkProvider['allow_google_login'] == false) {
+        print("ppepepe");
+        throw AuthFailures.userNotRegistrated;
+      }
 
       final googleAutorization = await googleUser.authentication;
       final idToken = googleAutorization.idToken;
 
       if(idToken==null) {
-        eCode.value = "idtoken-missing";
-        return null;
+        throw AuthFailures.idTokenMissing;
       };
 
       final googleCredential = GoogleAuthProvider.credential(
@@ -138,15 +85,15 @@ class LoginRepository extends GetxController {
       final userCredential = await authFirebase.signInWithCredential(googleCredential);
       final uid = userCredential.user!.uid;
       final snapDoc = await authStore.collection('users').doc(uid).get();
+
       if(!snapDoc.exists) {
-        eCode.value = "user-not-found-in-firestore";
-        return null;
+        throw AuthFailures.userNotFoundInFirestore;
       };
+
       final docJson = snapDoc.data() as Map<String, dynamic>;
       return UserModel.fromJson(docJson);
     } catch(e) {
-      print("Google Login Error: $e");
-      return null;
+      rethrow;
     }
   }
 
@@ -157,7 +104,7 @@ class LoginRepository extends GetxController {
       final googleUser = await googleSignIn.authenticate();
 
       if(googleUser.id.isEmpty){
-        eCode.value = "authenticate-failed";
+        print("authenticate-failed");
         return;
       }
 
@@ -165,7 +112,7 @@ class LoginRepository extends GetxController {
       final idToken = googleAuth.idToken;
 
       if(idToken==null){
-        eCode.value = "idtoken-missing";
+        print("idtoken-missing");
         return;
       };
 
@@ -175,10 +122,8 @@ class LoginRepository extends GetxController {
 
       await authFirebase.currentUser!.linkWithCredential(googleCredential);
     } catch(e) {
-      eCode.value = "error-link-google";
+      print("error-link-google");
     }
   }
 
-
-  User? get currentUser => authFirebase.currentUser;
 }

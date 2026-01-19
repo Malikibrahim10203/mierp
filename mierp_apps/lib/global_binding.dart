@@ -5,7 +5,6 @@ import 'package:mierp_apps/core/session/auth_session.dart';
 
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/core/controller/payment_order_product_controller.dart';
 import 'package:mierp_apps/data/auth_session/auth_session_repository.dart';
 import 'package:mierp_apps/data/credential/credential_repository_impl.dart';
 import 'package:mierp_apps/data/finance/services/detail_product_services.dart';
@@ -21,7 +20,7 @@ import 'package:mierp_apps/domain/transaction/services/pay_sales_order_services.
 import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_sales_order_repository.dart';
 import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
-import 'package:mierp_apps/features/onboarding/onboarding_view_model.dart';
+import 'package:mierp_apps/features/onboarding/presentation/onboarding_view_model.dart';
 import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
 import 'package:mierp_apps/features/splash/presentation/splash_view_model.dart';
 import 'package:mierp_apps/state/item_store.dart';
