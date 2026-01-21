@@ -39,9 +39,10 @@ class LoginView extends StatelessWidget {
                           width: 350.w,
                           height: 671.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(20.r),
-                                right: Radius.circular(20.r)),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.r),
+                                topRight: Radius.circular(20.r),
+                            ),
                             color: AppColors.shadowElectricBlue.withValues(
                                 alpha: 0.29),
                           ),
@@ -59,9 +60,9 @@ class LoginView extends StatelessWidget {
                           width: 1.sw,
                           height: 658.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(20.r),
-                                right: Radius.circular(20.r)),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.r),
+                                topRight: Radius.circular(20.r),),
                             color: Colors.white,
                           ),
                           child: Form(
@@ -154,12 +155,15 @@ class LoginView extends StatelessWidget {
                                             )
                                           ],
                                         ),
-                                        Text(
-                                          "Forgot Password",
-                                          style: GoogleFonts.inter(
-                                              color: AppColors.blueLine,
-                                              fontWeight: AppFontWeight.medium,
-                                              fontSize: 13.sp
+                                        GestureDetector(
+                                          onTap: () => Get.toNamed("/forgot"),
+                                          child: Text(
+                                            "Forgot Password",
+                                            style: GoogleFonts.inter(
+                                                color: AppColors.blueLine,
+                                                fontWeight: AppFontWeight.medium,
+                                                fontSize: 13.sp
+                                            ),
                                           ),
                                         )
                                       ],

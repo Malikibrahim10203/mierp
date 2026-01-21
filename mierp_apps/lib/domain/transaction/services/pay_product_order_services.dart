@@ -1,8 +1,3 @@
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:mierp_apps/core/models/product.dart';
-import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
-import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/domain/transaction/repository/transaction_repository.dart';
 import 'package:mierp_apps/state/item_store.dart';
 

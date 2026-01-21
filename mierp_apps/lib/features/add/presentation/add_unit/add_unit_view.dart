@@ -207,7 +207,7 @@ class AddUnitView extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      movePageC.movePage("/dashboard_warehouse");
+                                      addUnitVM.back();
                                     },
                                     child: Icon(
                                       Icons.close,

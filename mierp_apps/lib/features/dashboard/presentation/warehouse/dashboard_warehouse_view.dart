@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -14,7 +13,6 @@ import 'package:mierp_apps/core/widgets/card_order.dart';
 import 'package:mierp_apps/core/widgets/card_stock.dart';
 import 'package:mierp_apps/features/dashboard/presentation/warehouse/warehouse_view_model.dart';
 import 'package:mierp_apps/data/login/login_repository.dart';
-import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class DashboardWarehouseView extends StatelessWidget {
@@ -266,7 +264,7 @@ class DashboardWarehouseView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                movePageC.movePage("/add_unit");
+                                warehouseVM.movePage("/add_unit");
                               },
                               child: Container(
                                 width: 36.w,
@@ -326,7 +324,7 @@ class DashboardWarehouseView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                movePageC.movePage("/add_sales_order");
+                                warehouseVM.movePage("/add_sales_order");
                               },
                               child: Container(
                                 width: 36.w,
@@ -386,7 +384,7 @@ class DashboardWarehouseView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                movePageC.movePage("/add_product_order");
+                                warehouseVM.movePage("/add_product_order");
                               },
                               child: Container(
                                 width: 36.w,
@@ -630,7 +628,7 @@ class DashboardWarehouseView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", voidCallback: (){}),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home",),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),
@@ -639,7 +637,7 @@ class DashboardWarehouseView extends StatelessWidget {
             ),
           ),
         ),
-        Obx(() => loadingC.isLoading.value ? Container(color: Colors.black26,
+        Obx(() => warehouseVM.isLoading.value ? Container(color: Colors.black26,
             child: Center(child: LoadingAnimationWidget.stretchedDots(
               color: AppColors.softWhite, size: 70.w,))) : SizedBox(),)
       ],

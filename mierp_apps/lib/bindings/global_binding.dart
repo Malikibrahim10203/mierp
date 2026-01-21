@@ -15,13 +15,7 @@ import 'package:mierp_apps/domain/credential/repository/credential_repository.da
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/data/item/repositories/item_repository_impl.dart';
 import 'package:mierp_apps/domain/transaction/repository/transaction_repository.dart';
-import 'package:mierp_apps/domain/transaction/services/pay_product_order_services.dart';
-import 'package:mierp_apps/domain/transaction/services/pay_sales_order_services.dart';
-import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
-import 'package:mierp_apps/data/warehouse/detail/detail_sales_order_repository.dart';
-import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 import 'package:mierp_apps/features/onboarding/presentation/onboarding_view_model.dart';
-import 'package:mierp_apps/features/register/presentation/register_view_model.dart';
 import 'package:mierp_apps/features/splash/presentation/splash_view_model.dart';
 import 'package:mierp_apps/state/item_store.dart';
 

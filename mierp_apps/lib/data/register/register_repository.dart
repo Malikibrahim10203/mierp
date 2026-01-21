@@ -25,7 +25,8 @@ class RegisterRepository extends GetxController {
         'email':email,
         'first_name':f_name,
         'last_name':l_name,
-        'role':role
+        'role':role,
+        'allow_google_login':false
       });
     } catch(e) {
       Get.snackbar("Error add firestore!", "$e");

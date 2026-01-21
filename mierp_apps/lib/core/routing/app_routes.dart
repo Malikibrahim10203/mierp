@@ -5,13 +5,16 @@ import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
 import 'package:mierp_apps/domain/credential/repository/credential_repository.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
-import 'package:mierp_apps/domain/transaction/repository/transaction_repository.dart';
 import 'package:mierp_apps/features/detail/presentation/detail_product/detail_product_binding.dart';
 import 'package:mierp_apps/features/detail/presentation/detail_product_order/detail_product_order_binding.dart';
-import 'package:mierp_apps/features/detail/presentation/detail_product_order/detail_product_order_view_model.dart';
 import 'package:mierp_apps/features/detail/presentation/detail_sales_order/detail_sales_order_binding.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view_model.dart';
+import 'package:mierp_apps/features/forgot_password/presentation/forgot_password_binding.dart';
+import 'package:mierp_apps/features/forgot_password/presentation/forgot_password_view.dart';
+import 'package:mierp_apps/features/loading/loading_binding.dart';
+import 'package:mierp_apps/features/loading/loading_view.dart';
+import 'package:mierp_apps/features/loading/loading_view_model.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_binding.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_view.dart';
 import 'package:mierp_apps/features/register/presentation/register_binding.dart';
@@ -55,7 +58,9 @@ class AppRoutes {
           },
         )
       ),
+      GetPage(name: "/loading", page: () => LoadingView(), binding: LoadingBinding(),),
       GetPage(name: "/register", page: () => RegisterView(), binding: RegisterBinding()),
+      GetPage(name: "/forgot", page: () => ForgotPasswordView(), binding: ForgotPasswordBinding()),
       GetPage(
         name: "/dashboard_warehouse",
         page: () => DashboardWarehouseView(),
@@ -76,10 +81,7 @@ class AppRoutes {
           },
         )
       ),
-
       GetPage(name: "/profile", page: () => ProfileView(), binding: ProfileBinding()),
-
-
       GetPage(name: "/summary",
         page: () => SummaryView(),
         binding: BindingsBuilder(
@@ -90,33 +92,16 @@ class AppRoutes {
       ),
 
       // Warehouse
-
-      GetPage(
-        name: "/add_unit",
-        page: () => AddUnitView(),
-        binding: AddUnitViewBinding()
-      ),
+      GetPage(name: "/add_unit", page: () => AddUnitView(), binding: AddUnitViewBinding()),
       GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
       GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
 
       GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
       GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
 
-      GetPage(
-        name: "/detail_product/:id",
-        page: () => DetailProductView(),
-        binding: DetailProductBinding()
-      ),
-      GetPage(
-        name: "/detail_product_order/:id",
-        page: () => DetailProductOrderView(),
-        binding: DetailProductOrderBinding()
-      ),
-      GetPage(
-        name: "/detail_sales_order/:id",
-        page: () => DetailSalesOrderView(),
-        binding: DetailSalesOrderBinding(),
-      ),
+      GetPage(name: "/detail_product/:id", page: () => DetailProductView(), binding: DetailProductBinding()),
+      GetPage(name: "/detail_product_order/:id", page: () => DetailProductOrderView(), binding: DetailProductOrderBinding()),
+      GetPage(name: "/detail_sales_order/:id", page: () => DetailSalesOrderView(), binding: DetailSalesOrderBinding(),),
 
   ];
 }

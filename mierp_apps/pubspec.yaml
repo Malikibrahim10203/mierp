@@ -51,6 +51,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
   chips_choice: ^3.0.1
   flutter_secure_storage: ^10.0.0
+  lottie: ^3.3.2
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
   assets:
      - assets/images/
      - assets/icons/
+     - assets/lottie/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

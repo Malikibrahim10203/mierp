@@ -32,6 +32,8 @@ class WarehouseViewModel extends GetxController {
   RxInt totalLowProduct = 0.obs;
   RxInt totalUpcomingProduct = 0.obs;
 
+  RxBool isLoading = false.obs;
+
   RxList<Product?> get listProduct {
     return itemStore.listProduct;
   }
@@ -104,6 +106,14 @@ class WarehouseViewModel extends GetxController {
       DashboardWarehouseView(),
       SummaryView()
     ];
+  }
+
+  void movePage(page) {
+    isLoading.value = true;
+    Future.delayed(Duration(seconds: 1), () {
+      isLoading.value = false;
+      Get.toNamed(page);
+    },);
   }
 
   List<PersistentBottomNavBarItem> navbarItems() {

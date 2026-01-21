@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/data/login/exception/auth_failures.dart';
 import 'package:mierp_apps/domain/credential/repository/credential_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/models/user_model.dart';
 import '../../../data/login/login_repository.dart';
 
@@ -15,6 +17,7 @@ class LoginViewModel extends GetxController {
   LoginViewModel({required this.repo, required this.credentialRepository});
 
   Rx<UserModel?> user = Rx<UserModel?>(null);
+  final userDataController = UserDataController();
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
   RxBool isValid = true.obs;
@@ -38,6 +41,9 @@ class LoginViewModel extends GetxController {
         final dataUserRaw = jsonEncode(result);
 
         await credentialRepository.setDataUser(dataUserRaw);
+        await userDataController.setDataUser(result);
+
+        print(dataUserRaw);
 
         if(saveCredential.value) {
           await credentialRepository.setCredentialUser(email, true);
@@ -69,6 +75,7 @@ class LoginViewModel extends GetxController {
       if(result==null) return null;
       final dataUserRaw = jsonEncode(result);
       await credentialRepository.setDataUser(dataUserRaw);
+      await userDataController.setDataUser(result);
       isLoading.value = true;
       user.value = result;
       Future.delayed(Duration(seconds: 3), () {

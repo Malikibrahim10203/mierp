@@ -69,7 +69,7 @@ class InputAuthWidget extends StatelessWidget {
               TextFormField(
                 controller: controller,
                 obscureText: inputWidgetC.isNotVisible.value,
-                focusNode: inputWidgetC.focusNode,
+                focusNode: inputWidgetC.focusAuthNode,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     hasError.value = true;
@@ -153,7 +153,7 @@ class InputAuthWidget extends StatelessWidget {
               ) :
               TextFormField(
                 controller: controller,
-                focusNode: inputWidgetC.focusNode,
+                focusNode: inputWidgetC.focusAuthNode,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     hasError.value = true;

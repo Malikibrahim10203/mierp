@@ -1,18 +1,13 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
+import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
 import 'package:mierp_apps/domain/transaction/services/pay_sales_order_services.dart';
-import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_sales_order_repository.dart';
-import 'package:mierp_apps/core/models/order.dart';
 import 'package:mierp_apps/core/models/sales_order.dart';
 import 'package:mierp_apps/state/item_store.dart';
 
@@ -21,8 +16,9 @@ class DetailSalesOrderViewModel extends GetxController {
   final id;
   final ItemRepository itemRepository;
   final ItemStore itemStore;
+  final TransactionServices transactionServices;
 
-  DetailSalesOrderViewModel({required this.id, required this.itemRepository, required this.itemStore});
+  DetailSalesOrderViewModel({required this.id, required this.itemRepository, required this.itemStore, required this.transactionServices});
 
   final totalCost = "".obs;
   final unitPrice = "".obs;
@@ -30,7 +26,7 @@ class DetailSalesOrderViewModel extends GetxController {
   final detailSalesOrderR = DetailSalesOrderRepository();
   final loadingC = Get.find<LoadingController>();
   final movePageC = Get.find<MovePageController>();
-  final paySalesOrderService = Get.find<PaySalesOrderServices>();
+  // final paySalesOrderService = Get.find<PaySalesOrderServices>();
   final convertDollar = ConvertDollar();
   final userDataC = UserDataController();
 
@@ -64,7 +60,7 @@ class DetailSalesOrderViewModel extends GetxController {
     try {
       isLoading.value = true;
 
-      await paySalesOrderService.payInvoice(docId, prodId, totalQty);
+      await transactionServices.paySalesOrderServices(docId, prodId, totalQty);
       await itemRepository.getDetailDataSalesOrder(docId);
 
       isLoading.value = false;

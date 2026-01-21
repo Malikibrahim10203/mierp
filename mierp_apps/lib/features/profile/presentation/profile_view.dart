@@ -5,16 +5,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
-import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 import 'package:mierp_apps/core/widgets/bottom_navbar_helper.dart';
 import 'package:mierp_apps/core/widgets/button_profile_widget.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_view_model.dart';
-import 'package:mierp_apps/features/login/presentation/login_view_model.dart';
 
 class ProfileView extends GetView<ProfileViewModel> {
   ProfileView({super.key});
+
   final loadingC = Get.find<LoadingController>();
 
   @override
@@ -40,36 +39,39 @@ class ProfileView extends GetView<ProfileViewModel> {
                       children: [
                         Container(
                           width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 21.9.h,),
-                              Text(
-                                "Livia Vaccaro",
-                                style: GoogleFonts.lexendDeca(
-                                  fontSize: 16.sp,
-                                  fontWeight: AppFontWeight.semiBold,
-                                  color: AppColors.grayTitle,
+                          child: Obx(() {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 21.9.h,),
+                                Text(
+                                  "${controller.name}",
+                                  style: GoogleFonts.lexendDeca(
+                                    fontSize: 16.sp,
+                                    fontWeight: AppFontWeight.semiBold,
+                                    color: AppColors.grayTitle,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 5.h,),
-                              Text(
-                                "WAREHOUSE",
-                                style: GoogleFonts.lexendDeca(
-                                  fontSize: 12.sp,
-                                  fontWeight: AppFontWeight.light,
-                                  color: AppColors.grayTitle,
+                                SizedBox(height: 5.h,),
+                                Text(
+                                  controller.role.toUpperCase(),
+                                  style: GoogleFonts.lexendDeca(
+                                    fontSize: 12.sp,
+                                    fontWeight: AppFontWeight.light,
+                                    color: AppColors.grayTitle,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            );
+                          }),
                         ),
                         Column(
                           children: [
                             SizedBox(height: 43.h,),
                             SizedBox(
                               width: double.infinity,
-                              child: SvgPicture.asset("assets/images/shape.svg"),
+                              child: SvgPicture.asset(
+                                  "assets/images/shape.svg"),
                             )
                           ],
                         )
@@ -79,9 +81,15 @@ class ProfileView extends GetView<ProfileViewModel> {
                     Column(
                       spacing: 11.1.w,
                       children: [
-                        ButtonProfileWidget(icon: "user-profile", label: "Account Info", onPress: (){}),
-                        ButtonProfileWidget(icon: "link", label: "Link Account to Google", onPress: controller.linkAcccountToGoogle),
-                        ButtonProfileWidget(icon: "logout", label: "Logout", onPress: controller.logout)
+                        ButtonProfileWidget(icon: "user-profile",
+                            label: "Account Info",
+                            onPress: () {}),
+                        ButtonProfileWidget(icon: "link",
+                            label: "Link Account to Google",
+                            onPress: controller.linkAcccountToGoogle),
+                        ButtonProfileWidget(icon: "logout",
+                            label: "Logout",
+                            onPress: controller.logout)
                       ],
                     )
                   ],
@@ -152,14 +160,15 @@ class ProfileView extends GetView<ProfileViewModel> {
           ),
           bottomNavigationBar: Container(
             height: 88.w,
-            padding: EdgeInsetsGeometry.only(left: 16.w, right: 16.w, top: 12.w, bottom: 6.w),
+            padding: EdgeInsetsGeometry.only(
+                left: 16.w, right: 16.w, top: 12.w, bottom: 6.w),
             decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, -5),
-                    blurRadius: 12.w,
-                    color: Color(0xFFEDEDED)
+                      offset: Offset(0, -5),
+                      blurRadius: 12.w,
+                      color: Color(0xFFEDEDED)
                   )
                 ]
             ),
@@ -167,11 +176,14 @@ class ProfileView extends GetView<ProfileViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", voidCallback: controller.back),
-                BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
+                MainBottomAppBarHelper(
+                    icon: "assets/icons/home-2.svg", label: "Home"),
+                BottomAppBarHelper(
+                    icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),
-                BottomAppBarHelper(icon: "assets/icons/user.svg", page: "/profile")
+                BottomAppBarHelper(
+                    icon: "assets/icons/user.svg", page: "/profile")
               ],
             ),
           ),

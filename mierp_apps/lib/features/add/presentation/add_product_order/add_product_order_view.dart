@@ -1,5 +1,3 @@
-import 'package:dotted_border/dotted_border.dart';
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,13 +8,10 @@ import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
-import 'package:mierp_apps/core/widgets/add/add_sales_order/input_select_sales_order_widget.dart';
 import 'package:mierp_apps/core/widgets/add/add_warehouse_order/input_select_product_order_widget.dart';
 import 'package:mierp_apps/core/widgets/date_picker_widget.dart';
 import 'package:mierp_apps/core/widgets/input_short_widget.dart';
-import 'package:mierp_apps/core/widgets/input_widget.dart';
 import 'package:mierp_apps/features/add/presentation/add_product_order/add_product_order_view_model.dart';
-import 'package:mierp_apps/features/add/presentation/add_sales_order/add_sales_order_view_model.dart';
 
 class AddProductOrderView extends StatelessWidget {
   AddProductOrderView({super.key});

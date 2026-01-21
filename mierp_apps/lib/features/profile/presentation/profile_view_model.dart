@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:mierp_apps/core/session/auth_session.dart';
 import 'package:mierp_apps/data/login/login_repository.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
@@ -8,6 +9,8 @@ class ProfileViewModel extends GetxController {
   final role = "warehouse".obs;
   final userDataC = UserDataController();
   final isLoading = false.obs;
+
+  RxString name = ''.obs;
 
   final LoginRepository loginRepository;
   ProfileViewModel({required this.loginRepository});
@@ -28,7 +31,9 @@ class ProfileViewModel extends GetxController {
   Future<void> getUserData() async {
     try {
       UserModel? userModel = await userDataC.getDataUser();
-      role.value = userModel!.role!;
+      role.value = userModel.role!;
+      name.value = "${userModel.firstName} ${userModel.lastName}";
+      print(userModel.role);
     } catch(e) {
       Get.snackbar("Failed", "$e");
     }

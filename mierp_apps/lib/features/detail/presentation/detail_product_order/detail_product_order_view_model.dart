@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
@@ -10,11 +6,9 @@ import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/domain/item/repositories/item_repository.dart';
-import 'package:mierp_apps/domain/transaction/services/pay_product_order_services.dart';
 import 'package:mierp_apps/data/warehouse/detail/detail_product_order_repository.dart';
 import 'package:mierp_apps/core/models/order.dart';
 import 'package:mierp_apps/state/item_store.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 class DetailProductOrderViewModel extends GetxController {
@@ -34,7 +28,6 @@ class DetailProductOrderViewModel extends GetxController {
   final movePageC = Get.find<MovePageController>();
   final convertDollar = ConvertDollar();
   final userDataC = UserDataController();
-  // final payInvoiceService = Get.find<PayProductOrderServices>();
 
   RxBool success = false.obs;
   RxString errorMessage = "".obs;

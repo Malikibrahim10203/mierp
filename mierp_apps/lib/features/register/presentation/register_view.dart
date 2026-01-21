@@ -46,9 +46,9 @@ class RegisterView extends StatelessWidget {
                           width: 350.w,
                           height: 768.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(20.r),
-                                right: Radius.circular(20.r)),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.r),
+                              topRight: Radius.circular(20.r),),
                             color: AppColors.shadowElectricBlue.withValues(
                                 alpha: 0.29),
                           ),
@@ -66,9 +66,9 @@ class RegisterView extends StatelessWidget {
                           width: 1.sw,
                           height: 751.95.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(20.r),
-                                right: Radius.circular(20.r)),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.r),
+                              topRight: Radius.circular(20.r),),
                             color: Colors.white,
                           ),
                           child: Form(

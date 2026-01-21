@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
@@ -289,7 +290,8 @@ class SummaryView extends StatelessWidget {
                 if (summaryVM.collection.value == "products") {
                   return Expanded(
                     child: SingleChildScrollView(
-                      child: Column(
+                      child: summaryVM.listProduct.isNotEmpty?
+                      Column(
                         spacing: 10.w,
                         children: summaryVM.listProduct.map((data) {
                           return GestureDetector(
@@ -305,13 +307,50 @@ class SummaryView extends StatelessWidget {
                                 type: data!.category),
                           );
                         }).toList(),
-                      ).paddingOnly(top: 12.w, bottom: 24.w),
+                      ).paddingOnly(top: 12.w, bottom: 24.w):
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset(
+                              "assets/lottie/empty_ghost.json",
+                              width: 292.w,),
+                            Container(
+                              width: 250.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 10.w,
+                                children: [
+                                  Text(
+                                    "Oops! No Data Available…",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.w,
+                                      fontWeight: AppFontWeight.medium,
+                                      color: AppColors.grayTitle,
+                                    ),
+                                  ),
+                                  Text(
+                                    "The data you’re looking for isn’t available yet.",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 14.w,
+                                      fontWeight: AppFontWeight.regular,
+                                      color: AppColors.grayThin,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 } else if (summaryVM.collection.value == "warehouse_orders") {
                   return Expanded(
                     child: SingleChildScrollView(
-                      child: Column(
+                      child: summaryVM.listOrder.isNotEmpty?
+                      Column(
                         spacing: 10.w,
                         children: summaryVM.listOrder.map(
                               (data) {
@@ -337,13 +376,50 @@ class SummaryView extends StatelessWidget {
                             );
                           },
                         ).toList(),
-                      ).paddingOnly(top: 12.w, bottom: 24.w),
+                      ).paddingOnly(top: 12.w, bottom: 24.w):
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset(
+                              "assets/lottie/empty_ghost.json",
+                              width: 292.w,),
+                            Container(
+                              width: 250.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 10.w,
+                                children: [
+                                  Text(
+                                    "Oops! No Data Available…",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.w,
+                                      fontWeight: AppFontWeight.medium,
+                                      color: AppColors.grayTitle,
+                                    ),
+                                  ),
+                                  Text(
+                                    "The data you’re looking for isn’t available yet.",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 14.w,
+                                      fontWeight: AppFontWeight.regular,
+                                      color: AppColors.grayThin,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 } else {
                   return Expanded(
                     child: SingleChildScrollView(
-                      child: Column(
+                      child: summaryVM.listSalesOrder.isNotEmpty?
+                      Column(
                         spacing: 10.w,
                         children: summaryVM.listSalesOrder.map((data) =>
                             GestureDetector(
@@ -362,7 +438,43 @@ class SummaryView extends StatelessWidget {
                                 nameCustomer: data!.companyName,
                               ),
                             ),).toList(),
-                      ).paddingOnly(top: 12.w, bottom: 24.w),
+                      ).paddingOnly(top: 12.w, bottom: 24.w):
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset(
+                              "assets/lottie/empty_ghost.json",
+                              width: 292.w,),
+                            Container(
+                              width: 250.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                spacing: 10.w,
+                                children: [
+                                  Text(
+                                    "Oops! No Data Available…",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.w,
+                                      fontWeight: AppFontWeight.medium,
+                                      color: AppColors.grayTitle,
+                                    ),
+                                  ),
+                                  Text(
+                                    "The data you’re looking for isn’t available yet.",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 14.w,
+                                      fontWeight: AppFontWeight.regular,
+                                      color: AppColors.grayThin,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 }

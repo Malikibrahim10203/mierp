@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
-import 'package:mierp_apps/data/warehouse/add/add_unit_repository.dart';
 import 'package:mierp_apps/core/models/product.dart';
 import 'package:mierp_apps/data/warehouse/services/add_unit_services.dart';
 
@@ -67,6 +64,14 @@ class AddUnitViewModel extends GetxController {
       Get.snackbar("Failed", "Failed add unit!");
       resetControllerInput();
     }
+  }
+
+  void back() {
+    isLoading.value = true;
+    Future.delayed(Duration(seconds: 1), () {
+      isLoading.value = false;
+      Get.offAllNamed("/dashboard_warehouse");
+    },);
   }
 
   void resetControllerInput() {

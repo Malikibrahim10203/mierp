@@ -16,7 +16,9 @@ class LoginRepository {
     try {
       UserCredential userCredential = await authFirebase.signInWithEmailAndPassword(email: email, password: password);
       String uid = userCredential.user!.uid;
+
       DocumentSnapshot snapDoc = await authStore.collection('users').doc(uid).get();
+
       if (!snapDoc.exists) {
         return null;
       }

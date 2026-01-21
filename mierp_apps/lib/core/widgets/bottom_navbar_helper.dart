@@ -7,13 +7,14 @@ import 'package:mierp_apps/core/controller/move_page_controller.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
 
-Widget MainBottomAppBarHelper({required String icon, required String label, required VoidCallback voidCallback}) {
-  final movePageC = Get.find<MovePageController>();
+Widget MainBottomAppBarHelper({required String icon, required String label}) {
   return Material(
     color: Colors.transparent,
     child: InkWell(
       borderRadius: BorderRadius.circular(20.w),
-      onTap: voidCallback,
+      onTap: () {
+        Get.back();
+      },
       child: Container(
         width: 90.w,
         height: 40.w,

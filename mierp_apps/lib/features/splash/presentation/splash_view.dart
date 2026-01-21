@@ -11,6 +11,7 @@ class SplashView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Image.asset("assets/images/mierp.png", width: 100,),
       ),

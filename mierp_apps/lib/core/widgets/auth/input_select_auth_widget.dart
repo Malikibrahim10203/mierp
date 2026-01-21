@@ -69,34 +69,36 @@ class InputSelectAuthWidget extends StatelessWidget {
                 )
                 ],
               ),
-              child: DropdownButton<String>(
-                borderRadius: BorderRadius.circular(6.w),
-                icon: Padding(
-                  padding: EdgeInsets.only(left: 190.w),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
-                value: registerViewModel.roleC.value,
-                onChanged: (value) {
-                  registerViewModel.roleC.value = value!;
-                },
-                items: <String>['warehouse','finance'].map<DropdownMenuItem<String>>(
-                    (String value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
-                          child: Text(
-                            value,
-                            style: GoogleFonts.inter(
-                              fontSize: 13.sp,
-                              fontWeight: AppFontWeight.regular,
-                              height: 1.0,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  borderRadius: BorderRadius.circular(6.w),
+                  icon: Padding(
+                    padding: EdgeInsets.only(left: 190.w),
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
+                  value: registerViewModel.roleC.value,
+                  onChanged: (value) {
+                    registerViewModel.roleC.value = value!;
+                  },
+                  items: <String>['warehouse','finance'].map<DropdownMenuItem<String>>(
+                      (String value) {
+                        return DropdownMenuItem(
+                          value: value,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 14.5.w, vertical: 12.5.w),
+                            child: Text(
+                              value,
+                              style: GoogleFonts.inter(
+                                fontSize: 13.sp,
+                                fontWeight: AppFontWeight.regular,
+                                height: 1.0,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                ).toList(),
+                        );
+                      }
+                  ).toList(),
+                ),
               ),
             ),
             hasError.value ?

@@ -13,7 +13,6 @@ import 'package:mierp_apps/core/widgets/card_finance_box.dart';
 import 'package:mierp_apps/core/widgets/card_order.dart';
 import 'package:mierp_apps/core/widgets/card_sales.dart';
 import 'package:mierp_apps/core/widgets/card_stock.dart';
-import 'package:mierp_apps/features/detail/presentation/detail_product/detail_product_view_model.dart';
 import 'package:mierp_apps/features/dashboard/presentation/finance/dashboard_finance_view_model.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -358,7 +357,7 @@ class DashboardFinanceView extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home", voidCallback: (){}),
+                MainBottomAppBarHelper(icon: "assets/icons/home-2.svg", label: "Home"),
                 BottomAppBarHelper(icon: "assets/icons/search-normal.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/graph.svg", page: ""),
                 BottomAppBarHelper(icon: "assets/icons/clock.svg", page: ""),

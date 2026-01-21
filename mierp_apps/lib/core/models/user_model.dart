@@ -29,6 +29,7 @@ class UserModel {
     "email": email,
     "first_name": firstName,
     "last_name": lastName,
+    "role": role,
     "allow_google_login": allowGoogleLogin,
   };
 }
