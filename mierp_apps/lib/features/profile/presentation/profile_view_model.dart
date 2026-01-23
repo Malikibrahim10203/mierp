@@ -11,6 +11,7 @@ class ProfileViewModel extends GetxController {
   final isLoading = false.obs;
 
   RxString name = ''.obs;
+  RxBool isVerif = false.obs;
 
   final LoginRepository loginRepository;
   ProfileViewModel({required this.loginRepository});
@@ -33,6 +34,7 @@ class ProfileViewModel extends GetxController {
       UserModel? userModel = await userDataC.getDataUser();
       role.value = userModel.role!;
       name.value = "${userModel.firstName} ${userModel.lastName}";
+      isVerif.value = userModel.allowGoogleLogin;
       print(userModel.role);
     } catch(e) {
       Get.snackbar("Failed", "$e");

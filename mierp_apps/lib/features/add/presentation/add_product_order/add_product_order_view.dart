@@ -155,7 +155,7 @@ class AddProductOrderView extends StatelessWidget {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          movePageC.movePage("/dashboard_warehouse");
+                                          Get.back();
                                         },
                                         child: Icon(
                                           Icons.close,

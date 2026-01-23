@@ -207,7 +207,7 @@ class AddUnitView extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      addUnitVM.back();
+                                      Get.back();
                                     },
                                     child: Icon(
                                       Icons.close,

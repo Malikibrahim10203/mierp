@@ -15,6 +15,10 @@ import 'package:mierp_apps/features/forgot_password/presentation/forgot_password
 import 'package:mierp_apps/features/loading/loading_binding.dart';
 import 'package:mierp_apps/features/loading/loading_view.dart';
 import 'package:mierp_apps/features/loading/loading_view_model.dart';
+import 'package:mierp_apps/features/main_page/finance/finance_main_page_binding.dart';
+import 'package:mierp_apps/features/main_page/finance/finance_main_page_view.dart';
+import 'package:mierp_apps/features/main_page/warehouse/warehouse_main_page_binding.dart';
+import 'package:mierp_apps/features/main_page/warehouse/warehouse_main_page_view.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_binding.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_view.dart';
 import 'package:mierp_apps/features/register/presentation/register_binding.dart';
@@ -61,27 +65,30 @@ class AppRoutes {
       GetPage(name: "/loading", page: () => LoadingView(), binding: LoadingBinding(),),
       GetPage(name: "/register", page: () => RegisterView(), binding: RegisterBinding()),
       GetPage(name: "/forgot", page: () => ForgotPasswordView(), binding: ForgotPasswordBinding()),
+
+      GetPage(
+        name: "/finance_main_page",
+        page: () => FinanceMainPageView(),
+        middlewares: [LoginMiddleware()],
+        binding: FinanceMainPageBinding(),
+      ),
+
+      GetPage(
+        name: "/warehouse_main_page",
+        page: () => WarehouseMainPageView(),
+        middlewares: [LoginMiddleware()],
+        binding: WarehouseMainPageBinding(),
+      ),
+
       GetPage(
         name: "/dashboard_warehouse",
         page: () => DashboardWarehouseView(),
-        middlewares: [LoginMiddleware()],
-        binding: BindingsBuilder(
-          () {
-            Get.put(WarehouseViewModel(Get.find<ItemRepository>(), Get.find<ItemStore>()));
-          },
-        ),
       ),
       GetPage(
         name: "/dashboard_finance",
         page: () => DashboardFinanceView(),
-        middlewares: [LoginMiddleware()],
-        binding: BindingsBuilder(
-          () {
-            Get.put(DashboardFinanceViewModel(DashboardFinanceRepository(), Get.find<ItemRepository>(), Get.find<ItemStore>(), Get.find<TransactionServices>()));
-          },
-        )
       ),
-      GetPage(name: "/profile", page: () => ProfileView(), binding: ProfileBinding()),
+
       GetPage(name: "/summary",
         page: () => SummaryView(),
         binding: BindingsBuilder(

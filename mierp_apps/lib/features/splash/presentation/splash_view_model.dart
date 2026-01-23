@@ -35,9 +35,9 @@ class SplashViewModel extends GetxController {
       final dataUser = UserModel.fromJson(dataUserJson);
 
       if(dataUser!.role == "warehouse"){
-        Get.offAllNamed("/dashboard_warehouse");
+        Get.offAllNamed("/warehouse_main_page");
       }else{
-        Get.offAllNamed("/dashboard_finance");
+        Get.offAllNamed("/finance_main_page");
       }
     });
   }

@@ -7,6 +7,6 @@ class ProfileBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
-    Get.put(ProfileViewModel(loginRepository: Get.find<LoginRepository>()));
+
   }
 }

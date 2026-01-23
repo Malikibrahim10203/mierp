@@ -11,7 +11,7 @@ import 'package:mierp_apps/core/theme/app_font_weight.dart';
 class ButtonProfileWidget extends StatelessWidget {
 
   final icon, label;
-  VoidCallback onPress;
+  VoidCallback? onPress;
 
   ButtonProfileWidget({super.key, required this.icon, required this.label, required this.onPress});
 

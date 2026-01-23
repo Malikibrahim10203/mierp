@@ -55,9 +55,9 @@ class LoginViewModel extends GetxController {
         passwordC.clear();
 
         if(user.value!.role == "warehouse"){
-          Get.offAllNamed("/dashboard_warehouse");
+          Get.offAllNamed("/warehouse_main_page");
         }else if(user.value!.role == "finance"){
-          Get.offAllNamed("/dashboard_finance");
+          Get.offAllNamed("/finance_main_page");
         }
 
       }

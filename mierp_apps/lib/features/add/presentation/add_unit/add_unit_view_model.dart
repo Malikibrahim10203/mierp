@@ -66,14 +66,6 @@ class AddUnitViewModel extends GetxController {
     }
   }
 
-  void back() {
-    isLoading.value = true;
-    Future.delayed(Duration(seconds: 1), () {
-      isLoading.value = false;
-      Get.offAllNamed("/dashboard_warehouse");
-    },);
-  }
-
   void resetControllerInput() {
     productCodeC.clear();
     nameProductC.clear();
