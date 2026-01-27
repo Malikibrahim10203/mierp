@@ -22,8 +22,8 @@ class InputWidget extends StatelessWidget {
 
     return Obx(() {
       return Container(
-        width: 322.w,
-        height: 93.w,
+        width: 335.w,
+        height: !hasError.value? 75.w:90.w,
         child: Column(
           children: [
             Row(
@@ -50,7 +50,6 @@ class InputWidget extends StatelessWidget {
             SizedBox(height: 8.w,),
             Container(
               width: 335.w,
-              // height: 45.w,
               height: 45.w,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -162,9 +161,8 @@ class InputWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 5.h,),
               ],
-            ) : SizedBox(height: 20.h,),
+            ) : SizedBox(),
           ],
         ),
       );

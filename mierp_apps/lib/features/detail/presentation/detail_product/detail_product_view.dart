@@ -47,10 +47,10 @@ class DetailProductView extends StatelessWidget {
                     Container(
                       width: 322.w,
                       child: Column(
-                        spacing: 16.h,
+                        spacing: 16.w,
                         children: [
-                          InputWidget(head: "Code Product", controller: detailProductViewVM.productCodeC, placeholder: "placeholder", necessary: true, formKey: formKey),
-                          InputWidget(head: "Name Product", controller: detailProductViewVM.nameProductC, placeholder: "placeholder", necessary: true, formKey: formKey),
+                          InputWidget(head: "Code Product", controller: detailProductViewVM.productCodeC, placeholder: "placeholder", necessary: true, formKey: formKey,),
+                          InputWidget(head: "Name Product", controller: detailProductViewVM.nameProductC, placeholder: "placeholder", necessary: true, formKey: formKey,),
                           InputSelectUpdateWidget(head: "Category Product", placeholder: "placeholder", necessary: true, formKey: formKey),
                           DatePickerWidget(head: "Created On", controller: detailProductViewVM.createdOnC, placeholder: "placeholder", necessary: true, formKey: formKey, isShort: false, feature: "add_unit",),
                           Row(

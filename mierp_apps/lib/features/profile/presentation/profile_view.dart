@@ -89,6 +89,11 @@ class ProfileView extends GetView<ProfileViewModel> {
                     onPress: controller.isVerif.value == false?controller.linkAcccountToGoogle: null,
                   ),
                   ButtonProfileWidget(
+                    icon: "link",
+                    label: "Delete Account",
+                    onPress: controller.deleteAccount,
+                  ),
+                  ButtonProfileWidget(
                     icon: "logout",
                     label: "Logout",
                     onPress: controller.logout,
@@ -157,6 +162,9 @@ class ProfileView extends GetView<ProfileViewModel> {
             ),
           ],
         ),
+        Obx(() => controller.isLoading.value ? Container(color: Colors.black26,
+            child: Center(child: LoadingAnimationWidget.stretchedDots(
+              color: AppColors.softWhite, size: 70.w,))) : SizedBox(),)
       ],
     );
   }

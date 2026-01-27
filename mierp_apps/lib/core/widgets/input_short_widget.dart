@@ -25,7 +25,7 @@ class InputShortWidget extends StatelessWidget {
     return Obx(() {
       return Container(
         width: 146.w,
-        height: 93.w,
+        height: !hasError.value? 75.w:90.w,
         child: Column(
           children: [
             Row(
@@ -77,6 +77,8 @@ class InputShortWidget extends StatelessWidget {
                   inputWidgetC.isFocus.value = value;
                 },
                 child: TextFormField(
+                  maxLength: 30,
+                  buildCounter: (context, {required currentLength, required isFocused, required maxLength}) => null,
                   controller: controller,
                   focusNode: inputWidgetC.focusNode,
                   inputFormatters: [
@@ -190,9 +192,9 @@ class InputShortWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 5.h,),
+                SizedBox(),
               ],
-            ) : SizedBox(height: 20.h,),
+            ) : SizedBox(),
           ],
         ),
       );

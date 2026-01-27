@@ -106,7 +106,7 @@ class LoginViewModel extends GetxController {
     }
 
     if(save) {
-      emailC.text = email;
+      emailC.text = email!;
     }
   }
 

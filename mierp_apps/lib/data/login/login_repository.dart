@@ -128,4 +128,47 @@ class LoginRepository {
     }
   }
 
+  Future<void> deleteAccount() async {
+    try {
+      final user = await authFirebase.currentUser;
+
+      if (user == null) return;
+
+      final snapshot = await authStore.collection('users').doc(user.uid).get();
+      final dataUser = await UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
+      final batch = FirebaseFirestore.instance.batch();
+
+      if (dataUser.role == "warehouse") {
+        
+        batch.delete(authStore.collection('users').doc(user.uid));
+
+        final salesOrdersSnapshot = await authStore.collection('sales_orders')
+            .where('user_id', isEqualTo: user.uid)
+            .get();
+
+        final warehouseOrdersSnapshot = await authStore.collection('warehouse_orders')
+            .where('user_id', isEqualTo: user.uid)
+            .get();
+
+        for(final doc in salesOrdersSnapshot.docs) {
+          batch.delete(doc.reference);
+        }
+
+        for(final doc in warehouseOrdersSnapshot.docs) {
+          batch.delete(doc.reference);
+        }
+
+      } else if(dataUser.role == 'finance') {
+        await authStore.collection('users')
+            .doc(user.uid)
+            .delete();
+      }
+
+      await batch.commit();
+      await user.delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

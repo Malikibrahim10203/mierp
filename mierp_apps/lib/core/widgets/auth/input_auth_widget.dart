@@ -56,7 +56,7 @@ class InputAuthWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6.w),
                 boxShadow: inputWidgetC.isFocus.value ?
                 [BoxShadow(
-                    color: AppColors.blueLineShadow,
+                    color: hasError.value?Colors.red.shade50:AppColors.blueLineShadow,
                     spreadRadius: 4
                 )
                 ] : [BoxShadow(
@@ -67,6 +67,8 @@ class InputAuthWidget extends StatelessWidget {
               ),
               child: isPassword ?
               TextFormField(
+                maxLength: 30,
+                buildCounter: (context, {required currentLength, required isFocused, required maxLength}) => null,
                 controller: controller,
                 obscureText: inputWidgetC.isNotVisible.value,
                 focusNode: inputWidgetC.focusAuthNode,
@@ -152,6 +154,8 @@ class InputAuthWidget extends StatelessWidget {
                 ),
               ) :
               TextFormField(
+                maxLength: 30,
+                buildCounter: (context, {required currentLength, required isFocused, required maxLength}) => null,
                 controller: controller,
                 focusNode: inputWidgetC.focusAuthNode,
                 validator: (value) {

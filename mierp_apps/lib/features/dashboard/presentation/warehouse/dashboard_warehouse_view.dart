@@ -167,7 +167,9 @@ class DashboardWarehouseView extends StatelessWidget {
                                         ],
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Get.toNamed('/notification');
+                                        },
                                         icon: Icon(
                                           Icons.notifications_active, size: 24.w,),
                                       ),
@@ -195,11 +197,11 @@ class DashboardWarehouseView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CardDashboard(nameBox: "Product",
-                          description: "All stock items that are low inventory",
+                          description: "All product types available in inventory",
                           totalItems: warehouseVM.lenghtProduct,
                           urgent: false,),
                         CardDashboard(nameBox: "Total Qty",
-                          description: "All stock items that are low inventory",
+                          description: "Total quantity across all products",
                           totalItems: warehouseVM.totalQtyProduct,
                           urgent: false,)
                       ],
@@ -208,11 +210,11 @@ class DashboardWarehouseView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CardDashboard(nameBox: "Low Stock",
-                          description: "All stock items that are low inventory",
+                          description: "Stock items with low remaining quantity",
                           totalItems: warehouseVM.totalLowProduct,
                           urgent: true,),
                         CardDashboard(nameBox: "Upcoming Stock",
-                          description: "All stock items that are low inventory",
+                          description: "Stock items arriving soon to inventory",
                           totalItems: warehouseVM.totalUpcomingProduct,
                           urgent: true,),
                       ],

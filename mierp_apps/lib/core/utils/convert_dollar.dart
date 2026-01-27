@@ -5,7 +5,7 @@ class ConvertDollar {
   String intToDollar(int? value) {
     final format = NumberFormat.currency(
       locale: 'en_US',
-      symbol: '\$',
+      symbol: '\$ ',
       decimalDigits: 0
     );
 

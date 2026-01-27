@@ -49,15 +49,31 @@ class ProfileViewModel extends GetxController {
     }
   }
 
+  Future<void> deleteAccount() async {
+    try {
+      isLoading.value = true;
+      Future.delayed(Duration(seconds: 1), () async {
+        await loginRepository.deleteAccount();
+      });
+      isLoading.value = false;
+      Get.offAllNamed("/login");
+      Get.snackbar('Success','User deleted successfully.');
+    } catch(e) {
+      Get.snackbar('Failed','Error deleted account: $e');
+    }
+  }
 
   Future<void> logout() async {
     try {
       isLoading.value = true;
-      Future.delayed(Duration(seconds: 2), () async {
-        await loginRepository.authFirebase.signOut();
-        await loginRepository.googleSignIn.signOut();
+
+      Future.delayed(Duration(seconds: 2), () {
+        isLoading.value = false;
       });
-      isLoading.value = false;
+
+      await loginRepository.authFirebase.signOut();
+      await loginRepository.googleSignIn.signOut();
+
       Get.offAllNamed("/login");
       print('User signed out successfully.');
     } catch(e) {

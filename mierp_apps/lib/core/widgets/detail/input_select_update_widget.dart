@@ -24,7 +24,7 @@ class InputSelectUpdateWidget extends StatelessWidget {
     return Obx(() {
       return Container(
         width: 322.w,
-        height: 93.w,
+        height: !hasError.value? 75.w:90.w,
         child: Column(
           children: [
             Row(
@@ -123,9 +123,8 @@ class InputSelectUpdateWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 5.h,),
               ],
-            ) : SizedBox(height: 20.h,),
+            ) : SizedBox(),
           ],
         ),
       );

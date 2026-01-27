@@ -19,6 +19,8 @@ import 'package:mierp_apps/features/main_page/finance/finance_main_page_binding.
 import 'package:mierp_apps/features/main_page/finance/finance_main_page_view.dart';
 import 'package:mierp_apps/features/main_page/warehouse/warehouse_main_page_binding.dart';
 import 'package:mierp_apps/features/main_page/warehouse/warehouse_main_page_view.dart';
+import 'package:mierp_apps/features/notification/presentation/notification_binding.dart';
+import 'package:mierp_apps/features/notification/presentation/notification_view.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_binding.dart';
 import 'package:mierp_apps/features/profile/presentation/profile_view.dart';
 import 'package:mierp_apps/features/register/presentation/register_binding.dart';
@@ -43,72 +45,73 @@ import 'package:mierp_apps/state/item_store.dart';
 
 class AppRoutes {
   static final pages = [
-      GetPage(name: "/onboarding", page: () => OnboardingView()),
-      GetPage(
-          name: "/splash",
-          page: () => SplashView(),
-          binding: BindingsBuilder(
-              () {
-                  Get.put(OnboardingViewModel());
-              },
-          ),
-      ),
-      GetPage(
-        name: "/login",
-        page: () => LoginView(),
+    GetPage(name: "/onboarding", page: () => OnboardingView()),
+    GetPage(
+        name: "/splash",
+        page: () => SplashView(),
         binding: BindingsBuilder(
-          () {
-            Get.put(LoginViewModel(repo: Get.find<LoginRepository>(), credentialRepository: Get.find<CredentialRepository>()));
-          },
-        )
-      ),
-      GetPage(name: "/loading", page: () => LoadingView(), binding: LoadingBinding(),),
-      GetPage(name: "/register", page: () => RegisterView(), binding: RegisterBinding()),
-      GetPage(name: "/forgot", page: () => ForgotPasswordView(), binding: ForgotPasswordBinding()),
-
-      GetPage(
-        name: "/finance_main_page",
-        page: () => FinanceMainPageView(),
-        middlewares: [LoginMiddleware()],
-        binding: FinanceMainPageBinding(),
-      ),
-
-      GetPage(
-        name: "/warehouse_main_page",
-        page: () => WarehouseMainPageView(),
-        middlewares: [LoginMiddleware()],
-        binding: WarehouseMainPageBinding(),
-      ),
-
-      GetPage(
-        name: "/dashboard_warehouse",
-        page: () => DashboardWarehouseView(),
-      ),
-      GetPage(
-        name: "/dashboard_finance",
-        page: () => DashboardFinanceView(),
-      ),
-
-      GetPage(name: "/summary",
-        page: () => SummaryView(),
-        binding: BindingsBuilder(
-          () {
-            Get.put(SummaryViewModel(Get.find<ItemRepository>(), Get.find<ItemStore>(), Get.find<TransactionServices>()));
-          },
+            () {
+                Get.put(OnboardingViewModel());
+            },
         ),
+    ),
+    GetPage(
+      name: "/login",
+      page: () => LoginView(),
+      binding: BindingsBuilder(
+        () {
+          Get.put(LoginViewModel(repo: Get.find<LoginRepository>(), credentialRepository: Get.find<CredentialRepository>()));
+        },
+      )
+    ),
+    GetPage(name: "/loading", page: () => LoadingView(), binding: LoadingBinding(),),
+    GetPage(name: "/register", page: () => RegisterView(), binding: RegisterBinding()),
+    GetPage(name: "/forgot", page: () => ForgotPasswordView(), binding: ForgotPasswordBinding()),
+
+    GetPage(
+      name: "/finance_main_page",
+      page: () => FinanceMainPageView(),
+      middlewares: [LoginMiddleware()],
+      binding: FinanceMainPageBinding(),
+    ),
+
+    GetPage(
+      name: "/warehouse_main_page",
+      page: () => WarehouseMainPageView(),
+      middlewares: [LoginMiddleware()],
+      binding: WarehouseMainPageBinding(),
+    ),
+
+    GetPage(
+      name: "/dashboard_warehouse",
+      page: () => DashboardWarehouseView(),
+    ),
+    GetPage(
+      name: "/dashboard_finance",
+      page: () => DashboardFinanceView(),
+    ),
+
+    GetPage(name: "/summary",
+      page: () => SummaryView(),
+      binding: BindingsBuilder(
+        () {
+          Get.put(SummaryViewModel(Get.find<ItemRepository>(), Get.find<ItemStore>(), Get.find<TransactionServices>()));
+        },
       ),
+    ),
 
-      // Warehouse
-      GetPage(name: "/add_unit", page: () => AddUnitView(), binding: AddUnitViewBinding()),
-      GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
-      GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
+    // Warehouse
+    GetPage(name: "/add_unit", page: () => AddUnitView(), binding: AddUnitViewBinding()),
+    GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
+    GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
 
-      GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
-      GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
+    GetPage(name: "/add_sales_order", page: () => AddSalesOrder()),
+    GetPage(name: "/add_product_order", page: () => AddProductOrderView()),
 
-      GetPage(name: "/detail_product/:id", page: () => DetailProductView(), binding: DetailProductBinding()),
-      GetPage(name: "/detail_product_order/:id", page: () => DetailProductOrderView(), binding: DetailProductOrderBinding()),
-      GetPage(name: "/detail_sales_order/:id", page: () => DetailSalesOrderView(), binding: DetailSalesOrderBinding(),),
+    GetPage(name: "/detail_product/:id", page: () => DetailProductView(), binding: DetailProductBinding()),
+    GetPage(name: "/detail_product_order/:id", page: () => DetailProductOrderView(), binding: DetailProductOrderBinding()),
+    GetPage(name: "/detail_sales_order/:id", page: () => DetailSalesOrderView(), binding: DetailSalesOrderBinding(),),
 
+    GetPage(name: "/notification", page: () => NotificationView(), binding: NotificationBinding())
   ];
 }

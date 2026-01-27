@@ -137,6 +137,7 @@ class LoginView extends StatelessWidget {
                                                 width: 15.w,
                                                 height: 15.h,
                                                 child: Checkbox(
+                                                  activeColor: AppColors.blueGradient,
                                                   value: loginViewModel.saveCredential.value,
                                                   onChanged: (newValue) {
                                                     loginViewModel.saveCredential.value = newValue!;
@@ -193,9 +194,9 @@ class LoginView extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         if(formKey.currentState!.validate()){
-                                          if(loginViewModel.saveCredential.value == true) {
-
-                                          }
+                                          // if(loginViewModel.saveCredential.value == true) {
+                                          //
+                                          // }
                                           loginViewModel.login(loginViewModel.emailC.text, loginViewModel.passwordC.text);
                                           print("${loginViewModel.emailC.text} ${loginViewModel.passwordC.text}");
                                         }

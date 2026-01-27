@@ -67,6 +67,8 @@ class InputShortAuthWidget extends StatelessWidget {
                 ],
               ),
               child: TextFormField(
+                maxLength: 30,
+                buildCounter: (context, {required currentLength, required isFocused, required maxLength}) => null,
                 controller: controller,
                 focusNode: inputWidgetC.focusNode,
                 validator: (value) {
