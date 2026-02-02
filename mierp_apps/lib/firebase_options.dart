@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,9 +28,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -42,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCZp1K6dGvQ7GsjNtU-S-8Rt_kMbt5Ez-4',
-    appId: '1:868649407040:android:87aff0d3baa5b54b9b05a5',
+    appId: '1:868649407040:android:af6b5b05f22182d49b05a5',
     messagingSenderId: '868649407040',
     projectId: 'mierp-apps',
     storageBucket: 'mierp-apps.firebasestorage.app',
@@ -57,37 +66,6 @@ class DefaultFirebaseOptions {
     androidClientId: '868649407040-5drl6ti1gfgsb4sne1r8331piuhvq7jv.apps.googleusercontent.com',
     iosClientId: '868649407040-ul04ocjpdvp0kjamm9njlh8eb74tgs4m.apps.googleusercontent.com',
     iosBundleId: 'com.example.mierpApps',
-  );
-
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCnJz_psoWbflFVUKNX-rAU21bi-JF5xLY',
-    appId: '1:868649407040:web:94be4b4495e5817c9b05a5',
-    messagingSenderId: '868649407040',
-    projectId: 'mierp-apps',
-    authDomain: 'mierp-apps.firebaseapp.com',
-    storageBucket: 'mierp-apps.firebasestorage.app',
-    measurementId: 'G-F9P3P7VH4P',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCd0ZWUGcKCJGonYSQanzPRhSAR9aTpqcs',
-    appId: '1:868649407040:ios:454e67ef0c45ade79b05a5',
-    messagingSenderId: '868649407040',
-    projectId: 'mierp-apps',
-    storageBucket: 'mierp-apps.firebasestorage.app',
-    androidClientId: '868649407040-5drl6ti1gfgsb4sne1r8331piuhvq7jv.apps.googleusercontent.com',
-    iosClientId: '868649407040-ul04ocjpdvp0kjamm9njlh8eb74tgs4m.apps.googleusercontent.com',
-    iosBundleId: 'com.example.mierpApps',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCnJz_psoWbflFVUKNX-rAU21bi-JF5xLY',
-    appId: '1:868649407040:web:99cf9fa9dae6deb49b05a5',
-    messagingSenderId: '868649407040',
-    projectId: 'mierp-apps',
-    authDomain: 'mierp-apps.firebaseapp.com',
-    storageBucket: 'mierp-apps.firebasestorage.app',
-    measurementId: 'G-3CK94C71HB',
   );
 
 }
