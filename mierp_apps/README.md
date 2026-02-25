@@ -1,6 +1,6 @@
-# mierp_apps
+# MiERP
 
-A new Flutter project.
+MiERP merupakan aplikasi Android berbasis Flutter yang dirancang untuk membantu pengelolaan operasional bisnis melalui sistem ERP terintegrasi. Aplikasi ini memiliki dua peran utama, yaitu Finance untuk melakukan approval transaksi dan Warehouse untuk mengelola stok serta membuat order. Dengan sistem yang terstruktur, MiERP membantu meningkatkan efisiensi kerja, mempermudah pengelolaan inventaris, serta memastikan proses bisnis berjalan lebih cepat, akurat, dan terorganisir.
 
 ## Getting Started
 
