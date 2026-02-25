@@ -45,7 +45,7 @@ class SplashViewModel extends GetxController {
   Future<void> _init() async {
     final isFirst = onboardingViewModel.isFirst;
     if (isFirst.value) {
-      Future.delayed(Duration(seconds: 5),() {
+      Future.delayed(Duration(seconds: 2),() {
         Get.offAllNamed('/onboarding');
       });
     } else {

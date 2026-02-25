@@ -51,11 +51,13 @@ class AddProductOrderViewModel extends GetxController {
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
+      builder: (context, child) => Theme(data: Theme.of(context).copyWith(datePickerTheme: DatePickerThemeData(backgroundColor: Colors.white)), child: child!),
     );
     if (pickedDate != null) {
       TimeOfDay? pickedTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
+        builder: (context, child) => Theme(data: Theme.of(context).copyWith(timePickerTheme: TimePickerThemeData(backgroundColor: Colors.white)), child: child!),
       );
       if (pickedTime != null) {
         final dateTime = DateTime(pickedDate.year,pickedDate.month,pickedDate.day,pickedTime.hour,pickedTime.minute);
@@ -91,11 +93,12 @@ class AddProductOrderViewModel extends GetxController {
       );
 
       await addProductOrderR.addProductOrderToFireStore(orderProduct);
+
       Get.snackbar("success", "Add product order success!");
       loadingC.showLoading();
       Future.delayed(Duration(seconds: 2), () {
         loadingC.hideLoading();
-        movePageC.movePage("/dashboard_warehouse");
+        Get.offAndToNamed("warehouse_main_page");
       });
     } catch (e) {
       Get.snackbar("Failed", "$e");

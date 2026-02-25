@@ -51,6 +51,7 @@ class LoginRepository {
 
   Future<UserModel?> loginWithGoogle() async {
     try {
+
       await googleSignIn.initialize();
 
       final googleUser = await googleSignIn.authenticate(
@@ -70,7 +71,6 @@ class LoginRepository {
       final checkProvider = query.docs.first.data();
 
       if (checkProvider['allow_google_login'] == false) {
-        print("ppepepe");
         throw AuthFailures.userNotRegistrated;
       }
 
@@ -99,8 +99,9 @@ class LoginRepository {
     }
   }
 
-  Future<void> linkToAnotherAccount() async {
+  Future<void> linkToAnotherAccount(uid) async {
     try {
+
       await googleSignIn.initialize();
 
       final googleUser = await googleSignIn.authenticate();
@@ -123,6 +124,14 @@ class LoginRepository {
       );
 
       await authFirebase.currentUser!.linkWithCredential(googleCredential);
+
+      await authStore.collection('users')
+          .doc(uid)
+          .update({
+        'allow_google_login':true
+      });
+
+
     } catch(e) {
       print("error-link-google");
     }

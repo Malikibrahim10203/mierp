@@ -9,9 +9,10 @@ class ProfileViewModel extends GetxController {
   final role = "warehouse".obs;
   final userDataC = UserDataController();
   final isLoading = false.obs;
+  final uid = ''.obs;
 
   RxString name = ''.obs;
-  RxBool isVerif = false.obs;
+  RxBool isVerif = true.obs;
 
   final LoginRepository loginRepository;
   ProfileViewModel({required this.loginRepository});
@@ -35,6 +36,7 @@ class ProfileViewModel extends GetxController {
       role.value = userModel.role!;
       name.value = "${userModel.firstName} ${userModel.lastName}";
       isVerif.value = userModel.allowGoogleLogin;
+      uid.value = userModel.uid!;
       print(userModel.role);
     } catch(e) {
       Get.snackbar("Failed", "$e");
@@ -43,7 +45,9 @@ class ProfileViewModel extends GetxController {
 
   Future<void> linkAcccountToGoogle() async {
     try {
-      await loginRepository.linkToAnotherAccount();
+      await loginRepository.linkToAnotherAccount(uid.value);
+      Get.snackbar("Success", "Link account to Google");
+      isVerif.value = true;
     } catch(e) {
       Get.snackbar("Failed", "Link account to Google");
     }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
@@ -16,7 +17,10 @@ class RegisterViewModel extends GetxController {
   Future<void> RegisterWithEmailPassword() async {
     try {
       loadingC.showLoading();
-      await registerR.CreateNewAccount(emailC.text, passwordC.text, firstNameC.text, lastNameC.text, roleC.value);
+      UserCredential data = await registerR.CreateNewAccount(emailC.text, passwordC.text, firstNameC.text, lastNameC.text, roleC.value);
+      final uid = data.user!.uid;
+      await registerR.AddNewFstoreData(uid,emailC.text,firstNameC.text,lastNameC.text, roleC.value);
+      await registerR.firebaseAuth.signOut();
       Get.snackbar("Register Success", "Your account has benn created!.");
       Future.delayed(Duration(seconds: 3), () {
         loadingC.hideLoading();

@@ -76,6 +76,7 @@ class InputSelectSalesOrderWidget extends StatelessWidget {
                   dropdownColor: Colors.white,
                   isExpanded: true,
                   borderRadius: BorderRadius.circular(6.w),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
                   hint: Container(
                     width: 320.w,
                     child: Text(
@@ -83,15 +84,11 @@ class InputSelectSalesOrderWidget extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 13.sp,
                         fontWeight: AppFontWeight.regular,
-                        height: 1.0,
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  icon: Padding(
-                    padding: EdgeInsets.only(right: 10.w),
-                    child: Icon(Icons.arrow_drop_down),
-                  ),
+                  icon: Icon(Icons.arrow_drop_down),
                   value: addSalesOrderVM.selectedProduct.value,
                   onChanged: (value) {
                     addSalesOrderVM.selectedProduct.value = value!;
@@ -101,15 +98,11 @@ class InputSelectSalesOrderWidget extends StatelessWidget {
                           (Product? value) {
                         return DropdownMenuItem(
                           value: value,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
-                            child: Text(
-                              value!.productName,
-                              style: GoogleFonts.inter(
-                                fontSize: 13.sp,
-                                fontWeight: AppFontWeight.regular,
-                                height: 1.0,
-                              ),
+                          child: Text(
+                            value!.productName,
+                            style: GoogleFonts.inter(
+                              fontSize: 13.sp,
+                              fontWeight: AppFontWeight.regular,
                             ),
                           ),
                         );

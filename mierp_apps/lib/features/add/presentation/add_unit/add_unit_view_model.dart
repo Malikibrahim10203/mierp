@@ -31,11 +31,13 @@ class AddUnitViewModel extends GetxController {
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
+      builder: (context, child) => Theme(data: Theme.of(context).copyWith(datePickerTheme: DatePickerThemeData(backgroundColor: Colors.white)), child: child!),
     );
     if (pickedDate != null) {
       TimeOfDay? pickedTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
+        builder: (context, child) => Theme(data: Theme.of(context).copyWith(timePickerTheme: TimePickerThemeData(backgroundColor: Colors.white)), child: child!),
       );
       if (pickedTime != null) {
         final dateTime = DateTime(pickedDate.year,pickedDate.month,pickedDate.day,pickedTime.hour,pickedTime.minute);

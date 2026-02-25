@@ -75,12 +75,10 @@ class InputSelectUpdateWidget extends StatelessWidget {
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
                   dropdownColor: Colors.white,
                   borderRadius: BorderRadius.circular(6.w),
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 190.w),
-                    child: Icon(Icons.arrow_drop_down),
-                  ),
+                  icon: Icon(Icons.arrow_drop_down),
                   value: detailProductVM.categoryProductC.value,
                   onChanged: (value) {
                     detailProductVM.categoryProductC.value = value!;
@@ -89,15 +87,11 @@ class InputSelectUpdateWidget extends StatelessWidget {
                           (String value) {
                         return DropdownMenuItem(
                           value: value,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
-                            child: Text(
-                              value,
-                              style: GoogleFonts.inter(
-                                fontSize: 13.sp,
-                                fontWeight: AppFontWeight.regular,
-                                height: 1.0,
-                              ),
+                          child: Text(
+                            value,
+                            style: GoogleFonts.inter(
+                              fontSize: 13.sp,
+                              fontWeight: AppFontWeight.regular,
                             ),
                           ),
                         );

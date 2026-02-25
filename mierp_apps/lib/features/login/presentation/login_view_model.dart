@@ -81,9 +81,9 @@ class LoginViewModel extends GetxController {
       Future.delayed(Duration(seconds: 3), () {
         isLoading.value = false;
         if(user.value!.role == "warehouse"){
-          Get.offAllNamed("/dashboard_warehouse");
+          Get.offAllNamed("/warehouse_main_page");
         }else if(user.value!.role == "finance"){
-          Get.offAllNamed("/dashboard_finance");
+          Get.offAllNamed("/finance_main_page");
         }
       });
     }catch(e) {
@@ -114,28 +114,28 @@ class LoginViewModel extends GetxController {
     switch (eCode) {
       case AuthFailures.userNotFound:
         Get.snackbar("Login Gagal!", "Email tidak terdaftar");
-        break;
+        return null;
       case AuthFailures.wrongPassword:
         Get.snackbar("Login Gagal", "Password salah");
-        break;
+        return null;
       case AuthFailures.invalidEmail:
         Get.snackbar("Login Gagal", "Format email salah");
-        break;
+        return null;
       case AuthFailures.googleCanceled:
         Get.snackbar("Login Gagal", "Authentikasi dibatalkan");
-        break;
+        return null;
       case AuthFailures.idTokenMissing:
         Get.snackbar("Login Gagal", "Id token tidak ditemukan");
-        break;
+        return null;
       case AuthFailures.userNotRegistrated:
         Get.snackbar("Login Gagal", "Akun harus disambungkan dahulu");
-        break;
+        return null;
       case AuthFailures.userNotFoundInFirestore:
         Get.snackbar("Login Gagal", "Akun tidak terdaftar");
-        break;
+        return null;
       default:
         Get.snackbar("Login Gagal", "Terjadi kesalahan!");
-        break;
+        return null;
     }
   }
 }

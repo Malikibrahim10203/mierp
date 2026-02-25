@@ -70,6 +70,7 @@ class NotificationView extends GetView<NotificationViewModel> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: 60.w,),
                 Lottie.asset(
                   "assets/lottie/empty_ghost.json",
                   width: 292.w,),

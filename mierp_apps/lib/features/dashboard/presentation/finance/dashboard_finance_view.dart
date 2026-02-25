@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mierp_apps/core/models/summary_type.dart';
 import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/theme/app_colors.dart';
 import 'package:mierp_apps/core/theme/app_font_weight.dart';
@@ -576,31 +577,91 @@ class DashboardFinanceView extends StatelessWidget {
                     ),
                     SizedBox(height: 22.h,),
                     Obx(() {
-                      if (financeVM.collection.value == "products" ||
-                          financeVM.collection.value == "all_summary") {
+                      if(financeVM.collection.value == "all_summary") {
+                        return Container(
+                          child: Column(
+                            spacing: 10.w,
+                            children: [
+                              ...financeVM.itemStore.listAllSummary.take(2).map((e) {
+                                switch(e!.summaryType) {
+                                  case SummaryType.product:
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed("/detail_product/${e.data.id}");
+                                      },
+                                      child: CardStock(idBarang: e!.data.productCode,
+                                          namaBarang: e!.data.productName,
+                                          quantity: e!.data.quantity,
+                                          unitPrice: e!.data.unitPrice,
+                                          lineTotal: e!.data.unitPrice *
+                                              e!.data.quantity,
+                                          type: e!.data.category),
+                                    );
+                                  case SummaryType.order:
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed("/detail_product_order/${e.data.id}");
+                                      },
+                                      child: CardOrder(
+                                        idOrder: e.data!.id,
+                                        idBarang: e.data!.productCode,
+                                        namaBarang: e.data!.productName,
+                                        financeApproved: e.data!.financeApproved,
+                                        createdOn: e.data!.orderDate,
+                                        nameUser: e.data!.firstName,
+                                        quantity: e.data!.quantity,
+                                        unitPrice: e.data!.unitPrice,
+                                        lineTotal: e.data!.totalCost,
+                                        onPayPressed: (){},
+                                      ),
+                                    );
+                                  case SummaryType.salesOrder:
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        Get.toNamed("/detail_sales_order/${e.data.id}");
+                                      },
+                                      child: CardSales(
+                                        idBarang: e!.data.productCode,
+                                        namaBarang: e!.data.productName,
+                                        financeApproved: e!.data.financeApproved,
+                                        createdOn: e!.data.purchasedDate,
+                                        nameUser: e!.data.firstName,
+                                        quantity: e!.data.quantity,
+                                        unitPrice: e!.data.unitPrice,
+                                        lineTotal: e!.data.totalPrice,
+                                        nameCustomer: e!.data.companyName,
+                                      ),
+                                    );
+                                }
+                              },).toList(),
+                              SizedBox(height: 5.w,)
+                            ],
+                          ),
+                        );
+                      } else if (financeVM.collection.value == "products") {
                         if (financeVM.collection.value.isNotEmpty) {
                           return Container(
-                            height: financeVM.listProduct.length >= 2
-                                ? 230.w
-                                : 500.w,
                             child: Column(
                               spacing: 10.w,
-                              children: financeVM.listProduct.take(2)
-                                  .map((product) =>
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.toNamed("/detail_product/${product.id}");
-                                    },
-                                    child: CardStock(
-                                        idBarang: product!.productCode,
-                                        namaBarang: product!.productName,
-                                        quantity: product!.quantity,
-                                        unitPrice: product!.unitPrice,
-                                        lineTotal: product!.unitPrice *
-                                            product!.quantity,
-                                        type: product!.category),
-                                  ),
-                              ).toList(),
+                              children: [
+                                ...financeVM.listProduct.take(2)
+                                    .map((product) =>
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed("/detail_product/${product.id}");
+                                      },
+                                      child: CardStock(
+                                          idBarang: product!.productCode,
+                                          namaBarang: product!.productName,
+                                          quantity: product!.quantity,
+                                          unitPrice: product!.unitPrice,
+                                          lineTotal: product!.unitPrice *
+                                              product!.quantity,
+                                          type: product!.category),
+                                    ),
+                                ).toList(),
+                                SizedBox(height: 5.w,)
+                              ],
                             ),
                           );
                         } else {
@@ -610,64 +671,70 @@ class DashboardFinanceView extends StatelessWidget {
                         if (financeVM.listOrder.isNotEmpty) {
                           return Column(
                             spacing: 10.w,
-                            children: financeVM.listOrder.take(2).map(
-                                    (data) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Get.toNamed(
-                                          "/detail_product_order/${data.id}");
-                                    },
-                                    child: CardOrder(
-                                      idOrder: data!.id,
-                                      idBarang: data!.productCode,
-                                      namaBarang: data!.productName,
-                                      financeApproved: data!.financeApproved,
-                                      createdOn: data!.orderDate,
-                                      nameUser: data!.firstName,
-                                      quantity: data!.quantity,
-                                      unitPrice: data!.unitPrice,
-                                      lineTotal: data!.totalCost,
-                                      finance: true,
-                                      onPayPressed: () =>
-                                          financeVM.requestPayProductOrder(
-                                              data!.id, data!.productId,
-                                              data!.quantity),
-                                    ),
-                                  );
-                                }
-                            ).toList(),
+                            children: [
+                              ...financeVM.listOrder.take(2).map(
+                                      (data) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            "/detail_product_order/${data.id}");
+                                      },
+                                      child: CardOrder(
+                                        idOrder: data!.id,
+                                        idBarang: data!.productCode,
+                                        namaBarang: data!.productName,
+                                        financeApproved: data!.financeApproved,
+                                        createdOn: data!.orderDate,
+                                        nameUser: data!.firstName,
+                                        quantity: data!.quantity,
+                                        unitPrice: data!.unitPrice,
+                                        lineTotal: data!.totalCost,
+                                        finance: true,
+                                        onPayPressed: () =>
+                                            financeVM.requestPayProductOrder(
+                                                data!.id, data!.productId,
+                                                data!.quantity),
+                                      ),
+                                    );
+                                  }
+                              ).toList(),
+                              SizedBox(height: 5.w,)
+                            ]
                           );
                         } else {
                           return CircularProgressIndicator();
                         }
                       } else {
                         return Column(
-                          children: financeVM.listSalesOrder.take(2).map(
-                                (data) =>
-                                Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () async {
-                                        Get.toNamed(
-                                            "/detail_sales_order/${data!.id}");
-                                      },
-                                      child: CardSales(
-                                        idBarang: data!.productCode,
-                                        namaBarang: data!.productName,
-                                        financeApproved: data!.financeApproved,
-                                        createdOn: data!.purchasedDate,
-                                        nameUser: data!.firstName,
-                                        quantity: data!.quantity,
-                                        unitPrice: data!.unitPrice,
-                                        lineTotal: data!.totalPrice,
-                                        nameCustomer: data!.companyName,
+                          children: [
+                            ...financeVM.listSalesOrder.take(2).map(
+                                  (data) =>
+                                  Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () async {
+                                          Get.toNamed(
+                                              "/detail_sales_order/${data!.id}");
+                                        },
+                                        child: CardSales(
+                                          idBarang: data!.productCode,
+                                          namaBarang: data!.productName,
+                                          financeApproved: data!.financeApproved,
+                                          createdOn: data!.purchasedDate,
+                                          nameUser: data!.firstName,
+                                          quantity: data!.quantity,
+                                          unitPrice: data!.unitPrice,
+                                          lineTotal: data!.totalPrice,
+                                          nameCustomer: data!.companyName,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 10.w,
-                                    ),
-                                  ],
-                                ),).toList(),
+                                      SizedBox(
+                                        height: 10.w,
+                                      ),
+                                    ],
+                                  ),).toList(),
+                            SizedBox(height: 5.w,)
+                          ]
                         );
                       }
                     }),

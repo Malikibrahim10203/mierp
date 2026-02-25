@@ -93,7 +93,6 @@ class DatePickerWidget extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 13.sp,
                   fontWeight: AppFontWeight.regular,
-                  height: 1.0,
                 ),
                 decoration: hasError.value?InputDecoration(
                   errorMaxLines: 1,
@@ -107,7 +106,6 @@ class DatePickerWidget extends StatelessWidget {
                     color: AppColors.greyPlacholder,
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
-                    height: 1.0,
                   ),
                   suffixIcon: Padding(
                     padding: EdgeInsets.only(right: 10.w),
@@ -129,7 +127,6 @@ class DatePickerWidget extends StatelessWidget {
                     color: AppColors.greyPlacholder,
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
-                    height: 1.0,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),

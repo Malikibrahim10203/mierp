@@ -86,7 +86,8 @@ class ProfileView extends GetView<ProfileViewModel> {
                   ButtonProfileWidget(
                     icon: "link",
                     label: "Link Account to Google",
-                    onPress: controller.isVerif.value == false?controller.linkAcccountToGoogle: null,
+                    onPress: controller.isVerif.value == false ? controller
+                        .linkAcccountToGoogle : null,
                   ),
                   ButtonProfileWidget(
                     icon: "link",
@@ -162,7 +163,8 @@ class ProfileView extends GetView<ProfileViewModel> {
             ),
           ],
         ),
-        Obx(() => controller.isLoading.value ? Container(color: Colors.black26,
+        Obx(() =>
+        controller.isLoading.value ? Container(color: Colors.black26,
             child: Center(child: LoadingAnimationWidget.stretchedDots(
               color: AppColors.softWhite, size: 70.w,))) : SizedBox(),)
       ],

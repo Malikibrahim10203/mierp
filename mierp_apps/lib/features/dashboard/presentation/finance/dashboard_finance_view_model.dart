@@ -35,7 +35,7 @@ class DashboardFinanceViewModel extends GetxController {
   RxList<Product?> get listProduct => itemStore.listProduct;
   RxList<OrderProduct?> get listOrder => itemStore.listOrder;
   RxList<SalesOrder?> get listSalesOrder => itemStore.listSalesOrder;
-  RxString collection = "products".obs;
+  RxString collection = "all_summary".obs;
 
   RxInt productsItem = 0.obs;
   RxInt settled = 0.obs;
@@ -61,6 +61,8 @@ class DashboardFinanceViewModel extends GetxController {
     // requestDataProduct();
 
     itemRepository.getBulkDataStock();
+    itemRepository.getBulkDataOrder();
+    itemRepository.getBulkDataSalesOrder();
 
     productsItem.bindStream(dashboardFinanceR.getProductItems());
     settled.bindStream(dashboardFinanceR.getSettledItems());

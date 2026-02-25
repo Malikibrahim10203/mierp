@@ -66,6 +66,22 @@
           }
         },
         {
+          "client_id": "868649407040-eno10khvjaejuib20h94bvfruc08m3qb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neusisco.mierp_apps",
+            "certificate_hash": "85506e13ca9206eac6f67d48259adb42b818f230"
+          }
+        },
+        {
+          "client_id": "868649407040-hs3qlms3mdvrd6tb97gfmg5g9ll7lvds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.neusisco.mierp_apps",
+            "certificate_hash": "5ebdf191e344d9d12e687acd4ea24aae9c20ded1"
+          }
+        },
+        {
           "client_id": "868649407040-ad880bbhs9dv7d2k6sothd28735fq446.apps.googleusercontent.com",
           "client_type": 3
         }

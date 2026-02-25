@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mierp_apps/core/models/summary_type.dart';
 import 'package:mierp_apps/core/utils/convert_dollar.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/core/controller/move_page_controller.dart';
@@ -174,14 +175,14 @@ class SummaryView extends StatelessWidget {
                                   child: SvgPicture.asset(
                                     "assets/icons/filter.svg",
                                     colorFilter: ColorFilter.mode(
-                                      summaryVM.collection.value != "products"
+                                      summaryVM.collection.value != "products" && summaryVM.collection.value != "all_summary"
                                           ? AppColors.grayTitle
                                           : Colors.grey,
                                       BlendMode.srcIn,
                                     ),
                                   ),
                                 ),
-                                onTap: summaryVM.collection.value != "products"
+                                onTap: summaryVM.collection.value != "products" && summaryVM.collection.value != "all_summary"
                                     ? () =>
                                     showBarModalBottomSheet(
                                       context: context,
@@ -287,7 +288,111 @@ class SummaryView extends StatelessWidget {
                 ),
               ),
               Obx(() {
-                if (summaryVM.collection.value == "products") {
+                if(summaryVM.collection.value == "all_summary") {
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: summaryVM.listAllSummary.isNotEmpty?
+                        Column(
+                          spacing: 10,
+                          children: [
+                            SizedBox(height: 3.w,),
+                            ...summaryVM.listAllSummary.map((e) {
+                              switch(e!.summaryType) {
+                                case SummaryType.product:
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Get.toNamed("/detail_product/${e.data.id}");
+                                    },
+                                    child: CardStock(idBarang: e!.data.productCode,
+                                        namaBarang: e!.data.productName,
+                                        quantity: e!.data.quantity,
+                                        unitPrice: e!.data.unitPrice,
+                                        lineTotal: e!.data.unitPrice *
+                                            e!.data.quantity,
+                                        type: e!.data.category),
+                                  );
+                                case SummaryType.order:
+                                  return GestureDetector(
+                                    onTap: () {
+                                      summaryVM.detailProductOrder(e.data.id);
+                                    },
+                                    child: CardOrder(
+                                      idOrder: e!.data.id,
+                                      idBarang: e!.data.productId,
+                                      namaBarang: e!.data.productName,
+                                      financeApproved: e!.data.financeApproved,
+                                      createdOn: e!.data.orderDate,
+                                      nameUser: e!.data.firstName,
+                                      quantity: e!.data.quantity,
+                                      unitPrice: e!.data.unitPrice,
+                                      lineTotal: e!.data.totalCost,
+                                      finance: summaryVM.role == "finance"
+                                          ? true
+                                          : null,
+                                      onPayPressed: () => summaryVM.requestPayInvoiceOrderProduct(e!.data.id, e!.data.productId, e!.data.quantity),
+                                    ),
+                                  );
+                                case SummaryType.salesOrder:
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      Get.toNamed("/detail_sales_order/${e.data.id}");
+                                    },
+                                    child: CardSales(
+                                      idBarang: e!.data.productCode,
+                                      namaBarang: e!.data.productName,
+                                      financeApproved: e!.data.financeApproved,
+                                      createdOn: e!.data.purchasedDate,
+                                      nameUser: e!.data.firstName,
+                                      quantity: e!.data.quantity,
+                                      unitPrice: e!.data.unitPrice,
+                                      lineTotal: e!.data.totalPrice,
+                                      nameCustomer: e!.data.companyName,
+                                    ),
+                                  );
+                              }
+                            },).toList(),
+                            SizedBox(height: 10.w,)
+                          ]
+                        ):
+                      Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset(
+                                "assets/lottie/empty_ghost.json",
+                                width: 292.w,),
+                              Container(
+                                width: 250.w,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  spacing: 10.w,
+                                  children: [
+                                    Text(
+                                      "Oops! No Data Available…",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16.w,
+                                        fontWeight: AppFontWeight.medium,
+                                        color: AppColors.grayTitle,
+                                      ),
+                                    ),
+                                    Text(
+                                      "The data you’re looking for isn’t available yet.",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14.w,
+                                        fontWeight: AppFontWeight.regular,
+                                        color: AppColors.grayThin,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ),
+                  );
+                } else if (summaryVM.collection.value == "products") {
                   return Expanded(
                     child: SingleChildScrollView(
                       child: summaryVM.listProduct.isNotEmpty?

@@ -78,18 +78,24 @@ class InputAuthWidget extends StatelessWidget {
                     dataError.value = "Password wajib diisi";
                     loginVieModel.isValid.value = false;
                     return "";
+                  } else {
+                    hasError.value = false;
+                    loginVieModel.isValid.value = true;
                   }
+
                   if (value.length <= 8) {
                     hasError.value = true;
                     dataError.value = "Password harus lebih dari 8";
                     loginVieModel.isValid.value = false;
                     return "";
+                  } else {
+                    hasError.value = false;
+                    loginVieModel.isValid.value = true;
                   }
                 },
                 style: GoogleFonts.inter(
                   fontSize: 13.sp,
                   fontWeight: AppFontWeight.regular,
-                  height: 1.0,
                 ),
                 decoration: !hasError.value?InputDecoration(
                   hintText: "Enter your password",
@@ -129,7 +135,6 @@ class InputAuthWidget extends StatelessWidget {
                   hintStyle: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
-                    height: 1.0,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
@@ -155,6 +160,7 @@ class InputAuthWidget extends StatelessWidget {
               ) :
               TextFormField(
                 maxLength: 30,
+                keyboardType: TextInputType.emailAddress,
                 buildCounter: (context, {required currentLength, required isFocused, required maxLength}) => null,
                 controller: controller,
                 focusNode: inputWidgetC.focusAuthNode,
@@ -164,18 +170,26 @@ class InputAuthWidget extends StatelessWidget {
                     dataError.value = "Email wajib diisi";
                     loginVieModel.isValid.value = false;
                     return null;
+                  } else {
+                    hasError.value = false;
+                    dataError.value = "";
+                    loginVieModel.isValid.value = true;
                   }
-                  if (!value.contains('@')) {
+
+                  if (!value.contains('@') || !value.contains('.')) {
                     hasError.value = true;
                     dataError.value = "Format email salah";
                     loginVieModel.isValid.value = false;
                     return null;
+                  } else {
+                    hasError.value = false;
+                    dataError.value = "";
+                    loginVieModel.isValid.value = true;
                   }
                 },
                 style: GoogleFonts.inter(
                   fontSize: 13.sp,
                   fontWeight: AppFontWeight.regular,
-                  height: 1.0,
                 ),
                 decoration: hasError.value?InputDecoration(
                   errorMaxLines: 1,
@@ -188,7 +202,6 @@ class InputAuthWidget extends StatelessWidget {
                   hintStyle: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
-                    height: 1.0,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),

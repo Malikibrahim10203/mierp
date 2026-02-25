@@ -1,1 +1,21 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"mierp-apps","appId":"1:868649407040:android:af6b5b05f22182d49b05a5","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"mierp-apps","configurations":{"android":"1:868649407040:android:af6b5b05f22182d49b05a5","ios":"1:868649407040:ios:454e67ef0c45ade79b05a5"}}}}}}
+{
+  "flutter":{
+    "platforms":{
+      "android":{
+        "default":{
+          "projectId":"mierp-apps",
+          "appId":"1:868649407040:android:af6b5b05f22182d49b05a5",
+          "fileOutput":"android/app/google-services.json"
+        }
+      },
+      "dart":{
+        "lib/firebase_options.dart":{
+          "projectId":"mierp-apps",
+  "configurations":{
+    "android":"1:868649407040:android:af6b5b05f22182d49b05a5",
+    "ios":"1:868649407040:ios:454e67ef0c45ade79b05a5"}
+        }
+      }
+    }
+  }
+}

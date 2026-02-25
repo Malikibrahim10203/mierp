@@ -72,10 +72,8 @@ class InputSelectAuthWidget extends StatelessWidget {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   borderRadius: BorderRadius.circular(6.w),
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 190.w),
-                    child: Icon(Icons.arrow_drop_down),
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 14.5.w),
+                  icon: Icon(Icons.arrow_drop_down),
                   value: registerViewModel.roleC.value,
                   onChanged: (value) {
                     registerViewModel.roleC.value = value!;
@@ -84,15 +82,11 @@ class InputSelectAuthWidget extends StatelessWidget {
                       (String value) {
                         return DropdownMenuItem(
                           value: value,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 14.5.w, vertical: 12.5.w),
-                            child: Text(
-                              value,
-                              style: GoogleFonts.inter(
-                                fontSize: 13.sp,
-                                fontWeight: AppFontWeight.regular,
-                                height: 1.0,
-                              ),
+                          child: Text(
+                            value,
+                            style: GoogleFonts.inter(
+                              fontSize: 13.sp,
+                              fontWeight: AppFontWeight.regular,
                             ),
                           ),
                         );

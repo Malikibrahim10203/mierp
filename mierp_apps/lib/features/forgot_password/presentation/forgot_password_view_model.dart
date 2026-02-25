@@ -36,6 +36,7 @@ class ForgotPasswordViewModel extends GetxController {
       forgotPasswordRepository.sendPasswordResetVerification(emailC.text);
       Future.delayed(Duration(seconds: 1), () => Get.snackbar("Success", "Check your email"),);
       isLoading.value = false;
+      Get.back();
     } catch(e) {
       isLoading.value = false;
       Get.snackbar("Failed", "$e");

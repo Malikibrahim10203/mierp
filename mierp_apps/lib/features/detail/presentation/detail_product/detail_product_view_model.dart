@@ -75,10 +75,11 @@ class DetailProductViewModel extends GetxController {
     try {
       isLoading.value = true;
       await detailProductServices.deleteDataProduct(detailProduct.value!.id);
+      await itemRepository.getBulkDataStock();
       Future.delayed(Duration(seconds: 2), () {
         Get.snackbar("Success", "Delete data success");
         isLoading.value = false;
-        Get.back();
+        Get.toNamed("warehouse_main_page");
       },);
     } catch(e) {
       isLoading.value = false;

@@ -68,7 +68,9 @@ class AddSalesOrder extends StatelessWidget {
                     Container(
                       width: 393.w,
                       height: 106.h,
-                      color: Colors.white60,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [Colors.white54, Colors.white], begin: AlignmentGeometry.topCenter, end: AlignmentGeometry.bottomCenter)
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

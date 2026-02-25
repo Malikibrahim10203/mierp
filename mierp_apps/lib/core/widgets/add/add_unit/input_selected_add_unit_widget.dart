@@ -74,10 +74,8 @@ class InputSelectAddUnitWidget extends StatelessWidget {
                 child: DropdownButton<String>(
                   dropdownColor: Colors.white,
                   borderRadius: BorderRadius.circular(6.w),
-                  icon: Padding(
-                    padding: EdgeInsets.only(left: 190.w),
-                    child: Icon(Icons.arrow_drop_down),
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
+                  icon: Icon(Icons.arrow_drop_down),
                   value: addUnitVM.categoryProductC.value,
                   onChanged: (value) {
                     addUnitVM.categoryProductC.value = value!;
@@ -86,15 +84,11 @@ class InputSelectAddUnitWidget extends StatelessWidget {
                           (String value) {
                         return DropdownMenuItem(
                           value: value,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.5.w),
-                            child: Text(
-                              value,
-                              style: GoogleFonts.inter(
-                                fontSize: 13.sp,
-                                fontWeight: AppFontWeight.regular,
-                                height: 1.0,
-                              ),
+                          child: Text(
+                            value,
+                            style: GoogleFonts.inter(
+                              fontSize: 13.sp,
+                              fontWeight: AppFontWeight.regular,
                             ),
                           ),
                         );
@@ -114,7 +108,6 @@ class InputSelectAddUnitWidget extends StatelessWidget {
                       style: GoogleFonts.inter(
                           fontSize: 10.sp,
                           fontWeight: AppFontWeight.regular,
-                          height: 1.0,
                           color: Colors.red
                       ),
                     ),

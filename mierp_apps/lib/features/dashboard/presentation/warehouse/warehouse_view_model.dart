@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
+import 'package:mierp_apps/core/models/all_summary.dart';
+import 'package:mierp_apps/core/models/summary_type.dart';
 import 'package:mierp_apps/core/models/user_model.dart';
 import 'package:mierp_apps/data/warehouse/warehouse_repository.dart';
 import 'package:mierp_apps/core/models/order.dart';
@@ -43,9 +45,11 @@ class WarehouseViewModel extends GetxController {
   RxList<SalesOrder?> get listSalesOrder {
     return itemStore.listSalesOrder;
   }
+  RxList<AllSummary?> listAllSummaryVM = <AllSummary?>[].obs;
 
-  RxString collection = "products".obs;
+  RxString collection = "all_summary".obs;
   RxnString userName = RxnString();
+
 
   final tabs = [
     TabItem("All Summary", true.obs, "all_summary"),
@@ -62,9 +66,13 @@ class WarehouseViewModel extends GetxController {
     totalLowProduct.bindStream(warehouseRepository.streamGetLowStock());
     totalUpcomingProduct.bindStream(warehouseRepository.streamGetUpcomingStock());
     itemRepository.getBulkDataStock();
+    itemRepository.getBulkDataOrder();
+    itemRepository.getBulkDataSalesOrder();
+
     getUserData();
     super.onInit();
   }
+
 
 
   Future<void> getUserData() async {
@@ -94,7 +102,7 @@ class WarehouseViewModel extends GetxController {
       itemRepository.getBulkDataOrder();
     } else if (selected.collection == "products") {
       itemRepository.getBulkDataStock();
-    } else {
+    } else if (selected.collection == "sales_orders") {
       itemRepository.getBulkDataSalesOrder();
     }
     collection.value = selected.collection;

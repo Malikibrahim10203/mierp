@@ -102,7 +102,6 @@ class InputWidget extends StatelessWidget {
                       color: AppColors.greyPlacholder,
                       fontSize: 13.sp,
                       fontWeight: AppFontWeight.regular,
-                      height: 1.0,
                     ),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.w),
@@ -124,7 +123,6 @@ class InputWidget extends StatelessWidget {
                       color: AppColors.greyPlacholder,
                       fontSize: 13.sp,
                       fontWeight: AppFontWeight.regular,
-                      height: 1.0,
                     ),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(6.w),
@@ -155,7 +153,6 @@ class InputWidget extends StatelessWidget {
                       style: GoogleFonts.inter(
                           fontSize: 10.sp,
                           fontWeight: AppFontWeight.regular,
-                          height: 1.0,
                           color: Colors.red
                       ),
                     ),

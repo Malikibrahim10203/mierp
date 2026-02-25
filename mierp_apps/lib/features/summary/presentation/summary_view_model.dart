@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mierp_apps/core/models/all_summary.dart';
+import 'package:mierp_apps/core/models/summary_type.dart';
 import 'package:mierp_apps/core/utils/loading_controller.dart';
 import 'package:mierp_apps/data/transaction/services/transaction_services.dart';
 import 'package:mierp_apps/core/controller/user_data_controller.dart';
@@ -31,16 +35,18 @@ class SummaryViewModel extends GetxController {
   RxInt tag = 1.obs;
   RxBool success = false.obs;
   RxBool isLoading = false.obs;
-  final collection = "products".obs;
+  final collection = "all_summary".obs;
   final role = "warehouse".obs;
   RxString errorMessage = "".obs;
 
+  RxList<AllSummary?> listAllSummaryVM = <AllSummary?>[].obs;
 
   List<Product?> get listProduct {
+
     if(keyword.value.isEmpty){
       return itemStore.listProduct;
     }
-    return itemStore.listProduct.where((p) => p!.productName.contains(searchKeyC.text)).toList();
+    return itemStore.listProduct.where((p) => p!.productName.toLowerCase().contains(searchKeyC.text.toLowerCase())).toList();
   }
 
   List<OrderProduct?> get listOrder {
@@ -48,12 +54,12 @@ class SummaryViewModel extends GetxController {
     Iterable<OrderProduct?> orderProducts = itemStore.listOrder;
 
     if(keyword.value.isNotEmpty){
-      orderProducts = itemStore.listOrder.where((p) => p!.productName.contains(searchKeyC.text));
+      orderProducts = itemStore.listOrder.where((p) => p!.productName.toLowerCase().contains(searchKeyC.text.toLowerCase()));
     }
 
     if(tag.value == 1){
       orderProducts = itemStore.listOrder.where(
-            (p) => p!.productName.contains(keyword.value),
+            (p) => p!.productName.toLowerCase().contains(keyword.value.toLowerCase()),
       );
     }
 
@@ -71,12 +77,12 @@ class SummaryViewModel extends GetxController {
     Iterable<SalesOrder?> salesOrder = itemStore.listSalesOrder;
 
     if(keyword.value.isNotEmpty){
-      salesOrder = itemStore.listSalesOrder.where((p) => p!.productName.contains(searchKeyC.text));
+      salesOrder = itemStore.listSalesOrder.where((p) => p!.productName.toLowerCase().contains(searchKeyC.text.toLowerCase()));
     }
 
     if(tag.value == 1){
       salesOrder = itemStore.listSalesOrder.where(
-            (p) => p!.productName.contains(keyword.value),
+            (p) => p!.productName.toLowerCase().contains(keyword.value.toLowerCase()),
       );
     }
 
@@ -89,8 +95,19 @@ class SummaryViewModel extends GetxController {
     return salesOrder.toList();
   }
 
+  List<AllSummary?> get listAllSummary {
+
+    Iterable<AllSummary?> allSummary = itemStore.listAllSummary;
+
+    if(keyword.value.isNotEmpty){
+      allSummary = itemStore.listAllSummary.where((p) => p!.data.productName.toLowerCase().contains(searchKeyC.text.toLowerCase()));
+    }
+
+    return allSummary.toList();
+  }
+
   final tabs = [
-    TabItem("All Summary", true.obs, "products"),
+    TabItem("All Summary", true.obs, "all_summary"),
     TabItem("Order", false.obs, "warehouse_orders"),
     TabItem("Sales Order", false.obs, "sales_orders"),
     TabItem("Stock", false.obs, "products"),
@@ -106,6 +123,9 @@ class SummaryViewModel extends GetxController {
   void onInit() {
     // TODO: implement onInit
     itemRepository.getBulkDataStock();
+    itemRepository.getBulkDataOrder();
+    itemRepository.getBulkDataSalesOrder();
+
     getUserData();
     super.onInit();
   }
@@ -131,7 +151,7 @@ class SummaryViewModel extends GetxController {
       itemRepository.getBulkDataOrder();
     } else if (selected.collection == "products") {
       itemRepository.getBulkDataStock();
-    } else {
+    } else if (selected.collection == "sales_orders") {
       itemRepository.getBulkDataSalesOrder();
     }
     tag.value = 0;
@@ -186,5 +206,23 @@ class SummaryViewModel extends GetxController {
       isLoading.value = false;
       Get.back();
     },);
+  }
+
+  void combinedDataAll() {
+
+    final combined = <AllSummary>[];
+
+    combined.addAll(
+        listProduct.map((e) => AllSummary(summaryType: SummaryType.product, data: e, createdOn: e!.createdOn),)
+    );
+    combined.addAll(
+        listOrder.map((e) => AllSummary(summaryType: SummaryType.order, data: e, createdOn: e!.orderDate!),)
+    );
+    combined.addAll(
+        listSalesOrder.map((e) => AllSummary(summaryType: SummaryType.salesOrder, data: e, createdOn: e!.purchasedDate),)
+    );
+    combined.sort((a, b) => b.createdOn.compareTo(a.createdOn),);
+
+    listAllSummary.assignAll(combined);
   }
 }

@@ -72,12 +72,13 @@ class DetailProductOrderViewModel extends GetxController {
 
   Future<void> requestDeleteProductOrder(docId) async {
     try {
-      loadingC.showLoading();
+      isLoading.value = true;
       await detailProductOrderR.deleteSingleProduct(docId);
+      await itemRepository.getBulkDataOrder();
       Get.snackbar("Success", "Delete success");
       Future.delayed(Duration(seconds: 2), () {
-        loadingC.hideLoading();
-        movePageC.movePage("/dashboard_warehouse");
+        isLoading.value = false;
+        Get.toNamed("warehouse_main_page");
       },);
     } catch(e) {
       Get.snackbar("Failed", "$e");

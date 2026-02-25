@@ -8,14 +8,12 @@ class RegisterRepository extends GetxController {
   final firebaseAuth = FirebaseAuth.instance;
   final firebaseStore = FirebaseFirestore.instance;
 
-  Future<void> CreateNewAccount(email,password,f_name,l_name,role) async {
+  Future<UserCredential> CreateNewAccount(email,password,f_name,l_name,role) async {
     try {
       final data = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      final uid = data.user!.uid;
-      await AddNewFstoreData(uid,email,f_name,l_name,role);
-      await firebaseAuth.signOut();
+      return data;
     } catch(e) {
-      Get.snackbar("Error add account!", "$e");
+      rethrow;
     }
   }
 
@@ -29,7 +27,7 @@ class RegisterRepository extends GetxController {
         'allow_google_login':false
       });
     } catch(e) {
-      Get.snackbar("Error add firestore!", "$e");
+      rethrow;
     }
   }
 }

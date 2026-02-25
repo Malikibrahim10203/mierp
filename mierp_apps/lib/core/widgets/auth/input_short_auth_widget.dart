@@ -67,10 +67,11 @@ class InputShortAuthWidget extends StatelessWidget {
                 ],
               ),
               child: TextFormField(
-                maxLength: 30,
+                maxLength: 20,
                 buildCounter: (context, {required currentLength, required isFocused, required maxLength}) => null,
                 controller: controller,
                 focusNode: inputWidgetC.focusNode,
+                textAlign: TextAlign.start,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     hasError.value = true;
@@ -82,7 +83,6 @@ class InputShortAuthWidget extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 13.sp,
                   fontWeight: AppFontWeight.regular,
-                  height: 1.0,
                 ),
                 decoration: hasError.value?InputDecoration(
                   errorMaxLines: 1,
@@ -91,12 +91,12 @@ class InputShortAuthWidget extends StatelessWidget {
                     color: Colors.transparent,
                     fontSize: 0,
                   ),
-                  hintText: "Enter your $head",
+                  hintText: "Enter $head",
                   hintStyle: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
-                    height: 1.0,
                   ),
+                  alignLabelWithHint: true,
                   prefixIcon: SvgPicture.asset("assets/images/icon/box.svg"),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
@@ -114,12 +114,12 @@ class InputShortAuthWidget extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(
                       horizontal: 8.w, vertical: 12.5.w),
                 ):InputDecoration(
-                  hintText: "Enter your $head",
+                  hintText: "Enter $head",
                   hintStyle: GoogleFonts.inter(
                     fontSize: 13.sp,
                     fontWeight: AppFontWeight.regular,
-                    height: 1.0,
                   ),
+                  alignLabelWithHint: true,
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6.w),
                       borderSide: BorderSide(color: AppColors.blueLine,
